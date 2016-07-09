@@ -36,10 +36,6 @@ import be.yildiz.module.physics.AbstractPhysicEngine;
 import be.yildiz.module.physics.CollisionListener;
 import be.yildiz.server.physic.ServerPhysicEngine;
 import be.yildiz.server.physic.ServerWorld;
-import be.yildiz.shared.building.BaseBuilding;
-import be.yildiz.shared.building.GameBuildingData;
-import be.yildiz.shared.entity.BaseEntity;
-import be.yildiz.shared.entity.GameEntityData;
 import be.yildiz.shared.game.engine.AbstractGameEngine;
 import be.yildiz.shared.game.engine.DataInitializer;
 import be.yildiz.shared.game.engine.Initializable;
@@ -50,7 +46,7 @@ import lombok.Getter;
  *
  * @author Grégory Van den Borre
  */
-public final class GameEngine extends AbstractGameEngine<BaseEntity, BaseBuilding, GameBuildingData, GameEntityData> {
+public final class GameEngine extends AbstractGameEngine {
 
     /**
      * Frame limiter.
