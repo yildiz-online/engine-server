@@ -44,7 +44,7 @@ import be.yildiz.server.generated.database.tables.records.EntityModulesRecord;
 import be.yildiz.shared.construction.entity.EntityFactory;
 import be.yildiz.shared.data.EntityType;
 import be.yildiz.shared.entity.*;
-import be.yildiz.shared.entity.module.Modules;
+import be.yildiz.shared.entity.module.ModuleGroup;
 import org.jooq.DSLContext;
 import org.jooq.Result;
 import org.jooq.conf.Settings;
@@ -94,7 +94,7 @@ public final class PersistentEntity implements PersistentData<BaseEntity> {
 
         Result<EntityModulesRecord> moduleRecords = manager.getAll(EntityModules.ENTITY_MODULES);
 
-        Map<Integer, Modules> entityModules = Maps.newMap();
+        Map<Integer, ModuleGroup> entityModules = Maps.newMap();
 
         for (EntityModulesRecord r : moduleRecords) {
             List<ActionId> modules = Lists.newList();
@@ -114,7 +114,7 @@ public final class PersistentEntity implements PersistentData<BaseEntity> {
             if (o3 != null) {
                 modules.add(ActionId.get(o3));
             }
-            entityModules.put(r.getId().intValue(), new Modules(modules));
+            entityModules.put(r.getId().intValue(), new ModuleGroup(modules));
         }
 
 
@@ -133,7 +133,7 @@ public final class PersistentEntity implements PersistentData<BaseEntity> {
             if (r.getActive()) {
                 PlayerId player = PlayerId.get(r.getOwner().intValue());
                 EntityType type = EntityType.get(r.getType().intValue());
-                Modules modules = entityModules.get(r.getModules().intValue());
+                ModuleGroup modules = entityModules.get(r.getModules().intValue());
                 Point3D pos = Point3D.xyz(r.getPositionX().floatValue(), r.getPositionY().floatValue(), r.getPositionZ().floatValue());
                 Point3D dir = Point3D.xyz(r.getDirectionX().floatValue(), r.getDirectionY().floatValue(), r.getDirectionZ().floatValue());
                 EntityInConstruction eic = constructionFactory.build(type, id, names.getOrDefault(id, type.name), modules, player, pos, dir, r.getHp().intValue(), r.getEnergy().intValue());

@@ -64,7 +64,7 @@ public class PersistentModuleConfiguration {//implements PersistentData<ModuleCo
 //        ActionId other1 = ActionId.get(r.getOther_1().intValue());
 //        ActionId other2 = ActionId.get(r.getOther_2().intValue());
 //        ActionId other3 = ActionId.get(r.getOther_3().intValue());
-//        Modules m = new Modules(move, interaction, protect, other1, other2, other3);
+//        ModuleGroup m = new ModuleGroup(move, interaction, protect, other1, other2, other3);
 //        return new ModuleConfiguration(name, id, type, m);
 //    }
 //
