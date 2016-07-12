@@ -31,7 +31,7 @@ import be.yildiz.server.generated.database.tables.Account;
 import be.yildiz.server.generated.database.tables.records.AccountRecord;
 import be.yildiz.shared.player.Player;
 import be.yildiz.shared.player.PlayerManager;
-import be.yildiz.shared.player.PlayerManager.PlayerRight;
+import be.yildiz.shared.player.PlayerRight;
 import org.jooq.Result;
 
 import java.util.Set;
