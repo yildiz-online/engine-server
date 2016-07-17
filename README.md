@@ -6,7 +6,7 @@ The engine server library is the meant to build a solid server accepting thousan
 ## Features
 
 * Fast network.
-* Perstitent layer.
+* Persitent layer.
 * ...
 
 ## Requirements
