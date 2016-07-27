@@ -25,7 +25,6 @@
 
 package be.yildiz.server.datamanager;
 
-import be.yildiz.common.collections.Lists;
 import be.yildiz.common.collections.Maps;
 import be.yildiz.common.collections.Sets;
 import be.yildiz.common.id.ActionId;
@@ -37,10 +36,8 @@ import be.yildiz.common.vector.Point3D;
 import be.yildiz.module.database.DataBaseConnectionProvider;
 import be.yildiz.server.generated.database.tables.Cities;
 import be.yildiz.server.generated.database.tables.Entities;
-import be.yildiz.server.generated.database.tables.EntityModules;
 import be.yildiz.server.generated.database.tables.records.CitiesRecord;
 import be.yildiz.server.generated.database.tables.records.EntitiesRecord;
-import be.yildiz.server.generated.database.tables.records.EntityModulesRecord;
 import be.yildiz.shared.construction.entity.EntityFactory;
 import be.yildiz.shared.data.EntityType;
 import be.yildiz.shared.entity.*;
@@ -55,7 +52,6 @@ import org.jooq.types.UShort;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -92,32 +88,6 @@ public final class PersistentEntity implements PersistentData<BaseEntity> {
         this.provider = manager.getProvider();
         Result<EntitiesRecord> data = manager.getAll(table);
 
-        Result<EntityModulesRecord> moduleRecords = manager.getAll(EntityModules.ENTITY_MODULES);
-
-        Map<Integer, ModuleGroup> entityModules = Maps.newMap();
-
-        for (EntityModulesRecord r : moduleRecords) {
-            List<ActionId> modules = Lists.newList();
-            modules.add(ActionId.get(r.getMove().intValue()));
-            modules.add(ActionId.get(r.getInteraction().intValue()));
-            modules.add(ActionId.get(r.getProtect().intValue()));
-            modules.add(ActionId.get(r.getEnergy().intValue()));
-            Short o1 = r.getOther_1();
-            Short o2 = r.getOther_2();
-            Short o3 = r.getOther_3();
-            if (o1 != null) {
-                modules.add(ActionId.get(o1));
-            }
-            if (o2 != null) {
-                modules.add(ActionId.get(o2));
-            }
-            if (o3 != null) {
-                modules.add(ActionId.get(o3));
-            }
-            entityModules.put(r.getId().intValue(), new ModuleGroup(modules));
-        }
-
-
         Result<CitiesRecord> citiesRecords = manager.getAll(Cities.CITIES);
 
 
@@ -133,10 +103,20 @@ public final class PersistentEntity implements PersistentData<BaseEntity> {
             if (r.getActive()) {
                 PlayerId player = PlayerId.get(r.getOwner().intValue());
                 EntityType type = EntityType.get(r.getType().intValue());
-                ModuleGroup modules = entityModules.get(r.getModules().intValue());
+                ModuleGroup m = new ModuleGroup.ModuleGroupBuilder()
+                        .withHull(ActionId.get(r.getModuleHull().intValue()))
+                        .withEnergy(ActionId.get(r.getModuleEnergy().intValue()))
+                        .withDetector(ActionId.get(r.getModuleVision().intValue()))
+                        .withMove(ActionId.get(r.getModuleMove().intValue()))
+                        .withInteraction(ActionId.get(r.getModuleInteraction().intValue()))
+                        .withAdditional1(ActionId.get(r.getModuleAdditional_1().intValue()))
+                        .withAdditional2(ActionId.get(r.getModuleAdditional_2().intValue()))
+                        .withAdditional3(ActionId.get(r.getModuleAdditional_3().intValue()))
+                        .build();
+
                 Point3D pos = Point3D.xyz(r.getPositionX().floatValue(), r.getPositionY().floatValue(), r.getPositionZ().floatValue());
                 Point3D dir = Point3D.xyz(r.getDirectionX().floatValue(), r.getDirectionY().floatValue(), r.getDirectionZ().floatValue());
-                EntityInConstruction eic = constructionFactory.build(type, id, names.getOrDefault(id, type.name), modules, player, pos, dir, r.getHp().intValue(), r.getEnergy().intValue());
+                EntityInConstruction eic = constructionFactory.build(type, id, names.getOrDefault(id, type.name), m, player, pos, dir, r.getHp().intValue(), r.getEnergy().intValue());
 
                 factory.createEntity(eic);
             } else {
@@ -211,8 +191,7 @@ public final class PersistentEntity implements PersistentData<BaseEntity> {
             entity.setMap(UByte.valueOf(WorldId.WORLD.value));
             entity.setHp(UShort.valueOf(data.getHitPoints()));
             entity.setEnergy(UShort.valueOf(data.getEnergyPoints()));
-            //FIXME use list of ids
-            //entity.setModules(UShort.valueOf(data.getModuleIds().value));
+
             entity.setActive(true);
 
             // FIXME use right types.
