@@ -56,13 +56,15 @@ public final class LosManager<T extends Entity, E extends EntityData> implements
      */
     private final EntityManager<T, E> entityManager;
 
+    /**
+     * Associated player manager.
+     */
     private final PlayerManager playerManager;
 
     /**
      * An entity has entered in the field of view of another entity.
      *
-     * @param viewerId Id of Entity seeing the other.
-     * @param seenId   Id of Entity seen by the viewer.
+     * @param r Result of the collision.
      * @Requires r != null
      * @Ensures r.getObject2.isSeenBy(r.getObject1.getOwner()) == true
      * @Ensures r.object1.getOwner().isSeeing(r.object2) == true
