@@ -23,48 +23,14 @@
 //        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //        SOFTWARE.
 
-package be.yildiz.server.datamanager;
+package be.yildiz.server.city;
 
-import be.yildiz.common.id.EntityId;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import be.yildiz.shared.building.BaseBuilding;
+import be.yildiz.shared.building.GameBuildingData;
+import be.yildiz.shared.city.City;
 
 /**
- * Simple container for a building construction task data.
- *
  * @author Grégory Van den Borre
  */
-@AllArgsConstructor
-@Getter
-public final class TaskBuilding {
-
-    /**
-     * BaseCity's id.
-     */
-    private final EntityId city;
-
-    /**
-     * Building position.
-     */
-    private final int position;
-
-    /**
-     * Building type.
-     */
-    private final int type;
-
-    /**
-     * Building level.
-     */
-    private final int level;
-
-    /**
-     * Building allocated staff.
-     */
-    private final int staff;
-
-    /**
-     * Time left before building is completed.
-     */
-    private final long timeLeft;
+public interface ServerCity extends City<BaseBuilding, GameBuildingData> {
 }

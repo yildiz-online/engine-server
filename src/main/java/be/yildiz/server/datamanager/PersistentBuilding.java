@@ -32,7 +32,7 @@ import be.yildiz.server.generated.database.tables.Buildings;
 import be.yildiz.server.generated.database.tables.records.BuildingsRecord;
 import be.yildiz.shared.building.BaseBuilding;
 import be.yildiz.shared.building.GameBuildingData;
-import be.yildiz.shared.city.City;
+import be.yildiz.shared.city.BaseCity;
 import be.yildiz.shared.city.CityManager;
 import be.yildiz.shared.construction.building.BuildingConstructionListener;
 import be.yildiz.shared.construction.building.BuildingFactory;
@@ -70,7 +70,7 @@ public final class PersistentBuilding implements PersistentData<BaseBuilding>, R
     /**
      * Associated city manager.
      */
-    private CityManager<BaseBuilding, GameBuildingData, City<BaseBuilding, GameBuildingData>> cityManager;
+    private CityManager<BaseBuilding, GameBuildingData, BaseCity<BaseBuilding, GameBuildingData>> cityManager;
 
     /**
      * Full constructor, retrieve data from persistent context.
@@ -79,17 +79,17 @@ public final class PersistentBuilding implements PersistentData<BaseBuilding>, R
      * @param factory  Factory to build entities.
      * @param listener Listener to notify for a new building.
      */
-    public PersistentBuilding(final PersistentManager manager, final BuildingFactory<BaseBuilding> factory, final CityManager<BaseBuilding, GameBuildingData, City<BaseBuilding, GameBuildingData>> em, final BuildingConstructionListener<BaseBuilding, GameBuildingData, City<BaseBuilding, GameBuildingData>> listener) {
+    public PersistentBuilding(final PersistentManager manager, final BuildingFactory<BaseBuilding> factory, final CityManager<BaseBuilding, GameBuildingData, BaseCity<BaseBuilding, GameBuildingData>> em, final BuildingConstructionListener<BaseBuilding, GameBuildingData, BaseCity<BaseBuilding, GameBuildingData>> listener) {
         super();
         this.provider = manager.getProvider();
         this.cityManager = em;
         Result<BuildingsRecord> data = manager.getAll(table);
         data.map(this).stream().filter(b -> b.getLevel().isNotZero()).forEach(b -> {
             factory.createBuilding(b);
-            City<BaseBuilding, GameBuildingData> c = em.getCityById(b.getCity());
+            BaseCity<BaseBuilding, GameBuildingData> c = em.getCityById(b.getCity());
             listener.buildingComplete(c, b);
         });
-        em.getCities().forEach(City::initializeProducer);
+        em.getCities().forEach(BaseCity::initializeProducer);
     }
 
     @Override
