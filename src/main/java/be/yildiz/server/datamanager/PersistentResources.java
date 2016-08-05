@@ -28,12 +28,10 @@ package be.yildiz.server.datamanager;
 import be.yildiz.common.id.EntityId;
 import be.yildiz.common.log.Logger;
 import be.yildiz.module.database.DataBaseConnectionProvider;
+import be.yildiz.server.city.ServerCity;
+import be.yildiz.server.city.ServerCityManager;
 import be.yildiz.server.generated.database.tables.Resources;
 import be.yildiz.server.generated.database.tables.records.ResourcesRecord;
-import be.yildiz.shared.building.BaseBuilding;
-import be.yildiz.shared.building.GameBuildingData;
-import be.yildiz.shared.city.City;
-import be.yildiz.shared.city.CityManager;
 import be.yildiz.shared.resources.ResourceValue;
 import be.yildiz.shared.resources.ResourcesProducer;
 import org.jooq.DSLContext;
@@ -68,14 +66,14 @@ public final class PersistentResources implements PersistentData<ResourcesProduc
      *
      * @param manager Manager used to retrieve or persist the data.
      */
-    public PersistentResources(final PersistentManager manager, final CityManager<BaseBuilding, GameBuildingData, City<BaseBuilding, GameBuildingData>> entityManager) {
+    public PersistentResources(final PersistentManager manager, final ServerCityManager entityManager) {
         super();
         this.provider = manager.getProvider();
         Result<ResourcesRecord> data = manager.getAll(table);
         // FIXME game related
         for (ResourcesRecord r : data) {
             EntityId cityId = EntityId.get(r.getValue(table.CITY_ID).longValue());
-            City<BaseBuilding, GameBuildingData> city = entityManager.getCityById(cityId);
+            ServerCity city = entityManager.getCityById(cityId);
             long time = r.getValue(table.LAST_TIME_COMPUTED).getTime();
             float[] values = new float[5];
             values[0] = r.getMetal().floatValue();
