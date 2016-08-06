@@ -42,6 +42,10 @@ Then invoke maven
 
 This will compile the source code, then run the unit tests, and finally build a jar file.
 
+If you need to regenerate the database classes, invoke maven like this:
+
+        mvn clean install -P generate-model -Ddb.user=username -Ddb.password=password -Ddb.url=connection_url -Ddb.name=db_name
+
 ## Usage
 
 To use the snapshot versions, please add the following repository
