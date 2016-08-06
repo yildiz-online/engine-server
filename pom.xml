@@ -23,6 +23,7 @@
 
   <properties>
     <version.bom-junit>1.0.0-0-SNAPSHOT</version.bom-junit>
+    <version.bom-connectorj>1.0.0-0-SNAPSHOT</version.bom-connectorj>
     <version.engine-shared>1.0.0-0-SNAPSHOT</version.engine-shared>
     <version.module-database>1.0.0-0-SNAPSHOT</version.module-database>
     <version.module-physics>1.0.0-0-SNAPSHOT</version.module-physics>
@@ -42,7 +43,6 @@
           <plugin>
             <groupId>org.jooq</groupId>
             <artifactId>jooq-codegen-maven</artifactId>
-            <version>3.7.3</version>
             <executions>
               <execution>
                 <goals>
@@ -50,7 +50,6 @@
                 </goals>
               </execution>
             </executions>
-            <!--FIXME [YIL-64]-->
             <dependencies>
               <dependency>
                 <groupId>mysql</groupId>
@@ -90,6 +89,13 @@
         <groupId>be.yildiz-games</groupId>
         <artifactId>bom-junit</artifactId>
         <version>${version.bom-junit}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>be.yildiz-games</groupId>
+        <artifactId>bom-connectorj</artifactId>
+        <version>${version.bom-connectorj}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
