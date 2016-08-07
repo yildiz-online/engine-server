@@ -29,9 +29,9 @@ import be.yildiz.common.Version;
 import be.yildiz.common.id.PlayerId;
 import be.yildiz.common.log.Logger;
 import be.yildiz.module.network.protocol.ServerResponse;
-import be.yildiz.module.network.server.AuthenticationSessionManager;
 import be.yildiz.module.network.server.Server;
 import be.yildiz.module.network.server.SessionListener;
+import be.yildiz.module.network.server.SessionManager;
 import be.yildiz.module.physics.AbstractPhysicEngine;
 import be.yildiz.module.physics.CollisionListener;
 import be.yildiz.server.physic.ServerPhysicEngine;
@@ -63,7 +63,7 @@ public final class GameEngine extends AbstractGameEngine {
      */
     private final DataInitializer initializer;
     @Getter
-    private final AuthenticationSessionManager sessionManager;
+    private final SessionManager sessionManager;
     /**
      * Currently active world.
      */
@@ -80,7 +80,7 @@ public final class GameEngine extends AbstractGameEngine {
      * @effect Create a new engine.
      * @
      */
-    public GameEngine(AbstractPhysicEngine physicEngine, AuthenticationSessionManager sessionManager, Server server, Version version) {
+    public GameEngine(AbstractPhysicEngine physicEngine, SessionManager sessionManager, Server server, Version version) {
         super(version);
         Logger.info("Starting server game engine...");
         this.physicEngine = new ServerPhysicEngine(physicEngine);
