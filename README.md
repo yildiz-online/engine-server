@@ -6,7 +6,7 @@ The engine server library is the meant to build a solid server accepting thousan
 ## Features
 
 * Fast network.
-* Persitent layer.
+* Persistent layer.
 * ...
 
 ## Requirements
@@ -48,18 +48,13 @@ If you need to regenerate the database classes, invoke maven like this:
 
 ## Usage
 
-To use the snapshot versions, please add the following repository
-https://oss.sonatype.org/content/repositories/snapshots/
-
-Released version are retrieved from maven central.
-
 In your maven project, add the dependency
 
 ```xml
 <dependency>
     <groupId>be.yildiz-games</groupId>
     <artifactId>engine-server</artifactId>
-    <version>1.0.0-0-SNAPSHOT</version>
+    <version>1.0.0</version>
 </dependency>
 ```
 
