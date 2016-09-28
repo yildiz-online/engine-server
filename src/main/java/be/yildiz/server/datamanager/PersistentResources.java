@@ -65,6 +65,7 @@ public final class PersistentResources implements PersistentData<ResourcesProduc
      * Full constructor.
      *
      * @param manager Manager used to retrieve or persist the data.
+     * @param entityManager Entity manager.
      */
     public PersistentResources(final PersistentManager manager, final ServerCityManager entityManager) {
         super();

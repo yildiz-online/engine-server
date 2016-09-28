@@ -43,9 +43,9 @@ public final class ServerPhysicEngine {
      * Create a server physic engine instance.
      *
      * @param engine Wrapped physic engine.
-     * @Requires engine != null
-     * @Ensures this.engire == engine
      */
+    //@Requires engine != null
+    //@Ensures this.engine == engine
     public ServerPhysicEngine(final AbstractPhysicEngine engine) {
         super();
         this.engine = engine;
@@ -55,8 +55,8 @@ public final class ServerPhysicEngine {
      * Create a new instance and register it in the engine.
      *
      * @return A new server world.
-     * @Ensures return value != null
      */
+    //@Ensures result != null
     public ServerWorld createWorld() {
         return new ServerWorld(this.engine.createPhysicWorld());
     }

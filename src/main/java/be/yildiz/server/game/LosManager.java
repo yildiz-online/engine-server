@@ -65,10 +65,10 @@ public final class LosManager<T extends Entity, E extends EntityData> implements
      * An entity has entered in the field of view of another entity.
      *
      * @param r Result of the collision.
-     * @Requires r != null
-     * @Ensures r.getObject2.isSeenBy(r.getObject1.getOwner()) == true
-     * @Ensures r.object1.getOwner().isSeeing(r.object2) == true
      */
+    //@Requires r != null
+    //@Ensures r.getObject2.isSeenBy(r.getObject1.getOwner()) == true
+    //@Ensures r.object1.getOwner().isSeeing(r.object2) == true
     @Override
     public void newCollision(final CollisionResult r) {
         T viewer = this.entityManager.findById(r.object1);

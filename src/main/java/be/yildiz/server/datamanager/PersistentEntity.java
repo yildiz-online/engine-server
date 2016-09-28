@@ -82,6 +82,8 @@ public final class PersistentEntity implements PersistentData<BaseEntity> {
      *
      * @param manager Manager used with the persistent context.
      * @param factory Factory to build entities.
+     * @param entityManager Associated entity manager.
+     * @param constructionFactory Construction factory.
      */
     public PersistentEntity(final PersistentManager manager, final EntityInConstructionFactory constructionFactory, final EntityManager<BaseEntity, GameEntityData> entityManager, final EntityFactory<BaseEntity> factory) {
         super();
@@ -145,7 +147,7 @@ public final class PersistentEntity implements PersistentData<BaseEntity> {
     /**
      * Add a new line in entity table with unique id, it will if used if no free id can be done.
      *
-     * @return
+     * @return the created id.
      */
     private EntityId createNewLine() {
         try (Connection c = this.provider.getConnection()) {

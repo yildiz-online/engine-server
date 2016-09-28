@@ -43,10 +43,10 @@ public class ServerBaseCity extends BaseCity<BaseBuilding, GameBuildingData> imp
     /**
      * Create a new BaseCity.
      *
-     * @param entity
-     * @param initialResource
+     * @param entity Entity for this city.
+     * @param initialResource Resource when the city is built.
      * @param positionOffset  Building positions.
-     * @param datas
+     * @param datas Data about the available buildings.
      */
     public ServerBaseCity(Entity entity, ResourceValue initialResource, Point3D[] positionOffset, Map<EntityType, GameBuildingData> datas) {
         super(entity, initialResource, positionOffset, datas);

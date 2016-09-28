@@ -36,14 +36,14 @@ public interface ServerConfiguration {
 
     /**
      * @return The server connection port.
-     * @Ensures 0>= return value <= 65635
      */
+    //@Ensures 0>= return value <= 65635
     int getApplicationPort();
 
     /**
      * @return The version accepted to connect to this server.
-     * @Ensures return value != null
      */
+    //@Ensures return value != null
     Version getVersion();
 
 }

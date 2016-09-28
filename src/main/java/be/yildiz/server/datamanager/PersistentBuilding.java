@@ -76,6 +76,8 @@ public final class PersistentBuilding implements PersistentData<BaseBuilding>, R
      * Full constructor, retrieve data from persistent context.
      *
      * @param manager  Manager used with the persistent context.
+     * @param constructionManager Construction manager.
+     * @param em City manager.
      */
     public PersistentBuilding(final PersistentManager manager, BuildingConstructionManager<BaseBuilding, GameBuildingData, ServerCity> constructionManager, final ServerCityManager em) {
         super();

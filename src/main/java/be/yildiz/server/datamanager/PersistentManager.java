@@ -64,7 +64,6 @@ public interface PersistentManager {
      * @param hashedPass Pass hashed value.
      * @param email      Player email.
      * @param playerId   Player unique Id.
-     * @param city       Player city unique Id.
      * @return <code>true</code> if the operation was successful.
      */
     boolean createPlayer(String login, String hashedPass, String email, PlayerId playerId);

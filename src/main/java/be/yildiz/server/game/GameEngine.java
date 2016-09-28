@@ -76,10 +76,12 @@ public final class GameEngine extends AbstractGameEngine {
 
     /**
      * Full constructor, initialize the physic and the network engines, create the data manager.
-     *
-     * @effect Create a new engine.
-     * @
+     * @param physicEngine Associated physic engine.
+     * @param sessionManager Session manager.
+     * @param server Network server.
+     * @param version Game version.
      */
+    //@effect Create a new engine.
     public GameEngine(AbstractPhysicEngine physicEngine, SessionManager sessionManager, Server server, Version version) {
         super(version);
         Logger.info("Starting server game engine...");
@@ -165,9 +167,9 @@ public final class GameEngine extends AbstractGameEngine {
      * Add a ghost listener to this active world.
      *
      * @param listener Listener to add.
-     * @Requires listener != null
-     * @Ensures this.activeWorld.listeners.contains(listener)
      */
+    //@Requires listener != null
+    //@Ensures this.activeWorld.listeners.contains(listener)
     public final void addGhostListener(CollisionListener listener) {
         this.activeWorld.addGhostCollisionListener(listener);
     }

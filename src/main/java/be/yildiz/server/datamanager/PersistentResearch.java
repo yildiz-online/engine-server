@@ -67,6 +67,7 @@ public final class PersistentResearch implements PersistentData<Pair<PlayerId, S
      *
      * @param manager       Manager used to retrieve or persist the data.
      * @param playerManager Player manager.
+     * @param researchManager Research manager.
      */
     public PersistentResearch(final PersistentManager manager, final PlayerManager playerManager, final ResearchManager researchManager) {
         super();
