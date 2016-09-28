@@ -59,7 +59,13 @@ public final class ServerWorld implements World {
      * @return The built object.
      */
     public ServerGameEntity createStaticObject(final EntityId id, final Box box, final Point3D position, final Point3D direction) {
-        StaticBody body = this.physicWorld.createStaticBody(id, box, position, direction);
+        StaticBody body = this.physicWorld
+                .createBuilder()
+                .withId(id)
+                .withShape(box)
+                .atPosition(position)
+                .withDirection(direction)
+                .buildStatic();
         return new StaticObject(body, position, direction);
     }
 
@@ -87,7 +93,13 @@ public final class ServerWorld implements World {
      * @return The built object.
      */
     public ServerGameEntity createStaticObject(final EntityId id, final Sphere sphere, final Point3D position, final Point3D direction) {
-        StaticBody body = this.physicWorld.createStaticBody(id, sphere, position, direction);
+        StaticBody body = this.physicWorld
+                .createBuilder()
+                .withId(id)
+                .withShape(sphere)
+                .atPosition(position)
+                .withDirection(direction)
+                .buildStatic();
         return new StaticObject(body, position, direction);
     }
 
@@ -115,7 +127,13 @@ public final class ServerWorld implements World {
      * @return The built object.
      */
     public ServerGameEntity createStaticObject(final EntityId id, final PhysicMesh mesh, final Point3D position, final Point3D direction) {
-        StaticBody body = this.physicWorld.createStaticBody(id, mesh, position, direction);
+        StaticBody body = this.physicWorld
+                .createBuilder()
+                .withId(id)
+                .withShape(mesh)
+                .atPosition(position)
+                .withDirection(direction)
+                .buildStatic();
         return new StaticObject(body, position, direction);
     }
 
@@ -142,7 +160,12 @@ public final class ServerWorld implements World {
      * @return The built object.
      */
     public ServerGameEntity createMovableObject(final EntityId id, final Box box, final Point3D position) {
-        KinematicBody body = this.physicWorld.createKinematicBody(id, box, position);
+        KinematicBody body = this.physicWorld
+                .createBuilder()
+                .withId(id)
+                .withShape(box)
+                .atPosition(position)
+                .buildKinematic();
         return new MovableObject(body, position);
     }
 
@@ -156,7 +179,12 @@ public final class ServerWorld implements World {
      * @return The built object.
      */
     public ServerGameEntity createMovableObject(final EntityId id, final Sphere sphere, final Point3D position) {
-        KinematicBody body = this.physicWorld.createKinematicBody(id, sphere, position);
+        KinematicBody body = this.physicWorld
+                .createBuilder()
+                .withId(id)
+                .withShape(sphere)
+                .atPosition(position)
+                .buildKinematic();
         return new MovableObject(body, position);
     }
 
@@ -170,7 +198,12 @@ public final class ServerWorld implements World {
      * @return The built object.
      */
     public ServerGameEntity createMovableObject(final EntityId id, final PhysicMesh mesh, final Point3D position) {
-        KinematicBody body = this.physicWorld.createKinematicBody(id, mesh, position);
+        KinematicBody body = this.physicWorld
+                .createBuilder()
+                .withId(id)
+                .withShape(mesh)
+                .atPosition(position)
+                .buildKinematic();
         return new MovableObject(body, position);
     }
 
@@ -199,14 +232,22 @@ public final class ServerWorld implements World {
         this.physicWorld.setGravity(gravityX, gravityY, gravityZ);
     }
 
-    @Override
     public GhostObject createGhostObject(final EntityId id, final Box box, final Point3D position) {
-        return this.physicWorld.createGhostObject(id, box, position);
+        return this.physicWorld
+                .createBuilder()
+                .withId(id)
+                .withShape(box)
+                .atPosition(position)
+                .buildGhost();
     }
 
-    @Override
     public GhostObject createGhostObject(final EntityId id, final Sphere sphere, final Point3D position) {
-        return this.physicWorld.createGhostObject(id, sphere, position);
+        return this.physicWorld
+                .createBuilder()
+                .withId(id)
+                .withShape(sphere)
+                .atPosition(position)
+                .buildGhost();
     }
 
     public ServerGameEntity createStaticDoodad(final Point3D position, final Point3D direction) {
