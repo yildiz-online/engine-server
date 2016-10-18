@@ -240,7 +240,7 @@ public final class DatabasePersistentManager implements PersistentManager, Sessi
             TaskBuildBuilding table = TaskBuildBuilding.TASK_BUILD_BUILDING;
             return Lists.newList(create.selectFrom(table).fetch(new TaskBuildBuildingMapper()));
         } catch (SQLException e) {
-            Logger.error("Get entity creation tasks", e);
+            Logger.error("Get entity creation task", e);
         }
         return Collections.emptyList();
     }
@@ -251,7 +251,7 @@ public final class DatabasePersistentManager implements PersistentManager, Sessi
             TaskBuildEntity table = TaskBuildEntity.TASK_BUILD_ENTITY;
             return Lists.newList(create.selectFrom(table).fetch(new TaskBuildEntityMapper()));
         } catch (SQLException e) {
-            Logger.error("Get entity creation tasks", e);
+            Logger.error("Get entity creation task", e);
         }
         return Collections.emptyList();
     }
