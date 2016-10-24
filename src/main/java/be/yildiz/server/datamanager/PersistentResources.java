@@ -72,6 +72,10 @@ public final class PersistentResources implements PersistentData<ResourcesProduc
         this.provider = manager.getProvider();
         Result<ResourcesRecord> data = manager.getAll(table);
         // FIXME game related
+        //Create an object ResourceModel injected in the engine at construction
+        //this object contains the different fields for the resource
+        //this object will be responsible to instantiate new ResourceValue
+        //the database will have columns name res_0, res_1... instead of game related values.
         for (ResourcesRecord r : data) {
             EntityId cityId = EntityId.get(r.getValue(table.CITY_ID).longValue());
             ServerCity city = entityManager.getCityById(cityId);
