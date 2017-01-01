@@ -26,6 +26,7 @@
   <modelVersion>4.0.0</modelVersion>
   <name>Yildiz Engine Server</name>
   <description>Server for the Yildiz engine</description>
+  <url>https://bitbucket.org/yildiz-engine-team/engine-server</url>
 
   <artifactId>engine-server</artifactId>
   <version>1.0.0-SNAPSHOT</version>
@@ -44,10 +45,6 @@
   </parent>
 
   <properties>
-    <version.bom-junit>1.0.4-SNAPSHOT</version.bom-junit>
-    <version.bom-connectorj>1.0.3-SNAPSHOT</version.bom-connectorj>
-    <version.engine-shared>1.0.0-SNAPSHOT</version.engine-shared>
-    <version.module-database>1.0.3-SNAPSHOT</version.module-database>
     <db.url>default</db.url>
     <db.user>default</db.user>
     <db.password>default</db.password>
@@ -126,12 +123,10 @@
     <dependency>
       <groupId>be.yildiz-games</groupId>
       <artifactId>engine-shared</artifactId>
-      <version>${version.engine-shared}</version>
     </dependency>
     <dependency>
       <groupId>be.yildiz-games</groupId>
       <artifactId>module-database</artifactId>
-      <version>${version.module-database}</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
