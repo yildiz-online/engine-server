@@ -125,7 +125,7 @@ public final class DatabasePersistentManager implements PersistentManager, Sessi
             playerToCreate.setOnline(false);
             playerToCreate.store();
 
-            ResearchesRecord recordToCreate = context.fetchOne(researchTable, table.ID.equal(UShort.valueOf(player.value)));
+            ResearchesRecord recordToCreate = context.fetchOne(researchTable, researchTable.PLAYER_ID.equal(UShort.valueOf(player.value)));
             if(recordToCreate == null) {
                 recordToCreate = context.newRecord(researchTable);
             }
