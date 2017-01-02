@@ -113,9 +113,6 @@ public final class DatabasePersistentManager implements PersistentManager, Sessi
 
 
             AccountRecord playerToCreate = context.fetchOne(table, table.ID.equal(UShort.valueOf(player.value)));
-            if(playerToCreate == null) {
-                playerToCreate = context.newRecord(table);
-            }
             playerToCreate.setUsername(login);
             playerToCreate.setPassword(hashedPass);
             playerToCreate.setEmail(email);
@@ -128,6 +125,7 @@ public final class DatabasePersistentManager implements PersistentManager, Sessi
             ResearchesRecord recordToCreate = context.fetchOne(researchTable, researchTable.PLAYER_ID.equal(UShort.valueOf(player.value)));
             if(recordToCreate == null) {
                 recordToCreate = context.newRecord(researchTable);
+                recordToCreate.setPlayerId(UShort.valueOf(player.value));
             }
             recordToCreate.setResearchesName("");
             recordToCreate.store();
