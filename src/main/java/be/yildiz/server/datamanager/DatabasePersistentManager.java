@@ -117,7 +117,6 @@ public final class DatabasePersistentManager implements PersistentManager, Sessi
             playerToCreate.setActive(true);
             playerToCreate.setType(UByte.valueOf(0));
             playerToCreate.setMap(UByte.valueOf(1));
-            playerToCreate.setLastConnection(new Timestamp(0));
             playerToCreate.setOnline(false);
             playerToCreate.store();
 
