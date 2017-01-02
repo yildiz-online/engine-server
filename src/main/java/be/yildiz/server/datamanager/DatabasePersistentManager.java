@@ -99,18 +99,19 @@ public final class DatabasePersistentManager implements PersistentManager, Sessi
 //    }
 
     @Override
-    public boolean createPlayer(final String login, final String hashedPass, final String email, final PlayerId player) {
+    public boolean createDataForNewAccount(final String login, final String hashedPass, final String email, final PlayerId player) {
         Connection c = null;
-        DSLContext create = null;
+        DSLContext context = null;
         try {
             c = this.provider.getConnection();
-            create = DSL.using(c, this.provider.getDialect());
+            context = DSL.using(c, this.provider.getDialect());
             Account table = Account.ACCOUNT;
             Researches researchTable = Researches.RESEARCHES;
             TempAccount tempAccountTable = TempAccount.TEMP_ACCOUNT;
+            Entities entitiesTable = Entities.ENTITIES;
             c.setAutoCommit(false);
 
-            AccountRecord playerToCreate = create.fetchOne(table, table.ID.equal(UShort.valueOf(player.value)));
+            AccountRecord playerToCreate = context.fetchOne(table, table.ID.equal(UShort.valueOf(player.value)));
             playerToCreate.setUsername(login);
             playerToCreate.setPassword(hashedPass);
             playerToCreate.setEmail(email);
@@ -120,12 +121,14 @@ public final class DatabasePersistentManager implements PersistentManager, Sessi
             playerToCreate.setOnline(false);
             playerToCreate.store();
 
-            ResearchesRecord recordToCreate = create.newRecord(researchTable);
+            ResearchesRecord recordToCreate = context.newRecord(researchTable);
             recordToCreate.setPlayerId(UShort.valueOf(player.value));
             recordToCreate.setResearchesName("");
             recordToCreate.store();
 
-            create.delete(tempAccountTable).where(tempAccountTable.LOGIN.equal(login)).execute();
+            EntitiesRecord entityToCreate = context.newRecord(entitiesTable);
+
+            context.delete(tempAccountTable).where(tempAccountTable.LOGIN.equal(login)).execute();
             c.commit();
             return true;
         } catch (SQLException e) {
@@ -143,8 +146,8 @@ public final class DatabasePersistentManager implements PersistentManager, Sessi
             return false;
         } finally {
             try {
-                if(create != null) {
-                    create.close();
+                if(context != null) {
+                    context.close();
                 }
                 if (c != null) {
                     c.setAutoCommit(true);

@@ -115,13 +115,12 @@ public final class PersistentPlayer implements PersistentData<Player> {
      * @param email Player's email.
      * @return <code>true</code> if the player has been successfully created.
      */
-    public boolean createPlayer(final String login, final String pass, final String email) {
+    public Player createPlayer(final String login, final String pass, final String email) {
         PlayerId playerId = this.getFreeId();
-        if (this.manager.createPlayer(login, pass, email, playerId)) {
-            this.playerManager.createPlayer(playerId, login);
-            return true;
+        if (this.manager.createDataForNewAccount(login, pass, email, playerId)) {
+            return this.playerManager.createPlayer(playerId, login);
         }
-        return false;
+        return null;
     }
 
     @Override

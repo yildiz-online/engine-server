@@ -56,7 +56,7 @@ public interface PersistentManager {
     void close();
 
     /**
-     * Create a new player.
+     * Create a new player, and all associated data for it.
      *
      * @param login      Login value.
      * @param hashedPass Pass hashed value.
@@ -64,7 +64,7 @@ public interface PersistentManager {
      * @param playerId   Player unique Id.
      * @return <code>true</code> if the operation was successful.
      */
-    boolean createPlayer(String login, String hashedPass, String email, PlayerId playerId);
+    boolean createDataForNewAccount(String login, String hashedPass, String email, PlayerId playerId);
 
     /**
      * @return A list of all player waiting to be created.
