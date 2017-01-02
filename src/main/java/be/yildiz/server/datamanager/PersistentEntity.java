@@ -180,6 +180,7 @@ public final class PersistentEntity implements PersistentData<BaseEntity> {
     public void update(final BaseEntity data) {
         try (Connection c = this.provider.getConnection(); DSLContext create = this.getDSL(c)) {
             EntitiesRecord entity = create.fetchOne(table, table.ID.equal(UInteger.valueOf(data.getId().value)));
+            entity.setMap(UByte.valueOf(1));
             entity.setType(UByte.valueOf(data.getType().type));
             entity.setOwner(UShort.valueOf(data.getOwner().value));
             entity.setPositionX(Double.valueOf(data.getPosition().x));
@@ -188,6 +189,15 @@ public final class PersistentEntity implements PersistentData<BaseEntity> {
             entity.setDirectionX(Double.valueOf(data.getDirection().x));
             entity.setDirectionY(Double.valueOf(data.getDirection().y));
             entity.setDirectionZ(Double.valueOf(data.getDirection().z));
+            ModuleGroup modules = data.getModules();
+            entity.setModuleHull(UByte.valueOf(modules.getHull().value));
+            entity.setModuleEnergy(UByte.valueOf(modules.getEnergy().value));
+            entity.setModuleInteraction(UByte.valueOf(modules.getInteraction().value));
+            entity.setModuleMove(UByte.valueOf(modules.getMove().value));
+            entity.setModuleVision(UByte.valueOf(modules.getDetector().value));
+            entity.setModuleAdditional_1(UByte.valueOf(modules.getAdditional1().value));
+            entity.setModuleAdditional_2(UByte.valueOf(modules.getAdditional2().value));
+            entity.setModuleAdditional_3(UByte.valueOf(modules.getAdditional3().value));
             entity.setMap(UByte.valueOf(WorldId.WORLD.value));
             entity.setHp(UShort.valueOf(data.getHitPoints()));
             entity.setEnergy(UShort.valueOf(data.getEnergyPoints()));
