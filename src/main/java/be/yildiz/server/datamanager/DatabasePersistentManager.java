@@ -111,7 +111,11 @@ public final class DatabasePersistentManager implements PersistentManager, Sessi
             Entities entitiesTable = Entities.ENTITIES;
             c.setAutoCommit(false);
 
+
             AccountRecord playerToCreate = context.fetchOne(table, table.ID.equal(UShort.valueOf(player.value)));
+            if(playerToCreate == null) {
+                playerToCreate = context.newRecord(table);
+            }
             playerToCreate.setUsername(login);
             playerToCreate.setPassword(hashedPass);
             playerToCreate.setEmail(email);
@@ -121,12 +125,12 @@ public final class DatabasePersistentManager implements PersistentManager, Sessi
             playerToCreate.setOnline(false);
             playerToCreate.store();
 
-            ResearchesRecord recordToCreate = context.newRecord(researchTable);
-            recordToCreate.setPlayerId(UShort.valueOf(player.value));
+            ResearchesRecord recordToCreate = context.fetchOne(researchTable, table.ID.equal(UShort.valueOf(player.value)));
+            if(recordToCreate == null) {
+                recordToCreate = context.newRecord(researchTable);
+            }
             recordToCreate.setResearchesName("");
             recordToCreate.store();
-
-            EntitiesRecord entityToCreate = context.newRecord(entitiesTable);
 
             context.delete(tempAccountTable).where(tempAccountTable.LOGIN.equal(login)).execute();
             c.commit();

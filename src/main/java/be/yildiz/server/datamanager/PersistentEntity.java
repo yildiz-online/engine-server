@@ -150,7 +150,7 @@ public final class PersistentEntity implements PersistentData<BaseEntity> {
     private EntityId createNewLine() {
         try (Connection c = this.provider.getConnection()) {
             DSLContext create = this.getDSL(c);
-            create.insertInto(table, table.ACTIVE).values(false).execute();
+            create.newRecord(table).store();
 
             EntitiesRecord entity = create.fetchOne(table, table.ACTIVE.equal(false));
             return EntityId.get(entity.getId().longValue());
