@@ -108,7 +108,6 @@ public final class DatabasePersistentManager implements PersistentManager, Sessi
             Account table = Account.ACCOUNT;
             Researches researchTable = Researches.RESEARCHES;
             TempAccount tempAccountTable = TempAccount.TEMP_ACCOUNT;
-            Entities entitiesTable = Entities.ENTITIES;
             c.setAutoCommit(false);
 
 
