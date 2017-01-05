@@ -8,7 +8,7 @@ import be.yildiz.module.database.DbProperties;
 public class TestingDbProperties implements DbProperties {
     @Override
     public String getDbUser() {
-        return "";
+        return "yildizdatabase";
     }
 
     @Override
@@ -18,7 +18,7 @@ public class TestingDbProperties implements DbProperties {
 
     @Override
     public String getDbPassword() {
-        return "";
+        return "yildizdatabase";
     }
 
     @Override
