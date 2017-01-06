@@ -101,12 +101,12 @@ public final class PersistentEntity implements PersistentData<BaseEntity> {
         for (EntitiesRecord r : data) {
             EntityId id = EntityId.get(r.getId().longValue());
             if (r.getActive()) {
-                PlayerId player = PlayerId.get(r.getOwner().intValue());
+                PlayerId player = PlayerId.get(r.getOwnerId().intValue());
                 EntityType type = EntityType.get(r.getType().intValue());
                 ModuleGroup m = new ModuleGroup.ModuleGroupBuilder()
                         .withHull(ActionId.get(r.getModuleHull().intValue()))
                         .withEnergy(ActionId.get(r.getModuleEnergy().intValue()))
-                        .withDetector(ActionId.get(r.getModuleVision().intValue()))
+                        .withDetector(ActionId.get(r.getModuleDetector().intValue()))
                         .withMove(ActionId.get(r.getModuleMove().intValue()))
                         .withInteraction(ActionId.get(r.getModuleInteraction().intValue()))
                         .withAdditional1(ActionId.get(r.getModuleAdditional_1().intValue()))
@@ -116,7 +116,7 @@ public final class PersistentEntity implements PersistentData<BaseEntity> {
 
                 Point3D pos = Point3D.xyz(r.getPositionX().floatValue(), r.getPositionY().floatValue(), r.getPositionZ().floatValue());
                 Point3D dir = Point3D.xyz(r.getDirectionX().floatValue(), r.getDirectionY().floatValue(), r.getDirectionZ().floatValue());
-                EntityInConstruction eic = constructionFactory.build(type, id, names.getOrDefault(id, type.name), m, player, pos, dir, r.getHp().intValue(), r.getEnergy().intValue());
+                EntityInConstruction eic = constructionFactory.build(type, id, names.getOrDefault(id, type.name), m, player, pos, dir, r.getHitPoint().intValue(), r.getEnergyPoint().intValue());
 
                 factory.createEntity(eic);
             } else {
@@ -180,9 +180,9 @@ public final class PersistentEntity implements PersistentData<BaseEntity> {
     public void update(final BaseEntity data) {
         try (Connection c = this.provider.getConnection(); DSLContext create = this.getDSL(c)) {
             EntitiesRecord entity = create.fetchOne(table, table.ID.equal(UInteger.valueOf(data.getId().value)));
-            entity.setMap(UByte.valueOf(1));
+            entity.setMapId(UByte.valueOf(1));
             entity.setType(UByte.valueOf(data.getType().type));
-            entity.setOwner(UShort.valueOf(data.getOwner().value));
+            entity.setOwnerId(UShort.valueOf(data.getOwner().value));
             entity.setPositionX(Double.valueOf(data.getPosition().x));
             entity.setPositionY(Double.valueOf(data.getPosition().y));
             entity.setPositionZ(Double.valueOf(data.getPosition().z));
@@ -194,13 +194,13 @@ public final class PersistentEntity implements PersistentData<BaseEntity> {
             entity.setModuleEnergy(UByte.valueOf(modules.getEnergy().value));
             entity.setModuleInteraction(UByte.valueOf(modules.getInteraction().value));
             entity.setModuleMove(UByte.valueOf(modules.getMove().value));
-            entity.setModuleVision(UByte.valueOf(modules.getDetector().value));
+            entity.setModuleDetector(UByte.valueOf(modules.getDetector().value));
             entity.setModuleAdditional_1(UByte.valueOf(modules.getAdditional1().value));
             entity.setModuleAdditional_2(UByte.valueOf(modules.getAdditional2().value));
             entity.setModuleAdditional_3(UByte.valueOf(modules.getAdditional3().value));
-            entity.setMap(UByte.valueOf(WorldId.WORLD.value));
-            entity.setHp(UShort.valueOf(data.getHitPoints()));
-            entity.setEnergy(UShort.valueOf(data.getEnergyPoints()));
+            entity.setMapId(UByte.valueOf(WorldId.WORLD.value));
+            entity.setHitPoint(UShort.valueOf(data.getHitPoints()));
+            entity.setEnergyPoint(UShort.valueOf(data.getEnergyPoints()));
 
             entity.setActive(true);
 

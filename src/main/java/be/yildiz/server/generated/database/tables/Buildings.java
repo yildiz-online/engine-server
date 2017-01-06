@@ -37,10 +37,10 @@ import org.jooq.types.UShort;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Buildings extends TableImpl<BuildingsRecord> {
 
-    private static final long serialVersionUID = -1976083243;
+    private static final long serialVersionUID = -1112632267;
 
     /**
-     * The reference instance of <code>YILDIZDATABASE.buildings</code>
+     * The reference instance of <code>YILDIZDATABASE.BUILDINGS</code>
      */
     public static final Buildings BUILDINGS = new Buildings();
 
@@ -53,39 +53,39 @@ public class Buildings extends TableImpl<BuildingsRecord> {
     }
 
     /**
-     * The column <code>YILDIZDATABASE.buildings.BASE_ID</code>.
+     * The column <code>YILDIZDATABASE.BUILDINGS.BASE_ID</code>.
      */
     public final TableField<BuildingsRecord, UInteger> BASE_ID = createField("BASE_ID", org.jooq.impl.SQLDataType.INTEGERUNSIGNED.nullable(false), this, "");
 
     /**
-     * The column <code>YILDIZDATABASE.buildings.POSITION</code>. between 0 and 8
+     * The column <code>YILDIZDATABASE.BUILDINGS.POSITION</code>. between 0 and 8
      */
     public final TableField<BuildingsRecord, UByte> POSITION = createField("POSITION", org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false), this, "between 0 and 8");
 
     /**
-     * The column <code>YILDIZDATABASE.buildings.TYPE</code>.
+     * The column <code>YILDIZDATABASE.BUILDINGS.TYPE</code>.
      */
     public final TableField<BuildingsRecord, UByte> TYPE = createField("TYPE", org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.TINYINTUNSIGNED)), this, "");
 
     /**
-     * The column <code>YILDIZDATABASE.buildings.LEVEL</code>.
+     * The column <code>YILDIZDATABASE.BUILDINGS.LEVEL</code>.
      */
     public final TableField<BuildingsRecord, UByte> LEVEL = createField("LEVEL", org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false), this, "");
 
     /**
-     * The column <code>YILDIZDATABASE.buildings.STAFF</code>.
+     * The column <code>YILDIZDATABASE.BUILDINGS.STAFF</code>.
      */
     public final TableField<BuildingsRecord, UShort> STAFF = createField("STAFF", org.jooq.impl.SQLDataType.SMALLINTUNSIGNED.nullable(false), this, "");
 
     /**
-     * Create a <code>YILDIZDATABASE.buildings</code> table reference
+     * Create a <code>YILDIZDATABASE.BUILDINGS</code> table reference
      */
     public Buildings() {
-        this("buildings", null);
+        this("BUILDINGS", null);
     }
 
     /**
-     * Create an aliased <code>YILDIZDATABASE.buildings</code> table reference
+     * Create an aliased <code>YILDIZDATABASE.BUILDINGS</code> table reference
      */
     public Buildings(String alias) {
         this(alias, BUILDINGS);

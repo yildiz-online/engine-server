@@ -25,12 +25,18 @@ package be.yildiz.server.datamanager;
 
 import be.yildiz.common.collections.Sets;
 import be.yildiz.common.id.PlayerId;
-import be.yildiz.server.generated.database.tables.Account;
-import be.yildiz.server.generated.database.tables.records.AccountRecord;
+import be.yildiz.common.log.Logger;
+import be.yildiz.module.database.DataBaseConnectionProvider;
+import be.yildiz.server.generated.database.tables.Accounts;
+import be.yildiz.server.generated.database.tables.records.AccountsRecord;
 import be.yildiz.shared.player.Player;
 import be.yildiz.shared.player.PlayerManager;
 import be.yildiz.shared.player.PlayerRight;
+import org.jooq.DSLContext;
 import org.jooq.Result;
+import org.jooq.impl.DSL;
+import org.jooq.types.UByte;
+import org.jooq.types.UShort;
 
 import java.util.Set;
 
@@ -44,7 +50,7 @@ public final class PersistentPlayer implements PersistentData<Player> {
     /**
      * Persistent unit name where data must be retrieved.
      */
-    private static final Account table = Account.ACCOUNT;
+    private static final Accounts table = Accounts.ACCOUNTS;
 
     /**
      * List of unused player's id.
@@ -61,6 +67,8 @@ public final class PersistentPlayer implements PersistentData<Player> {
      */
     private final PlayerManager playerManager;
 
+    private final DataBaseConnectionProvider provider;
+
     /**
      * Full constructor, retrieve data from persistent context.
      *
@@ -69,15 +77,16 @@ public final class PersistentPlayer implements PersistentData<Player> {
      */
     public PersistentPlayer(final PersistentManager manager, final PlayerManager playerManager) {
         super();
+        this.provider = manager.getProvider();
         this.freeId = Sets.newSet();
         this.playerManager = playerManager;
         this.manager = manager;
-        Result<AccountRecord> data = manager.getAll(table);
-        for (AccountRecord r : data) {
+        Result<AccountsRecord> data = manager.getAll(table);
+        for (AccountsRecord r : data) {
             PlayerId id = PlayerId.get(r.getId().intValue());
             if (r.getActive()) {
                 int right = r.getType().intValue();
-                String name = r.getUsername();
+                String name = r.getLogin();
                 playerManager.createPlayer(id, name, PlayerRight.values()[right]);
             } else {
                 this.freeId.add(id);
@@ -113,14 +122,29 @@ public final class PersistentPlayer implements PersistentData<Player> {
      * @param login Player's login.
      * @param pass  Player's password.
      * @param email Player's email.
-     * @return <code>true</code> if the player has been successfully created.
+     * @return The player if successfully created, null otherwise.
      */
     public Player createPlayer(final String login, final String pass, final String email) {
         PlayerId playerId = this.getFreeId();
-        if (this.manager.createDataForNewAccount(login, pass, email, playerId)) {
+        try(DSLContext context = DSL.using(this.provider.getConnection(), this.provider.getDialect())) {
+            AccountsRecord playerToCreate = context.fetchOne(table, table.ID.equal(UShort.valueOf(playerId.value)));
+            if (playerToCreate == null) {
+                playerToCreate = context.newRecord(table);
+                playerToCreate.setId(UShort.valueOf(playerId.value));
+            }
+            playerToCreate.setLogin(login);
+            playerToCreate.setPassword(pass);
+            playerToCreate.setEmail(email);
+            playerToCreate.setActive(true);
+            playerToCreate.setType(UByte.valueOf(0));
+            playerToCreate.setMapId(UByte.valueOf(1));
+            playerToCreate.setOnline(false);
+            playerToCreate.store();
             return this.playerManager.createPlayer(playerId, login);
+        } catch (Exception e) {
+            Logger.error(e);
+            return null;
         }
-        return null;
     }
 
     @Override

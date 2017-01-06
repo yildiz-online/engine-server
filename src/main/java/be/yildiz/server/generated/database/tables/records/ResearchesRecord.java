@@ -29,33 +29,33 @@ import org.jooq.types.UShort;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ResearchesRecord extends UpdatableRecordImpl<ResearchesRecord> implements Record2<UShort, String> {
 
-    private static final long serialVersionUID = 1297956857;
+    private static final long serialVersionUID = 1152742207;
 
     /**
-     * Setter for <code>YILDIZDATABASE.researches.player_id</code>.
+     * Setter for <code>YILDIZDATABASE.RESEARCHES.PLAYER_ID</code>.
      */
     public void setPlayerId(UShort value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>YILDIZDATABASE.researches.player_id</code>.
+     * Getter for <code>YILDIZDATABASE.RESEARCHES.PLAYER_ID</code>.
      */
     public UShort getPlayerId() {
         return (UShort) get(0);
     }
 
     /**
-     * Setter for <code>YILDIZDATABASE.researches.researches_name</code>.
+     * Setter for <code>YILDIZDATABASE.RESEARCHES.NAME</code>.
      */
-    public void setResearchesName(String value) {
+    public void setName(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>YILDIZDATABASE.researches.researches_name</code>.
+     * Getter for <code>YILDIZDATABASE.RESEARCHES.NAME</code>.
      */
-    public String getResearchesName() {
+    public String getName() {
         return (String) get(1);
     }
 
@@ -104,7 +104,7 @@ public class ResearchesRecord extends UpdatableRecordImpl<ResearchesRecord> impl
      */
     @Override
     public Field<String> field2() {
-        return Researches.RESEARCHES.RESEARCHES_NAME;
+        return Researches.RESEARCHES.NAME;
     }
 
     /**
@@ -120,7 +120,7 @@ public class ResearchesRecord extends UpdatableRecordImpl<ResearchesRecord> impl
      */
     @Override
     public String value2() {
-        return getResearchesName();
+        return getName();
     }
 
     /**
@@ -137,7 +137,7 @@ public class ResearchesRecord extends UpdatableRecordImpl<ResearchesRecord> impl
      */
     @Override
     public ResearchesRecord value2(String value) {
-        setResearchesName(value);
+        setName(value);
         return this;
     }
 
@@ -165,10 +165,10 @@ public class ResearchesRecord extends UpdatableRecordImpl<ResearchesRecord> impl
     /**
      * Create a detached, initialised ResearchesRecord
      */
-    public ResearchesRecord(UShort playerId, String researchesName) {
+    public ResearchesRecord(UShort playerId, String name) {
         super(Researches.RESEARCHES);
 
         set(0, playerId);
-        set(1, researchesName);
+        set(1, name);
     }
 }

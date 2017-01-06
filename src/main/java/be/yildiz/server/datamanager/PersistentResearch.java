@@ -73,8 +73,8 @@ public final class PersistentResearch implements PersistentData<Pair<PlayerId, S
         Result<ResearchesRecord> data = manager.getAll(table);
         for (ResearchesRecord r : data) {
             Player player = playerManager.findFromId(PlayerId.get(r.getPlayerId().intValue()));
-            String[] researches = r.getResearchesName().split(",");
-            if (!"".equals(researches[0])) {
+            if(!r.getName().isEmpty()) {
+                String[] researches = r.getName().split(",");
                 for (String s : researches) {
                     researchManager.addResearch(Research.get(s), player);
                 }
@@ -86,7 +86,7 @@ public final class PersistentResearch implements PersistentData<Pair<PlayerId, S
     public void save(final Pair<PlayerId, Set<Research>> data) {
         try (Connection c = this.provider.getConnection(); DSLContext create = DSL.using(c, this.provider.getDialect())) {
             ResearchesRecord research = create.fetchOne(table, table.PLAYER_ID.equal(UShort.valueOf(data.getObject1().value)));
-            research.setResearchesName(StringUtil.toString(data.getObject2()));
+            research.setName(StringUtil.toString(data.getObject2()));
             research.store();
         } catch (SQLException e) {
             Logger.error(e);

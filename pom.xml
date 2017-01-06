@@ -45,14 +45,24 @@
   </parent>
 
   <properties>
-    <db.url>jdbc:mysql://localhost:3306</db.url>
-    <db.user>yildiz</db.user>
-    <db.password>yildiz</db.password>
-    <db.name>YILDIZDATABASE</db.name>
-    <db.driver>com.mysql.jdbc.Driver</db.driver>
+    <db.url>default</db.url>
+    <db.user>default</db.user>
+    <db.password>default</db.password>
+    <db.name>default</db.name>
+    <db.driver>default</db.driver>
   </properties>
 
   <profiles>
+    <profile>
+      <id>dev</id>
+      <properties>
+        <db.url>jdbc:mysql://localhost:3306</db.url>
+        <db.user>yildiz</db.user>
+        <db.password>yildiz</db.password>
+        <db.name>YILDIZDATABASE</db.name>
+        <db.driver>com.mysql.jdbc.Driver</db.driver>
+      </properties>
+    </profile>
     <profile>
       <id>generate-model</id>
       <build>
@@ -145,6 +155,7 @@
       <artifactId>module-database</artifactId>
       <type>test-jar</type>
       <scope>test</scope>
+      <version>${version.module-database}</version>
     </dependency>
   </dependencies>
 </project>

@@ -43,17 +43,7 @@ import java.util.List;
  */
 public interface PersistentManager {
 
-    /**
-     * Open the persistence container.
-     */
-    void open();
-
     DataBaseConnectionProvider getProvider();
-
-    /**
-     * Close the persistence container.
-     */
-    void close();
 
     /**
      * Create a new player, and all associated data for it.
@@ -76,28 +66,28 @@ public interface PersistentManager {
      *
      * @param buildingList Building construction task list.
      */
-    void saveBuildingTask(List<WaitingBuilding<BaseBuilding>> buildingList);
+    //void saveBuildingTask(List<WaitingBuilding<BaseBuilding>> buildingList);
 
     /**
      * Save all current executing entity construction tasks.
      *
      * @param entityList Entity construction task list.
      */
-    void saveEntityTask(List<WaitingEntity> entityList);
+    //void saveEntityTask(List<WaitingEntity> entityList);
 
     /**
      * Retrieve all persisted building construction tasks.
      *
      * @return The list of building construction tasks.
      */
-    List<TaskBuilding> retrieveBuildingTask();
+    //List<TaskBuilding> retrieveBuildingTask();
 
     /**
      * Retrieve all persisted entity construction tasks.
      *
      * @return The list of entity construction tasks.
      */
-    List<TaskEntity> retrieveEntityTask();
+    //List<TaskEntity> retrieveEntityTask();
 
     List<Message> retrieveMessage(PlayerId player);
 

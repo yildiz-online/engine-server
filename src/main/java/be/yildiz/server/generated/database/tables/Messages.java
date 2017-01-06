@@ -37,10 +37,10 @@ import org.jooq.types.UShort;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Messages extends TableImpl<MessagesRecord> {
 
-    private static final long serialVersionUID = 263209718;
+    private static final long serialVersionUID = -1985508666;
 
     /**
-     * The reference instance of <code>YILDIZDATABASE.messages</code>
+     * The reference instance of <code>YILDIZDATABASE.MESSAGES</code>
      */
     public static final Messages MESSAGES = new Messages();
 
@@ -53,44 +53,44 @@ public class Messages extends TableImpl<MessagesRecord> {
     }
 
     /**
-     * The column <code>YILDIZDATABASE.messages.id</code>.
+     * The column <code>YILDIZDATABASE.MESSAGES.ID</code>.
      */
-    public final TableField<MessagesRecord, UShort> ID = createField("id", org.jooq.impl.SQLDataType.SMALLINTUNSIGNED.nullable(false), this, "");
+    public final TableField<MessagesRecord, UShort> ID = createField("ID", org.jooq.impl.SQLDataType.SMALLINTUNSIGNED.nullable(false), this, "");
 
     /**
-     * The column <code>YILDIZDATABASE.messages.sender</code>.
+     * The column <code>YILDIZDATABASE.MESSAGES.SENDER_ID</code>.
      */
-    public final TableField<MessagesRecord, UShort> SENDER = createField("sender", org.jooq.impl.SQLDataType.SMALLINTUNSIGNED, this, "");
+    public final TableField<MessagesRecord, UShort> SENDER_ID = createField("SENDER_ID", org.jooq.impl.SQLDataType.SMALLINTUNSIGNED, this, "");
 
     /**
-     * The column <code>YILDIZDATABASE.messages.receiver</code>.
+     * The column <code>YILDIZDATABASE.MESSAGES.RECEIVER_ID</code>.
      */
-    public final TableField<MessagesRecord, UShort> RECEIVER = createField("receiver", org.jooq.impl.SQLDataType.SMALLINTUNSIGNED, this, "");
+    public final TableField<MessagesRecord, UShort> RECEIVER_ID = createField("RECEIVER_ID", org.jooq.impl.SQLDataType.SMALLINTUNSIGNED, this, "");
 
     /**
-     * The column <code>YILDIZDATABASE.messages.message</code>.
+     * The column <code>YILDIZDATABASE.MESSAGES.MESSAGE</code>.
      */
-    public final TableField<MessagesRecord, String> MESSAGE = createField("message", org.jooq.impl.SQLDataType.VARCHAR.length(500).nullable(false), this, "");
+    public final TableField<MessagesRecord, String> MESSAGE = createField("MESSAGE", org.jooq.impl.SQLDataType.VARCHAR.length(1024).nullable(false), this, "");
 
     /**
-     * The column <code>YILDIZDATABASE.messages.is_read</code>.
+     * The column <code>YILDIZDATABASE.MESSAGES.READ</code>.
      */
-    public final TableField<MessagesRecord, Boolean> IS_READ = createField("is_read", org.jooq.impl.SQLDataType.BIT, this, "");
+    public final TableField<MessagesRecord, Boolean> READ = createField("READ", org.jooq.impl.SQLDataType.BIT.defaultValue(org.jooq.impl.DSL.inline("b'0'", org.jooq.impl.SQLDataType.BIT)), this, "");
 
     /**
-     * The column <code>YILDIZDATABASE.messages.date</code>.
+     * The column <code>YILDIZDATABASE.MESSAGES.DATE</code>.
      */
-    public final TableField<MessagesRecord, Timestamp> DATE = createField("date", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaultValue(org.jooq.impl.DSL.inline("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
+    public final TableField<MessagesRecord, Timestamp> DATE = createField("DATE", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaultValue(org.jooq.impl.DSL.inline("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
 
     /**
-     * Create a <code>YILDIZDATABASE.messages</code> table reference
+     * Create a <code>YILDIZDATABASE.MESSAGES</code> table reference
      */
     public Messages() {
-        this("messages", null);
+        this("MESSAGES", null);
     }
 
     /**
-     * Create an aliased <code>YILDIZDATABASE.messages</code> table reference
+     * Create an aliased <code>YILDIZDATABASE.MESSAGES</code> table reference
      */
     public Messages(String alias) {
         this(alias, MESSAGES);

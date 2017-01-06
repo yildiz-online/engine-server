@@ -35,10 +35,10 @@ import org.jooq.types.UShort;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Cities extends TableImpl<CitiesRecord> {
 
-    private static final long serialVersionUID = -1187625221;
+    private static final long serialVersionUID = -435141864;
 
     /**
-     * The reference instance of <code>YILDIZDATABASE.cities</code>
+     * The reference instance of <code>YILDIZDATABASE.CITIES</code>
      */
     public static final Cities CITIES = new Cities();
 
@@ -51,24 +51,24 @@ public class Cities extends TableImpl<CitiesRecord> {
     }
 
     /**
-     * The column <code>YILDIZDATABASE.cities.id</code>.
+     * The column <code>YILDIZDATABASE.CITIES.ID</code>.
      */
-    public final TableField<CitiesRecord, UShort> ID = createField("id", org.jooq.impl.SQLDataType.SMALLINTUNSIGNED.nullable(false), this, "");
+    public final TableField<CitiesRecord, UShort> ID = createField("ID", org.jooq.impl.SQLDataType.SMALLINTUNSIGNED.nullable(false), this, "");
 
     /**
-     * The column <code>YILDIZDATABASE.cities.name</code>.
+     * The column <code>YILDIZDATABASE.CITIES.NAME</code>.
      */
-    public final TableField<CitiesRecord, String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR.length(500).nullable(false), this, "");
+    public final TableField<CitiesRecord, String> NAME = createField("NAME", org.jooq.impl.SQLDataType.VARCHAR.length(255).nullable(false), this, "");
 
     /**
-     * Create a <code>YILDIZDATABASE.cities</code> table reference
+     * Create a <code>YILDIZDATABASE.CITIES</code> table reference
      */
     public Cities() {
-        this("cities", null);
+        this("CITIES", null);
     }
 
     /**
-     * Create an aliased <code>YILDIZDATABASE.cities</code> table reference
+     * Create an aliased <code>YILDIZDATABASE.CITIES</code> table reference
      */
     public Cities(String alias) {
         this(alias, CITIES);

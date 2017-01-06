@@ -31,73 +31,73 @@ import org.jooq.types.UShort;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class BuildingsRecord extends UpdatableRecordImpl<BuildingsRecord> implements Record5<UInteger, UByte, UByte, UByte, UShort> {
 
-    private static final long serialVersionUID = 715269290;
+    private static final long serialVersionUID = -110164758;
 
     /**
-     * Setter for <code>YILDIZDATABASE.buildings.BASE_ID</code>.
+     * Setter for <code>YILDIZDATABASE.BUILDINGS.BASE_ID</code>.
      */
     public void setBaseId(UInteger value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>YILDIZDATABASE.buildings.BASE_ID</code>.
+     * Getter for <code>YILDIZDATABASE.BUILDINGS.BASE_ID</code>.
      */
     public UInteger getBaseId() {
         return (UInteger) get(0);
     }
 
     /**
-     * Setter for <code>YILDIZDATABASE.buildings.POSITION</code>. between 0 and 8
+     * Setter for <code>YILDIZDATABASE.BUILDINGS.POSITION</code>. between 0 and 8
      */
     public void setPosition(UByte value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>YILDIZDATABASE.buildings.POSITION</code>. between 0 and 8
+     * Getter for <code>YILDIZDATABASE.BUILDINGS.POSITION</code>. between 0 and 8
      */
     public UByte getPosition() {
         return (UByte) get(1);
     }
 
     /**
-     * Setter for <code>YILDIZDATABASE.buildings.TYPE</code>.
+     * Setter for <code>YILDIZDATABASE.BUILDINGS.TYPE</code>.
      */
     public void setType(UByte value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>YILDIZDATABASE.buildings.TYPE</code>.
+     * Getter for <code>YILDIZDATABASE.BUILDINGS.TYPE</code>.
      */
     public UByte getType() {
         return (UByte) get(2);
     }
 
     /**
-     * Setter for <code>YILDIZDATABASE.buildings.LEVEL</code>.
+     * Setter for <code>YILDIZDATABASE.BUILDINGS.LEVEL</code>.
      */
     public void setLevel(UByte value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>YILDIZDATABASE.buildings.LEVEL</code>.
+     * Getter for <code>YILDIZDATABASE.BUILDINGS.LEVEL</code>.
      */
     public UByte getLevel() {
         return (UByte) get(3);
     }
 
     /**
-     * Setter for <code>YILDIZDATABASE.buildings.STAFF</code>.
+     * Setter for <code>YILDIZDATABASE.BUILDINGS.STAFF</code>.
      */
     public void setStaff(UShort value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>YILDIZDATABASE.buildings.STAFF</code>.
+     * Getter for <code>YILDIZDATABASE.BUILDINGS.STAFF</code>.
      */
     public UShort getStaff() {
         return (UShort) get(4);

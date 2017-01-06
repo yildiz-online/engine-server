@@ -35,10 +35,10 @@ import org.jooq.types.UShort;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Researches extends TableImpl<ResearchesRecord> {
 
-    private static final long serialVersionUID = -294059585;
+    private static final long serialVersionUID = -601868516;
 
     /**
-     * The reference instance of <code>YILDIZDATABASE.researches</code>
+     * The reference instance of <code>YILDIZDATABASE.RESEARCHES</code>
      */
     public static final Researches RESEARCHES = new Researches();
 
@@ -51,24 +51,24 @@ public class Researches extends TableImpl<ResearchesRecord> {
     }
 
     /**
-     * The column <code>YILDIZDATABASE.researches.player_id</code>.
+     * The column <code>YILDIZDATABASE.RESEARCHES.PLAYER_ID</code>.
      */
-    public final TableField<ResearchesRecord, UShort> PLAYER_ID = createField("player_id", org.jooq.impl.SQLDataType.SMALLINTUNSIGNED.nullable(false), this, "");
+    public final TableField<ResearchesRecord, UShort> PLAYER_ID = createField("PLAYER_ID", org.jooq.impl.SQLDataType.SMALLINTUNSIGNED.nullable(false), this, "");
 
     /**
-     * The column <code>YILDIZDATABASE.researches.researches_name</code>.
+     * The column <code>YILDIZDATABASE.RESEARCHES.NAME</code>.
      */
-    public final TableField<ResearchesRecord, String> RESEARCHES_NAME = createField("researches_name", org.jooq.impl.SQLDataType.VARCHAR.length(250).nullable(false).defaultValue(org.jooq.impl.DSL.inline("firefly,", org.jooq.impl.SQLDataType.VARCHAR)), this, "");
+    public final TableField<ResearchesRecord, String> NAME = createField("NAME", org.jooq.impl.SQLDataType.VARCHAR.length(255).nullable(false).defaultValue(org.jooq.impl.DSL.inline("firefly,", org.jooq.impl.SQLDataType.VARCHAR)), this, "");
 
     /**
-     * Create a <code>YILDIZDATABASE.researches</code> table reference
+     * Create a <code>YILDIZDATABASE.RESEARCHES</code> table reference
      */
     public Researches() {
-        this("researches", null);
+        this("RESEARCHES", null);
     }
 
     /**
-     * Create an aliased <code>YILDIZDATABASE.researches</code> table reference
+     * Create an aliased <code>YILDIZDATABASE.RESEARCHES</code> table reference
      */
     public Researches(String alias) {
         this(alias, RESEARCHES);

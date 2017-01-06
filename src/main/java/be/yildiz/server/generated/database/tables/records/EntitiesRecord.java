@@ -31,297 +31,297 @@ import org.jooq.types.UShort;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class EntitiesRecord extends UpdatableRecordImpl<EntitiesRecord> implements Record21<UInteger, UByte, UShort, UByte, UShort, UShort, UByte, UByte, UByte, UByte, UByte, UByte, UByte, UByte, Boolean, Double, Double, Double, Double, Double, Double> {
 
-    private static final long serialVersionUID = 468508579;
+    private static final long serialVersionUID = 1788312096;
 
     /**
-     * Setter for <code>YILDIZDATABASE.entities.id</code>.
+     * Setter for <code>YILDIZDATABASE.ENTITIES.ID</code>.
      */
     public void setId(UInteger value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>YILDIZDATABASE.entities.id</code>.
+     * Getter for <code>YILDIZDATABASE.ENTITIES.ID</code>.
      */
     public UInteger getId() {
         return (UInteger) get(0);
     }
 
     /**
-     * Setter for <code>YILDIZDATABASE.entities.type</code>.
+     * Setter for <code>YILDIZDATABASE.ENTITIES.TYPE</code>.
      */
     public void setType(UByte value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>YILDIZDATABASE.entities.type</code>.
+     * Getter for <code>YILDIZDATABASE.ENTITIES.TYPE</code>.
      */
     public UByte getType() {
         return (UByte) get(1);
     }
 
     /**
-     * Setter for <code>YILDIZDATABASE.entities.owner</code>.
+     * Setter for <code>YILDIZDATABASE.ENTITIES.OWNER_ID</code>.
      */
-    public void setOwner(UShort value) {
+    public void setOwnerId(UShort value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>YILDIZDATABASE.entities.owner</code>.
+     * Getter for <code>YILDIZDATABASE.ENTITIES.OWNER_ID</code>.
      */
-    public UShort getOwner() {
+    public UShort getOwnerId() {
         return (UShort) get(2);
     }
 
     /**
-     * Setter for <code>YILDIZDATABASE.entities.map</code>.
+     * Setter for <code>YILDIZDATABASE.ENTITIES.MAP_ID</code>.
      */
-    public void setMap(UByte value) {
+    public void setMapId(UByte value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>YILDIZDATABASE.entities.map</code>.
+     * Getter for <code>YILDIZDATABASE.ENTITIES.MAP_ID</code>.
      */
-    public UByte getMap() {
+    public UByte getMapId() {
         return (UByte) get(3);
     }
 
     /**
-     * Setter for <code>YILDIZDATABASE.entities.hp</code>.
+     * Setter for <code>YILDIZDATABASE.ENTITIES.HIT_POINT</code>.
      */
-    public void setHp(UShort value) {
+    public void setHitPoint(UShort value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>YILDIZDATABASE.entities.hp</code>.
+     * Getter for <code>YILDIZDATABASE.ENTITIES.HIT_POINT</code>.
      */
-    public UShort getHp() {
+    public UShort getHitPoint() {
         return (UShort) get(4);
     }
 
     /**
-     * Setter for <code>YILDIZDATABASE.entities.energy</code>.
+     * Setter for <code>YILDIZDATABASE.ENTITIES.ENERGY_POINT</code>.
      */
-    public void setEnergy(UShort value) {
+    public void setEnergyPoint(UShort value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>YILDIZDATABASE.entities.energy</code>.
+     * Getter for <code>YILDIZDATABASE.ENTITIES.ENERGY_POINT</code>.
      */
-    public UShort getEnergy() {
+    public UShort getEnergyPoint() {
         return (UShort) get(5);
     }
 
     /**
-     * Setter for <code>YILDIZDATABASE.entities.module_hull</code>.
+     * Setter for <code>YILDIZDATABASE.ENTITIES.MODULE_HULL</code>.
      */
     public void setModuleHull(UByte value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>YILDIZDATABASE.entities.module_hull</code>.
+     * Getter for <code>YILDIZDATABASE.ENTITIES.MODULE_HULL</code>.
      */
     public UByte getModuleHull() {
         return (UByte) get(6);
     }
 
     /**
-     * Setter for <code>YILDIZDATABASE.entities.module_energy</code>.
+     * Setter for <code>YILDIZDATABASE.ENTITIES.MODULE_ENERGY</code>.
      */
     public void setModuleEnergy(UByte value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>YILDIZDATABASE.entities.module_energy</code>.
+     * Getter for <code>YILDIZDATABASE.ENTITIES.MODULE_ENERGY</code>.
      */
     public UByte getModuleEnergy() {
         return (UByte) get(7);
     }
 
     /**
-     * Setter for <code>YILDIZDATABASE.entities.module_vision</code>.
+     * Setter for <code>YILDIZDATABASE.ENTITIES.MODULE_DETECTOR</code>.
      */
-    public void setModuleVision(UByte value) {
+    public void setModuleDetector(UByte value) {
         set(8, value);
     }
 
     /**
-     * Getter for <code>YILDIZDATABASE.entities.module_vision</code>.
+     * Getter for <code>YILDIZDATABASE.ENTITIES.MODULE_DETECTOR</code>.
      */
-    public UByte getModuleVision() {
+    public UByte getModuleDetector() {
         return (UByte) get(8);
     }
 
     /**
-     * Setter for <code>YILDIZDATABASE.entities.module_move</code>.
+     * Setter for <code>YILDIZDATABASE.ENTITIES.MODULE_MOVE</code>.
      */
     public void setModuleMove(UByte value) {
         set(9, value);
     }
 
     /**
-     * Getter for <code>YILDIZDATABASE.entities.module_move</code>.
+     * Getter for <code>YILDIZDATABASE.ENTITIES.MODULE_MOVE</code>.
      */
     public UByte getModuleMove() {
         return (UByte) get(9);
     }
 
     /**
-     * Setter for <code>YILDIZDATABASE.entities.module_interaction</code>.
+     * Setter for <code>YILDIZDATABASE.ENTITIES.MODULE_INTERACTION</code>.
      */
     public void setModuleInteraction(UByte value) {
         set(10, value);
     }
 
     /**
-     * Getter for <code>YILDIZDATABASE.entities.module_interaction</code>.
+     * Getter for <code>YILDIZDATABASE.ENTITIES.MODULE_INTERACTION</code>.
      */
     public UByte getModuleInteraction() {
         return (UByte) get(10);
     }
 
     /**
-     * Setter for <code>YILDIZDATABASE.entities.module_additional_1</code>.
+     * Setter for <code>YILDIZDATABASE.ENTITIES.MODULE_ADDITIONAL_1</code>.
      */
     public void setModuleAdditional_1(UByte value) {
         set(11, value);
     }
 
     /**
-     * Getter for <code>YILDIZDATABASE.entities.module_additional_1</code>.
+     * Getter for <code>YILDIZDATABASE.ENTITIES.MODULE_ADDITIONAL_1</code>.
      */
     public UByte getModuleAdditional_1() {
         return (UByte) get(11);
     }
 
     /**
-     * Setter for <code>YILDIZDATABASE.entities.module_additional_2</code>.
+     * Setter for <code>YILDIZDATABASE.ENTITIES.MODULE_ADDITIONAL_2</code>.
      */
     public void setModuleAdditional_2(UByte value) {
         set(12, value);
     }
 
     /**
-     * Getter for <code>YILDIZDATABASE.entities.module_additional_2</code>.
+     * Getter for <code>YILDIZDATABASE.ENTITIES.MODULE_ADDITIONAL_2</code>.
      */
     public UByte getModuleAdditional_2() {
         return (UByte) get(12);
     }
 
     /**
-     * Setter for <code>YILDIZDATABASE.entities.module_additional_3</code>.
+     * Setter for <code>YILDIZDATABASE.ENTITIES.MODULE_ADDITIONAL_3</code>.
      */
     public void setModuleAdditional_3(UByte value) {
         set(13, value);
     }
 
     /**
-     * Getter for <code>YILDIZDATABASE.entities.module_additional_3</code>.
+     * Getter for <code>YILDIZDATABASE.ENTITIES.MODULE_ADDITIONAL_3</code>.
      */
     public UByte getModuleAdditional_3() {
         return (UByte) get(13);
     }
 
     /**
-     * Setter for <code>YILDIZDATABASE.entities.active</code>.
+     * Setter for <code>YILDIZDATABASE.ENTITIES.ACTIVE</code>.
      */
     public void setActive(Boolean value) {
         set(14, value);
     }
 
     /**
-     * Getter for <code>YILDIZDATABASE.entities.active</code>.
+     * Getter for <code>YILDIZDATABASE.ENTITIES.ACTIVE</code>.
      */
     public Boolean getActive() {
         return (Boolean) get(14);
     }
 
     /**
-     * Setter for <code>YILDIZDATABASE.entities.position_x</code>.
+     * Setter for <code>YILDIZDATABASE.ENTITIES.POSITION_X</code>.
      */
     public void setPositionX(Double value) {
         set(15, value);
     }
 
     /**
-     * Getter for <code>YILDIZDATABASE.entities.position_x</code>.
+     * Getter for <code>YILDIZDATABASE.ENTITIES.POSITION_X</code>.
      */
     public Double getPositionX() {
         return (Double) get(15);
     }
 
     /**
-     * Setter for <code>YILDIZDATABASE.entities.position_y</code>.
+     * Setter for <code>YILDIZDATABASE.ENTITIES.POSITION_Y</code>.
      */
     public void setPositionY(Double value) {
         set(16, value);
     }
 
     /**
-     * Getter for <code>YILDIZDATABASE.entities.position_y</code>.
+     * Getter for <code>YILDIZDATABASE.ENTITIES.POSITION_Y</code>.
      */
     public Double getPositionY() {
         return (Double) get(16);
     }
 
     /**
-     * Setter for <code>YILDIZDATABASE.entities.position_z</code>.
+     * Setter for <code>YILDIZDATABASE.ENTITIES.POSITION_Z</code>.
      */
     public void setPositionZ(Double value) {
         set(17, value);
     }
 
     /**
-     * Getter for <code>YILDIZDATABASE.entities.position_z</code>.
+     * Getter for <code>YILDIZDATABASE.ENTITIES.POSITION_Z</code>.
      */
     public Double getPositionZ() {
         return (Double) get(17);
     }
 
     /**
-     * Setter for <code>YILDIZDATABASE.entities.direction_x</code>.
+     * Setter for <code>YILDIZDATABASE.ENTITIES.DIRECTION_X</code>.
      */
     public void setDirectionX(Double value) {
         set(18, value);
     }
 
     /**
-     * Getter for <code>YILDIZDATABASE.entities.direction_x</code>.
+     * Getter for <code>YILDIZDATABASE.ENTITIES.DIRECTION_X</code>.
      */
     public Double getDirectionX() {
         return (Double) get(18);
     }
 
     /**
-     * Setter for <code>YILDIZDATABASE.entities.direction_y</code>.
+     * Setter for <code>YILDIZDATABASE.ENTITIES.DIRECTION_Y</code>.
      */
     public void setDirectionY(Double value) {
         set(19, value);
     }
 
     /**
-     * Getter for <code>YILDIZDATABASE.entities.direction_y</code>.
+     * Getter for <code>YILDIZDATABASE.ENTITIES.DIRECTION_Y</code>.
      */
     public Double getDirectionY() {
         return (Double) get(19);
     }
 
     /**
-     * Setter for <code>YILDIZDATABASE.entities.direction_z</code>.
+     * Setter for <code>YILDIZDATABASE.ENTITIES.DIRECTION_Z</code>.
      */
     public void setDirectionZ(Double value) {
         set(20, value);
     }
 
     /**
-     * Getter for <code>YILDIZDATABASE.entities.direction_z</code>.
+     * Getter for <code>YILDIZDATABASE.ENTITIES.DIRECTION_Z</code>.
      */
     public Double getDirectionZ() {
         return (Double) get(20);
@@ -380,7 +380,7 @@ public class EntitiesRecord extends UpdatableRecordImpl<EntitiesRecord> implemen
      */
     @Override
     public Field<UShort> field3() {
-        return Entities.ENTITIES.OWNER;
+        return Entities.ENTITIES.OWNER_ID;
     }
 
     /**
@@ -388,7 +388,7 @@ public class EntitiesRecord extends UpdatableRecordImpl<EntitiesRecord> implemen
      */
     @Override
     public Field<UByte> field4() {
-        return Entities.ENTITIES.MAP;
+        return Entities.ENTITIES.MAP_ID;
     }
 
     /**
@@ -396,7 +396,7 @@ public class EntitiesRecord extends UpdatableRecordImpl<EntitiesRecord> implemen
      */
     @Override
     public Field<UShort> field5() {
-        return Entities.ENTITIES.HP;
+        return Entities.ENTITIES.HIT_POINT;
     }
 
     /**
@@ -404,7 +404,7 @@ public class EntitiesRecord extends UpdatableRecordImpl<EntitiesRecord> implemen
      */
     @Override
     public Field<UShort> field6() {
-        return Entities.ENTITIES.ENERGY;
+        return Entities.ENTITIES.ENERGY_POINT;
     }
 
     /**
@@ -428,7 +428,7 @@ public class EntitiesRecord extends UpdatableRecordImpl<EntitiesRecord> implemen
      */
     @Override
     public Field<UByte> field9() {
-        return Entities.ENTITIES.MODULE_VISION;
+        return Entities.ENTITIES.MODULE_DETECTOR;
     }
 
     /**
@@ -548,7 +548,7 @@ public class EntitiesRecord extends UpdatableRecordImpl<EntitiesRecord> implemen
      */
     @Override
     public UShort value3() {
-        return getOwner();
+        return getOwnerId();
     }
 
     /**
@@ -556,7 +556,7 @@ public class EntitiesRecord extends UpdatableRecordImpl<EntitiesRecord> implemen
      */
     @Override
     public UByte value4() {
-        return getMap();
+        return getMapId();
     }
 
     /**
@@ -564,7 +564,7 @@ public class EntitiesRecord extends UpdatableRecordImpl<EntitiesRecord> implemen
      */
     @Override
     public UShort value5() {
-        return getHp();
+        return getHitPoint();
     }
 
     /**
@@ -572,7 +572,7 @@ public class EntitiesRecord extends UpdatableRecordImpl<EntitiesRecord> implemen
      */
     @Override
     public UShort value6() {
-        return getEnergy();
+        return getEnergyPoint();
     }
 
     /**
@@ -596,7 +596,7 @@ public class EntitiesRecord extends UpdatableRecordImpl<EntitiesRecord> implemen
      */
     @Override
     public UByte value9() {
-        return getModuleVision();
+        return getModuleDetector();
     }
 
     /**
@@ -718,7 +718,7 @@ public class EntitiesRecord extends UpdatableRecordImpl<EntitiesRecord> implemen
      */
     @Override
     public EntitiesRecord value3(UShort value) {
-        setOwner(value);
+        setOwnerId(value);
         return this;
     }
 
@@ -727,7 +727,7 @@ public class EntitiesRecord extends UpdatableRecordImpl<EntitiesRecord> implemen
      */
     @Override
     public EntitiesRecord value4(UByte value) {
-        setMap(value);
+        setMapId(value);
         return this;
     }
 
@@ -736,7 +736,7 @@ public class EntitiesRecord extends UpdatableRecordImpl<EntitiesRecord> implemen
      */
     @Override
     public EntitiesRecord value5(UShort value) {
-        setHp(value);
+        setHitPoint(value);
         return this;
     }
 
@@ -745,7 +745,7 @@ public class EntitiesRecord extends UpdatableRecordImpl<EntitiesRecord> implemen
      */
     @Override
     public EntitiesRecord value6(UShort value) {
-        setEnergy(value);
+        setEnergyPoint(value);
         return this;
     }
 
@@ -772,7 +772,7 @@ public class EntitiesRecord extends UpdatableRecordImpl<EntitiesRecord> implemen
      */
     @Override
     public EntitiesRecord value9(UByte value) {
-        setModuleVision(value);
+        setModuleDetector(value);
         return this;
     }
 
@@ -927,18 +927,18 @@ public class EntitiesRecord extends UpdatableRecordImpl<EntitiesRecord> implemen
     /**
      * Create a detached, initialised EntitiesRecord
      */
-    public EntitiesRecord(UInteger id, UByte type, UShort owner, UByte map, UShort hp, UShort energy, UByte moduleHull, UByte moduleEnergy, UByte moduleVision, UByte moduleMove, UByte moduleInteraction, UByte moduleAdditional_1, UByte moduleAdditional_2, UByte moduleAdditional_3, Boolean active, Double positionX, Double positionY, Double positionZ, Double directionX, Double directionY, Double directionZ) {
+    public EntitiesRecord(UInteger id, UByte type, UShort ownerId, UByte mapId, UShort hitPoint, UShort energyPoint, UByte moduleHull, UByte moduleEnergy, UByte moduleDetector, UByte moduleMove, UByte moduleInteraction, UByte moduleAdditional_1, UByte moduleAdditional_2, UByte moduleAdditional_3, Boolean active, Double positionX, Double positionY, Double positionZ, Double directionX, Double directionY, Double directionZ) {
         super(Entities.ENTITIES);
 
         set(0, id);
         set(1, type);
-        set(2, owner);
-        set(3, map);
-        set(4, hp);
-        set(5, energy);
+        set(2, ownerId);
+        set(3, mapId);
+        set(4, hitPoint);
+        set(5, energyPoint);
         set(6, moduleHull);
         set(7, moduleEnergy);
-        set(8, moduleVision);
+        set(8, moduleDetector);
         set(9, moduleMove);
         set(10, moduleInteraction);
         set(11, moduleAdditional_1);

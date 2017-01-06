@@ -4,18 +4,14 @@
 package be.yildiz.server.generated.database;
 
 
-import be.yildiz.server.generated.database.tables.Account;
+import be.yildiz.server.generated.database.tables.Accounts;
 import be.yildiz.server.generated.database.tables.Buildings;
 import be.yildiz.server.generated.database.tables.Cities;
 import be.yildiz.server.generated.database.tables.Entities;
 import be.yildiz.server.generated.database.tables.Messages;
 import be.yildiz.server.generated.database.tables.Researches;
 import be.yildiz.server.generated.database.tables.Resources;
-import be.yildiz.server.generated.database.tables.TaskBuildBuilding;
-import be.yildiz.server.generated.database.tables.TaskBuildEntity;
-import be.yildiz.server.generated.database.tables.TempAccount;
-import be.yildiz.server.generated.database.tables.WebLostPassword;
-import be.yildiz.server.generated.database.tables.WebNews;
+import be.yildiz.server.generated.database.tables.TempAccounts;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,7 +37,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Yildizdatabase extends SchemaImpl {
 
-    private static final long serialVersionUID = 1412287483;
+    private static final long serialVersionUID = -1390252955;
 
     /**
      * The reference instance of <code>YILDIZDATABASE</code>
@@ -49,64 +45,44 @@ public class Yildizdatabase extends SchemaImpl {
     public static final Yildizdatabase YILDIZDATABASE = new Yildizdatabase();
 
     /**
-     * The table <code>YILDIZDATABASE.ACCOUNT</code>.
+     * The table <code>YILDIZDATABASE.ACCOUNTS</code>.
      */
-    public final Account ACCOUNT = be.yildiz.server.generated.database.tables.Account.ACCOUNT;
+    public final Accounts ACCOUNTS = be.yildiz.server.generated.database.tables.Accounts.ACCOUNTS;
 
     /**
-     * The table <code>YILDIZDATABASE.buildings</code>.
+     * The table <code>YILDIZDATABASE.BUILDINGS</code>.
      */
     public final Buildings BUILDINGS = be.yildiz.server.generated.database.tables.Buildings.BUILDINGS;
 
     /**
-     * The table <code>YILDIZDATABASE.cities</code>.
+     * The table <code>YILDIZDATABASE.CITIES</code>.
      */
     public final Cities CITIES = be.yildiz.server.generated.database.tables.Cities.CITIES;
 
     /**
-     * The table <code>YILDIZDATABASE.entities</code>.
+     * The table <code>YILDIZDATABASE.ENTITIES</code>.
      */
     public final Entities ENTITIES = be.yildiz.server.generated.database.tables.Entities.ENTITIES;
 
     /**
-     * The table <code>YILDIZDATABASE.messages</code>.
+     * The table <code>YILDIZDATABASE.MESSAGES</code>.
      */
     public final Messages MESSAGES = be.yildiz.server.generated.database.tables.Messages.MESSAGES;
 
     /**
-     * The table <code>YILDIZDATABASE.researches</code>.
+     * The table <code>YILDIZDATABASE.RESEARCHES</code>.
      */
     public final Researches RESEARCHES = be.yildiz.server.generated.database.tables.Researches.RESEARCHES;
 
     /**
-     * The table <code>YILDIZDATABASE.resources</code>.
+     * The table <code>YILDIZDATABASE.RESOURCES</code>.
      */
     public final Resources RESOURCES = be.yildiz.server.generated.database.tables.Resources.RESOURCES;
 
     /**
-     * The table <code>YILDIZDATABASE.task_build_building</code>.
+     * The table <code>YILDIZDATABASE.TEMP_ACCOUNTS</code>.
      */
-    public final TaskBuildBuilding TASK_BUILD_BUILDING = be.yildiz.server.generated.database.tables.TaskBuildBuilding.TASK_BUILD_BUILDING;
-
-    /**
-     * The table <code>YILDIZDATABASE.task_build_entity</code>.
-     */
-    public final TaskBuildEntity TASK_BUILD_ENTITY = be.yildiz.server.generated.database.tables.TaskBuildEntity.TASK_BUILD_ENTITY;
-
-    /**
-     * The table <code>YILDIZDATABASE.temp_account</code>.
-     */
-    public final TempAccount TEMP_ACCOUNT = be.yildiz.server.generated.database.tables.TempAccount.TEMP_ACCOUNT;
-
-    /**
-     * The table <code>YILDIZDATABASE.web_lost_password</code>.
-     */
-    public final WebLostPassword WEB_LOST_PASSWORD = be.yildiz.server.generated.database.tables.WebLostPassword.WEB_LOST_PASSWORD;
-
-    /**
-     * The table <code>YILDIZDATABASE.web_news</code>.
-     */
-    public final WebNews WEB_NEWS = be.yildiz.server.generated.database.tables.WebNews.WEB_NEWS;
+    public final TempAccounts TEMP_ACCOUNTS = be.yildiz.server.generated.database.tables.TempAccounts.TEMP_ACCOUNTS;
 
     /**
      * No further instances allowed
@@ -133,17 +109,13 @@ public class Yildizdatabase extends SchemaImpl {
 
     private final List<Table<?>> getTables0() {
         return Arrays.<Table<?>>asList(
-            Account.ACCOUNT,
+            Accounts.ACCOUNTS,
             Buildings.BUILDINGS,
             Cities.CITIES,
             Entities.ENTITIES,
             Messages.MESSAGES,
             Researches.RESEARCHES,
             Resources.RESOURCES,
-            TaskBuildBuilding.TASK_BUILD_BUILDING,
-            TaskBuildEntity.TASK_BUILD_ENTITY,
-            TempAccount.TEMP_ACCOUNT,
-            WebLostPassword.WEB_LOST_PASSWORD,
-            WebNews.WEB_NEWS);
+            TempAccounts.TEMP_ACCOUNTS);
     }
 }

@@ -24,27 +24,28 @@
 package be.yildiz.server.datamanager;
 
 import be.yildiz.common.collections.Lists;
-import be.yildiz.common.id.EntityId;
 import be.yildiz.common.id.PlayerId;
 import be.yildiz.common.log.Logger;
-import be.yildiz.common.vector.Point3D;
 import be.yildiz.module.database.DataBaseConnectionProvider;
 import be.yildiz.module.network.protocol.MessageWrapper;
 import be.yildiz.module.network.server.Session;
 import be.yildiz.module.network.server.SessionListener;
-import be.yildiz.server.generated.database.tables.*;
-import be.yildiz.server.generated.database.tables.records.*;
-import be.yildiz.shared.building.BaseBuilding;
-import be.yildiz.shared.construction.building.WaitingBuilding;
-import be.yildiz.shared.construction.entity.WaitingEntity;
+import be.yildiz.server.generated.database.tables.Accounts;
+import be.yildiz.server.generated.database.tables.Messages;
+import be.yildiz.server.generated.database.tables.Researches;
+import be.yildiz.server.generated.database.tables.TempAccounts;
+import be.yildiz.server.generated.database.tables.records.AccountsRecord;
+import be.yildiz.server.generated.database.tables.records.MessagesRecord;
+import be.yildiz.server.generated.database.tables.records.ResearchesRecord;
+import be.yildiz.server.generated.database.tables.records.TempAccountsRecord;
 import be.yildiz.shared.entity.action.Action;
 import be.yildiz.shared.player.Message;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.jooq.*;
+import org.jooq.exception.DataAccessException;
 import org.jooq.impl.DSL;
 import org.jooq.types.UByte;
-import org.jooq.types.UInteger;
 import org.jooq.types.UShort;
 
 import java.sql.Connection;
@@ -69,13 +70,6 @@ public final class DatabasePersistentManager implements PersistentManager, Sessi
     @Getter
     private final DataBaseConnectionProvider provider;
 
-    @Override
-    public void open() {
-    }
-
-    @Override
-    public void close() {
-    }
 
 //    @Override
 //    public void addModuleConfiguration(ModuleConfiguration config) {
@@ -105,19 +99,23 @@ public final class DatabasePersistentManager implements PersistentManager, Sessi
         try {
             c = this.provider.getConnection();
             context = DSL.using(c, this.provider.getDialect());
-            Account table = Account.ACCOUNT;
+            Accounts table = Accounts.ACCOUNTS;
             Researches researchTable = Researches.RESEARCHES;
-            TempAccount tempAccountTable = TempAccount.TEMP_ACCOUNT;
+            TempAccounts tempAccountTable = TempAccounts.TEMP_ACCOUNTS;
             c.setAutoCommit(false);
 
 
-            AccountRecord playerToCreate = context.fetchOne(table, table.ID.equal(UShort.valueOf(player.value)));
-            playerToCreate.setUsername(login);
+            AccountsRecord playerToCreate = context.fetchOne(table, table.ID.equal(UShort.valueOf(player.value)));
+            if(playerToCreate == null) {
+                playerToCreate = context.newRecord(table);
+                playerToCreate.setId(UShort.valueOf(player.value));
+            }
+            playerToCreate.setLogin(login);
             playerToCreate.setPassword(hashedPass);
             playerToCreate.setEmail(email);
             playerToCreate.setActive(true);
             playerToCreate.setType(UByte.valueOf(0));
-            playerToCreate.setMap(UByte.valueOf(1));
+            playerToCreate.setMapId(UByte.valueOf(1));
             playerToCreate.setOnline(false);
             playerToCreate.store();
 
@@ -126,13 +124,13 @@ public final class DatabasePersistentManager implements PersistentManager, Sessi
                 recordToCreate = context.newRecord(researchTable);
                 recordToCreate.setPlayerId(UShort.valueOf(player.value));
             }
-            recordToCreate.setResearchesName("");
+            recordToCreate.setName("");
             recordToCreate.store();
 
             context.delete(tempAccountTable).where(tempAccountTable.LOGIN.equal(login)).execute();
             c.commit();
             return true;
-        } catch (SQLException e) {
+        } catch (SQLException | DataAccessException e) {
             Logger.error("Create player query", e);
             try {
                 if(c!=null) {
@@ -163,7 +161,7 @@ public final class DatabasePersistentManager implements PersistentManager, Sessi
     @Override
     public List<WaitingPlayer> getPlayerWaiting() {
         try (Connection c = this.provider.getConnection(); DSLContext create = DSL.using(c, this.provider.getDialect())) {
-            return Lists.newList(create.selectFrom(TempAccount.TEMP_ACCOUNT).fetch(new TempAccountMapper()));
+            return Lists.newList(create.selectFrom(TempAccounts.TEMP_ACCOUNTS).fetch(new TempAccountsMapper()));
         } catch (SQLException e) {
             Logger.error(e);
         }
@@ -190,8 +188,8 @@ public final class DatabasePersistentManager implements PersistentManager, Sessi
 
     private void setConnected(final PlayerId id, final boolean connected) {
         try (Connection c = this.provider.getConnection(); DSLContext create = DSL.using(c, this.provider.getDialect())) {
-            Account table = Account.ACCOUNT;
-            AccountRecord account = create.fetchOne(table, table.ID.equal(UShort.valueOf(id.value)));
+            Accounts table = Accounts.ACCOUNTS;
+            AccountsRecord account = create.fetchOne(table, table.ID.equal(UShort.valueOf(id.value)));
             account.setOnline(true);
             account.store();
         } catch (SQLException e) {
@@ -199,7 +197,7 @@ public final class DatabasePersistentManager implements PersistentManager, Sessi
         }
     }
 
-    @Override
+    /*@Override
     public void saveBuildingTask(final List<WaitingBuilding<BaseBuilding>> buildingList) {
         final long now = System.currentTimeMillis();
         try (Connection c = this.provider.getConnection(); DSLContext create = DSL.using(c, this.provider.getDialect())) {
@@ -255,13 +253,13 @@ public final class DatabasePersistentManager implements PersistentManager, Sessi
             Logger.error("Get entity creation task", e);
         }
         return Collections.emptyList();
-    }
+    }*/
 
     @Override
     public List<Message> retrieveMessage(final PlayerId player) {
         try (Connection c = this.provider.getConnection(); DSLContext create = DSL.using(c, this.provider.getDialect())) {
             Messages table = Messages.MESSAGES;
-            return Lists.newList(create.selectFrom(table).where(table.RECEIVER.equal(UShort.valueOf(player.value))).fetch(new MessageMapper()));
+            return Lists.newList(create.selectFrom(table).where(table.RECEIVER_ID.equal(UShort.valueOf(player.value))).fetch(new MessageMapper()));
         } catch (SQLException e) {
             Logger.error("Get message list", e);
         }
@@ -272,7 +270,7 @@ public final class DatabasePersistentManager implements PersistentManager, Sessi
     public void persistMessage(final Message message) {
         try (Connection c = this.provider.getConnection(); DSLContext create = DSL.using(c, this.provider.getDialect())) {
             Messages table = Messages.MESSAGES;
-            create.insertInto(table, table.SENDER, table.RECEIVER, table.MESSAGE, table.IS_READ, table.DATE)
+            create.insertInto(table, table.SENDER_ID, table.RECEIVER_ID, table.MESSAGE, table.READ, table.DATE)
                     .values(UShort.valueOf(message.getSender().value), UShort.valueOf(message.getReceiver().value), message.getMessage(), message.isRead(), new Timestamp(message.getDate().getTime()))
                     .execute();
         } catch (SQLException e) {
@@ -306,16 +304,16 @@ public final class DatabasePersistentManager implements PersistentManager, Sessi
         return 0;
     }
 
-    private class TempAccountMapper implements RecordMapper<TempAccountRecord, WaitingPlayer> {
+    private class TempAccountsMapper implements RecordMapper<TempAccountsRecord, WaitingPlayer> {
 
         @Override
-        public WaitingPlayer map(TempAccountRecord r) {
+        public WaitingPlayer map(TempAccountsRecord r) {
             return new WaitingPlayer(r.getLogin(), r.getPassword(), r.getEmail());
         }
 
     }
 
-    private class TaskBuildBuildingMapper implements RecordMapper<TaskBuildBuildingRecord, TaskBuilding> {
+    /*private class TaskBuildBuildingMapper implements RecordMapper<TaskBuildBuildingRecord, TaskBuilding> {
 
         @Override
         public TaskBuilding map(TaskBuildBuildingRecord r) {
@@ -332,13 +330,13 @@ public final class DatabasePersistentManager implements PersistentManager, Sessi
             return new TaskEntity(EntityId.get(r.getId().longValue()), PlayerId.get(r.getOwnerId().intValue()), new Point3D(r.getPosition()), r.getType().intValue(), r.getTimeLeft().longValue());
         }
 
-    }
+    }*/
 
     private class MessageMapper implements RecordMapper<MessagesRecord, Message> {
 
         @Override
         public Message map(MessagesRecord r) {
-            return new Message(PlayerId.get(r.getSender().intValue()), PlayerId.get(r.getReceiver().intValue()), r.getMessage(), new Date(r.getDate().getTime()), r.getIsRead());
+            return new Message(PlayerId.get(r.getSenderId().intValue()), PlayerId.get(r.getReceiverId().intValue()), r.getMessage(), new Date(r.getDate().getTime()), r.getRead());
         }
 
     }

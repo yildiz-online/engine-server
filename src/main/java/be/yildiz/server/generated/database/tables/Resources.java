@@ -37,10 +37,10 @@ import org.jooq.types.UShort;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Resources extends TableImpl<ResourcesRecord> {
 
-    private static final long serialVersionUID = 570659245;
+    private static final long serialVersionUID = 316372365;
 
     /**
-     * The reference instance of <code>YILDIZDATABASE.resources</code>
+     * The reference instance of <code>YILDIZDATABASE.RESOURCES</code>
      */
     public static final Resources RESOURCES = new Resources();
 
@@ -53,49 +53,49 @@ public class Resources extends TableImpl<ResourcesRecord> {
     }
 
     /**
-     * The column <code>YILDIZDATABASE.resources.city_id</code>.
+     * The column <code>YILDIZDATABASE.RESOURCES.CITY_ID</code>.
      */
-    public final TableField<ResourcesRecord, UInteger> CITY_ID = createField("city_id", org.jooq.impl.SQLDataType.INTEGERUNSIGNED.nullable(false), this, "");
+    public final TableField<ResourcesRecord, UInteger> CITY_ID = createField("CITY_ID", org.jooq.impl.SQLDataType.INTEGERUNSIGNED.nullable(false), this, "");
 
     /**
-     * The column <code>YILDIZDATABASE.resources.last_time_computed</code>.
+     * The column <code>YILDIZDATABASE.RESOURCES.LAST_TIME_COMPUTED</code>.
      */
-    public final TableField<ResourcesRecord, Timestamp> LAST_TIME_COMPUTED = createField("last_time_computed", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaultValue(org.jooq.impl.DSL.inline("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
+    public final TableField<ResourcesRecord, Timestamp> LAST_TIME_COMPUTED = createField("LAST_TIME_COMPUTED", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaultValue(org.jooq.impl.DSL.inline("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
 
     /**
-     * The column <code>YILDIZDATABASE.resources.metal</code>.
+     * The column <code>YILDIZDATABASE.RESOURCES.METAL</code>.
      */
-    public final TableField<ResourcesRecord, Integer> METAL = createField("metal", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<ResourcesRecord, Integer> METAL = createField("METAL", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
-     * The column <code>YILDIZDATABASE.resources.energy</code>.
+     * The column <code>YILDIZDATABASE.RESOURCES.ENERGY</code>.
      */
-    public final TableField<ResourcesRecord, Integer> ENERGY = createField("energy", org.jooq.impl.SQLDataType.INTEGER, this, "");
+    public final TableField<ResourcesRecord, Integer> ENERGY = createField("ENERGY", org.jooq.impl.SQLDataType.INTEGER, this, "");
 
     /**
-     * The column <code>YILDIZDATABASE.resources.money</code>.
+     * The column <code>YILDIZDATABASE.RESOURCES.MONEY</code>.
      */
-    public final TableField<ResourcesRecord, Integer> MONEY = createField("money", org.jooq.impl.SQLDataType.INTEGER, this, "");
+    public final TableField<ResourcesRecord, Integer> MONEY = createField("MONEY", org.jooq.impl.SQLDataType.INTEGER, this, "");
 
     /**
-     * The column <code>YILDIZDATABASE.resources.research</code>.
+     * The column <code>YILDIZDATABASE.RESOURCES.RESEARCH</code>.
      */
-    public final TableField<ResourcesRecord, Integer> RESEARCH = createField("research", org.jooq.impl.SQLDataType.INTEGER, this, "");
+    public final TableField<ResourcesRecord, Integer> RESEARCH = createField("RESEARCH", org.jooq.impl.SQLDataType.INTEGER, this, "");
 
     /**
-     * The column <code>YILDIZDATABASE.resources.inhabitant</code>.
+     * The column <code>YILDIZDATABASE.RESOURCES.INHABITANT</code>.
      */
-    public final TableField<ResourcesRecord, UShort> INHABITANT = createField("inhabitant", org.jooq.impl.SQLDataType.SMALLINTUNSIGNED.nullable(false), this, "");
+    public final TableField<ResourcesRecord, UShort> INHABITANT = createField("INHABITANT", org.jooq.impl.SQLDataType.SMALLINTUNSIGNED.nullable(false), this, "");
 
     /**
-     * Create a <code>YILDIZDATABASE.resources</code> table reference
+     * Create a <code>YILDIZDATABASE.RESOURCES</code> table reference
      */
     public Resources() {
-        this("resources", null);
+        this("RESOURCES", null);
     }
 
     /**
-     * Create an aliased <code>YILDIZDATABASE.resources</code> table reference
+     * Create an aliased <code>YILDIZDATABASE.RESOURCES</code> table reference
      */
     public Resources(String alias) {
         this(alias, RESOURCES);

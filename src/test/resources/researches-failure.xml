@@ -36,7 +36,8 @@
             tableName="RESEARCHES">
       <column name="PLAYER_ID" type="int">
       </column>
-      <column name="NAME" type="VARCHAR(255)">
+      <!--WRONG TYPE TO MAKE INSERTION FAILS-->
+      <column name="NAME" type="int">
       </column>
     </createTable>
 

@@ -32,101 +32,101 @@ import org.jooq.types.UShort;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ResourcesRecord extends UpdatableRecordImpl<ResourcesRecord> implements Record7<UInteger, Timestamp, Integer, Integer, Integer, Integer, UShort> {
 
-    private static final long serialVersionUID = -842448564;
+    private static final long serialVersionUID = -1363666676;
 
     /**
-     * Setter for <code>YILDIZDATABASE.resources.city_id</code>.
+     * Setter for <code>YILDIZDATABASE.RESOURCES.CITY_ID</code>.
      */
     public void setCityId(UInteger value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>YILDIZDATABASE.resources.city_id</code>.
+     * Getter for <code>YILDIZDATABASE.RESOURCES.CITY_ID</code>.
      */
     public UInteger getCityId() {
         return (UInteger) get(0);
     }
 
     /**
-     * Setter for <code>YILDIZDATABASE.resources.last_time_computed</code>.
+     * Setter for <code>YILDIZDATABASE.RESOURCES.LAST_TIME_COMPUTED</code>.
      */
     public void setLastTimeComputed(Timestamp value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>YILDIZDATABASE.resources.last_time_computed</code>.
+     * Getter for <code>YILDIZDATABASE.RESOURCES.LAST_TIME_COMPUTED</code>.
      */
     public Timestamp getLastTimeComputed() {
         return (Timestamp) get(1);
     }
 
     /**
-     * Setter for <code>YILDIZDATABASE.resources.metal</code>.
+     * Setter for <code>YILDIZDATABASE.RESOURCES.METAL</code>.
      */
     public void setMetal(Integer value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>YILDIZDATABASE.resources.metal</code>.
+     * Getter for <code>YILDIZDATABASE.RESOURCES.METAL</code>.
      */
     public Integer getMetal() {
         return (Integer) get(2);
     }
 
     /**
-     * Setter for <code>YILDIZDATABASE.resources.energy</code>.
+     * Setter for <code>YILDIZDATABASE.RESOURCES.ENERGY</code>.
      */
     public void setEnergy(Integer value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>YILDIZDATABASE.resources.energy</code>.
+     * Getter for <code>YILDIZDATABASE.RESOURCES.ENERGY</code>.
      */
     public Integer getEnergy() {
         return (Integer) get(3);
     }
 
     /**
-     * Setter for <code>YILDIZDATABASE.resources.money</code>.
+     * Setter for <code>YILDIZDATABASE.RESOURCES.MONEY</code>.
      */
     public void setMoney(Integer value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>YILDIZDATABASE.resources.money</code>.
+     * Getter for <code>YILDIZDATABASE.RESOURCES.MONEY</code>.
      */
     public Integer getMoney() {
         return (Integer) get(4);
     }
 
     /**
-     * Setter for <code>YILDIZDATABASE.resources.research</code>.
+     * Setter for <code>YILDIZDATABASE.RESOURCES.RESEARCH</code>.
      */
     public void setResearch(Integer value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>YILDIZDATABASE.resources.research</code>.
+     * Getter for <code>YILDIZDATABASE.RESOURCES.RESEARCH</code>.
      */
     public Integer getResearch() {
         return (Integer) get(5);
     }
 
     /**
-     * Setter for <code>YILDIZDATABASE.resources.inhabitant</code>.
+     * Setter for <code>YILDIZDATABASE.RESOURCES.INHABITANT</code>.
      */
     public void setInhabitant(UShort value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>YILDIZDATABASE.resources.inhabitant</code>.
+     * Getter for <code>YILDIZDATABASE.RESOURCES.INHABITANT</code>.
      */
     public UShort getInhabitant() {
         return (UShort) get(6);

@@ -29,31 +29,31 @@ import org.jooq.types.UShort;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class CitiesRecord extends UpdatableRecordImpl<CitiesRecord> implements Record2<UShort, String> {
 
-    private static final long serialVersionUID = 791911;
+    private static final long serialVersionUID = -1790929561;
 
     /**
-     * Setter for <code>YILDIZDATABASE.cities.id</code>.
+     * Setter for <code>YILDIZDATABASE.CITIES.ID</code>.
      */
     public void setId(UShort value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>YILDIZDATABASE.cities.id</code>.
+     * Getter for <code>YILDIZDATABASE.CITIES.ID</code>.
      */
     public UShort getId() {
         return (UShort) get(0);
     }
 
     /**
-     * Setter for <code>YILDIZDATABASE.cities.name</code>.
+     * Setter for <code>YILDIZDATABASE.CITIES.NAME</code>.
      */
     public void setName(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>YILDIZDATABASE.cities.name</code>.
+     * Getter for <code>YILDIZDATABASE.CITIES.NAME</code>.
      */
     public String getName() {
         return (String) get(1);

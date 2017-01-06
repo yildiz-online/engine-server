@@ -31,87 +31,87 @@ import org.jooq.types.UShort;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class MessagesRecord extends UpdatableRecordImpl<MessagesRecord> implements Record6<UShort, UShort, UShort, String, Boolean, Timestamp> {
 
-    private static final long serialVersionUID = -1638872082;
+    private static final long serialVersionUID = 1308013643;
 
     /**
-     * Setter for <code>YILDIZDATABASE.messages.id</code>.
+     * Setter for <code>YILDIZDATABASE.MESSAGES.ID</code>.
      */
     public void setId(UShort value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>YILDIZDATABASE.messages.id</code>.
+     * Getter for <code>YILDIZDATABASE.MESSAGES.ID</code>.
      */
     public UShort getId() {
         return (UShort) get(0);
     }
 
     /**
-     * Setter for <code>YILDIZDATABASE.messages.sender</code>.
+     * Setter for <code>YILDIZDATABASE.MESSAGES.SENDER_ID</code>.
      */
-    public void setSender(UShort value) {
+    public void setSenderId(UShort value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>YILDIZDATABASE.messages.sender</code>.
+     * Getter for <code>YILDIZDATABASE.MESSAGES.SENDER_ID</code>.
      */
-    public UShort getSender() {
+    public UShort getSenderId() {
         return (UShort) get(1);
     }
 
     /**
-     * Setter for <code>YILDIZDATABASE.messages.receiver</code>.
+     * Setter for <code>YILDIZDATABASE.MESSAGES.RECEIVER_ID</code>.
      */
-    public void setReceiver(UShort value) {
+    public void setReceiverId(UShort value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>YILDIZDATABASE.messages.receiver</code>.
+     * Getter for <code>YILDIZDATABASE.MESSAGES.RECEIVER_ID</code>.
      */
-    public UShort getReceiver() {
+    public UShort getReceiverId() {
         return (UShort) get(2);
     }
 
     /**
-     * Setter for <code>YILDIZDATABASE.messages.message</code>.
+     * Setter for <code>YILDIZDATABASE.MESSAGES.MESSAGE</code>.
      */
     public void setMessage(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>YILDIZDATABASE.messages.message</code>.
+     * Getter for <code>YILDIZDATABASE.MESSAGES.MESSAGE</code>.
      */
     public String getMessage() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>YILDIZDATABASE.messages.is_read</code>.
+     * Setter for <code>YILDIZDATABASE.MESSAGES.READ</code>.
      */
-    public void setIsRead(Boolean value) {
+    public void setRead(Boolean value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>YILDIZDATABASE.messages.is_read</code>.
+     * Getter for <code>YILDIZDATABASE.MESSAGES.READ</code>.
      */
-    public Boolean getIsRead() {
+    public Boolean getRead() {
         return (Boolean) get(4);
     }
 
     /**
-     * Setter for <code>YILDIZDATABASE.messages.date</code>.
+     * Setter for <code>YILDIZDATABASE.MESSAGES.DATE</code>.
      */
     public void setDate(Timestamp value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>YILDIZDATABASE.messages.date</code>.
+     * Getter for <code>YILDIZDATABASE.MESSAGES.DATE</code>.
      */
     public Timestamp getDate() {
         return (Timestamp) get(5);
@@ -162,7 +162,7 @@ public class MessagesRecord extends UpdatableRecordImpl<MessagesRecord> implemen
      */
     @Override
     public Field<UShort> field2() {
-        return Messages.MESSAGES.SENDER;
+        return Messages.MESSAGES.SENDER_ID;
     }
 
     /**
@@ -170,7 +170,7 @@ public class MessagesRecord extends UpdatableRecordImpl<MessagesRecord> implemen
      */
     @Override
     public Field<UShort> field3() {
-        return Messages.MESSAGES.RECEIVER;
+        return Messages.MESSAGES.RECEIVER_ID;
     }
 
     /**
@@ -186,7 +186,7 @@ public class MessagesRecord extends UpdatableRecordImpl<MessagesRecord> implemen
      */
     @Override
     public Field<Boolean> field5() {
-        return Messages.MESSAGES.IS_READ;
+        return Messages.MESSAGES.READ;
     }
 
     /**
@@ -210,7 +210,7 @@ public class MessagesRecord extends UpdatableRecordImpl<MessagesRecord> implemen
      */
     @Override
     public UShort value2() {
-        return getSender();
+        return getSenderId();
     }
 
     /**
@@ -218,7 +218,7 @@ public class MessagesRecord extends UpdatableRecordImpl<MessagesRecord> implemen
      */
     @Override
     public UShort value3() {
-        return getReceiver();
+        return getReceiverId();
     }
 
     /**
@@ -234,7 +234,7 @@ public class MessagesRecord extends UpdatableRecordImpl<MessagesRecord> implemen
      */
     @Override
     public Boolean value5() {
-        return getIsRead();
+        return getRead();
     }
 
     /**
@@ -259,7 +259,7 @@ public class MessagesRecord extends UpdatableRecordImpl<MessagesRecord> implemen
      */
     @Override
     public MessagesRecord value2(UShort value) {
-        setSender(value);
+        setSenderId(value);
         return this;
     }
 
@@ -268,7 +268,7 @@ public class MessagesRecord extends UpdatableRecordImpl<MessagesRecord> implemen
      */
     @Override
     public MessagesRecord value3(UShort value) {
-        setReceiver(value);
+        setReceiverId(value);
         return this;
     }
 
@@ -286,7 +286,7 @@ public class MessagesRecord extends UpdatableRecordImpl<MessagesRecord> implemen
      */
     @Override
     public MessagesRecord value5(Boolean value) {
-        setIsRead(value);
+        setRead(value);
         return this;
     }
 
@@ -327,14 +327,14 @@ public class MessagesRecord extends UpdatableRecordImpl<MessagesRecord> implemen
     /**
      * Create a detached, initialised MessagesRecord
      */
-    public MessagesRecord(UShort id, UShort sender, UShort receiver, String message, Boolean isRead, Timestamp date) {
+    public MessagesRecord(UShort id, UShort senderId, UShort receiverId, String message, Boolean read, Timestamp date) {
         super(Messages.MESSAGES);
 
         set(0, id);
-        set(1, sender);
-        set(2, receiver);
+        set(1, senderId);
+        set(2, receiverId);
         set(3, message);
-        set(4, isRead);
+        set(4, read);
         set(5, date);
     }
 }
