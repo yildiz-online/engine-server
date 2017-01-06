@@ -13,6 +13,8 @@ import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
 
+import java.sql.SQLNonTransientConnectionException;
+
 /**
  * @author Grégory Van den Borre
  */
@@ -42,6 +44,8 @@ public class DatabasePersistentManagerTest {
                 Assert.assertEquals(5, researchResult.getPlayerId().intValue());
                 Assert.assertEquals("", researchResult.getName());
                 //FIXME insert in temp account and then check if empty
+            } catch (SQLNonTransientConnectionException e) {
+
             } catch (Exception e) {
                 e.printStackTrace();
                 Assert.fail();
@@ -61,6 +65,8 @@ public class DatabasePersistentManagerTest {
                 Result<ResearchesRecord> r = pm.getAll(Researches.RESEARCHES);
                 Assert.assertTrue(r.isEmpty());
                 //FIXME insert in temp account and then check propertly restored
+            } catch (SQLNonTransientConnectionException e) {
+
             } catch (Exception e) {
                 e.printStackTrace();
                 Assert.fail();
