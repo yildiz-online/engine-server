@@ -32,12 +32,12 @@ import be.yildiz.shared.player.Player;
 import be.yildiz.shared.player.PlayerManager;
 import be.yildiz.shared.player.PlayerRight;
 import org.jooq.DSLContext;
-import org.jooq.Result;
 import org.jooq.impl.DSL;
 import org.jooq.types.UByte;
 import org.jooq.types.UShort;
 
 import java.sql.Connection;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -78,9 +78,10 @@ public final class PersistentPlayer implements PersistentData<Player> {
         this.freeId = Sets.newSet();
         this.playerManager = playerManager;
         this.manager = manager;
-        Result<AccountsRecord> data = manager.getAll(table);
-        for (AccountsRecord r : data) {
-            PlayerId id = PlayerId.get(r.getId().intValue());
+        Optional.ofNullable(manager.getAll(table))
+                .ifPresent(data -> {
+                    data.forEach(r -> {
+                        PlayerId id = PlayerId.get(r.getId().intValue());
             if (r.getActive()) {
                 int right = r.getType().intValue();
                 String name = r.getLogin();
@@ -88,7 +89,8 @@ public final class PersistentPlayer implements PersistentData<Player> {
             } else {
                 this.freeId.add(id);
             }
-        }
+        });
+                });
     }
 
     /**
