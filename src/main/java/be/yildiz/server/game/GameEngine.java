@@ -44,7 +44,7 @@ import lombok.Getter;
  *
  * @author Grégory Van den Borre
  */
-public final class GameEngine extends AbstractGameEngine {
+public final class GameEngine extends AbstractGameEngine implements ResponseSender {
 
     /**
      * Frame limiter.
@@ -157,6 +157,7 @@ public final class GameEngine extends AbstractGameEngine {
         this.running = false;
     }
 
+    @Override
     public final void sendMessage(final PlayerId player, final ServerResponse response) {
         this.sessionManager.getSessionByPlayer(player).sendMessage(response);
     }
