@@ -24,8 +24,6 @@
 package be.yildiz.server.datamanager;
 
 import be.yildiz.common.id.EntityId;
-import be.yildiz.common.log.Logger;
-import be.yildiz.module.database.DataBaseConnectionProvider;
 import be.yildiz.server.city.ServerCity;
 import be.yildiz.server.city.ServerCityManager;
 import be.yildiz.server.generated.database.tables.Buildings;
@@ -39,14 +37,13 @@ import be.yildiz.shared.data.EntityType;
 import be.yildiz.shared.data.Level;
 import org.jooq.DSLContext;
 import org.jooq.RecordMapper;
-import org.jooq.Result;
 import org.jooq.impl.DSL;
 import org.jooq.types.UByte;
 import org.jooq.types.UInteger;
 import org.jooq.types.UShort;
 
 import java.sql.Connection;
-import java.sql.SQLException;
+import java.util.Optional;
 
 /**
  * Persistent data for buildings.
@@ -59,11 +56,6 @@ public final class PersistentBuilding implements PersistentData<BaseBuilding>, R
      * Persistent unit where data must be retrieved.
      */
     private static final Buildings table = Buildings.BUILDINGS;
-
-    /**
-     * Manager to retrieve or persist buildings in persistent context.
-     */
-    private final DataBaseConnectionProvider provider;
 
     /**
      * Associated city manager.
@@ -79,38 +71,34 @@ public final class PersistentBuilding implements PersistentData<BaseBuilding>, R
      */
     public PersistentBuilding(final PersistentManager manager, BuildingConstructionManager<BaseBuilding, GameBuildingData, ServerCity> constructionManager, final ServerCityManager em) {
         super();
-        this.provider = manager.getProvider();
         this.cityManager = em;
-        Result<BuildingsRecord> data = manager.getAll(table);
-        data.map(this)
-                .stream()
-                .filter(BaseBuilding::exists)
-                .forEach(constructionManager::createBuilding);
+        Optional
+                .ofNullable(manager.getAll(table))
+                .ifPresent(data -> data.map(this)
+                        .stream()
+                        .filter(BaseBuilding::exists)
+                        .forEach(constructionManager::createBuilding));
         em.getCities().forEach(City::initializeProducer);
     }
 
     @Override
-    public void save(final BaseBuilding data) {
-        try (Connection c = this.provider.getConnection(); DSLContext create = DSL.using(c, this.provider.getDialect())) {
+    public void save(final BaseBuilding data, Connection c) {
+        try (DSLContext create = DSL.using(c)) {
             create.insertInto(table, table.BASE_ID, table.POSITION, table.TYPE, table.LEVEL, table.STAFF)
                     .values(UInteger.valueOf(data.getCity().value), UByte.valueOf(data.getBuildingPosition().value), UByte.valueOf(data.getType().type), UByte.valueOf(data.getLevel().value),
                             UShort.valueOf(data.getStaff())).execute();
-        } catch (SQLException e) {
-            Logger.error(e);
         }
     }
 
     @Override
-    public void update(final BaseBuilding data) {
-        try (Connection c = this.provider.getConnection(); DSLContext create = DSL.using(c, this.provider.getDialect())) {
+    public void update(final BaseBuilding data, Connection c) {
+        try (DSLContext create = DSL.using(c)) {
             BuildingsRecord building = create.fetchOne(table, table.BASE_ID.equal(UInteger.valueOf(data.getCity().value)).and(table.POSITION.equal(UByte.valueOf(data.getBuildingPosition().value))));
             building.setBaseId(UInteger.valueOf(data.getCity().value));
             building.setType(UByte.valueOf(data.getType().type));
             building.setLevel(UByte.valueOf(data.getLevel().value));
             building.setStaff(UShort.valueOf(data.getStaff()));
             building.store();
-        } catch (SQLException e) {
-            Logger.error(e);
         }
     }
 

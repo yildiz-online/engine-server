@@ -23,6 +23,8 @@
 
 package be.yildiz.server.datamanager;
 
+import java.sql.Connection;
+
 /**
  * Persistent objects, not meant to be used as type.
  *
@@ -36,13 +38,13 @@ interface PersistentData<T> {
      *
      * @param data Object to save.
      */
-    void save(T data);
+    void save(T data, Connection c);
 
     /**
      * Update an existing object.
      *
      * @param data Object to update.
      */
-    void update(T data);
+    void update(T data, Connection c);
 
 }

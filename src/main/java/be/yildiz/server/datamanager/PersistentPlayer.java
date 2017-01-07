@@ -26,7 +26,6 @@ package be.yildiz.server.datamanager;
 import be.yildiz.common.collections.Sets;
 import be.yildiz.common.id.PlayerId;
 import be.yildiz.common.log.Logger;
-import be.yildiz.module.database.DataBaseConnectionProvider;
 import be.yildiz.server.generated.database.tables.Accounts;
 import be.yildiz.server.generated.database.tables.records.AccountsRecord;
 import be.yildiz.shared.player.Player;
@@ -38,6 +37,7 @@ import org.jooq.impl.DSL;
 import org.jooq.types.UByte;
 import org.jooq.types.UShort;
 
+import java.sql.Connection;
 import java.util.Set;
 
 /**
@@ -67,8 +67,6 @@ public final class PersistentPlayer implements PersistentData<Player> {
      */
     private final PlayerManager playerManager;
 
-    private final DataBaseConnectionProvider provider;
-
     /**
      * Full constructor, retrieve data from persistent context.
      *
@@ -77,7 +75,6 @@ public final class PersistentPlayer implements PersistentData<Player> {
      */
     public PersistentPlayer(final PersistentManager manager, final PlayerManager playerManager) {
         super();
-        this.provider = manager.getProvider();
         this.freeId = Sets.newSet();
         this.playerManager = playerManager;
         this.manager = manager;
@@ -100,7 +97,7 @@ public final class PersistentPlayer implements PersistentData<Player> {
      * @param data player to add.
      */
     @Override
-    public void save(final Player data) {
+    public void save(final Player data, Connection c) {
         // FIXME imlements
     }
 
@@ -124,9 +121,9 @@ public final class PersistentPlayer implements PersistentData<Player> {
      * @param email Player's email.
      * @return The player if successfully created, null otherwise.
      */
-    public Player createPlayer(final String login, final String pass, final String email) {
+    public Player createPlayer(final String login, final String pass, final String email, Connection c) {
         PlayerId playerId = this.getFreeId();
-        try(DSLContext context = DSL.using(this.provider.getConnection(), this.provider.getDialect())) {
+        try(DSLContext context = DSL.using(c)) {
             AccountsRecord playerToCreate = context.fetchOne(table, table.ID.equal(UShort.valueOf(playerId.value)));
             if (playerToCreate == null) {
                 playerToCreate = context.newRecord(table);
@@ -148,7 +145,7 @@ public final class PersistentPlayer implements PersistentData<Player> {
     }
 
     @Override
-    public void update(Player data) {
+    public void update(Player data, Connection c) {
         // TODO Auto-generated method stub
 
     }
