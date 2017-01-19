@@ -48,7 +48,7 @@ import java.util.Set;
  *
  * @author Grégory Van den Borre
  */
-public final class PersistentResearch implements PersistentData<Pair<PlayerId, Set<Research>>> {
+public final class PersistentResearch implements PersistentData<Pair<PlayerId, Set<Research>>, Pair<PlayerId, Set<Research>>> {
 
     /**
      * Database table containing the data.
@@ -83,7 +83,7 @@ public final class PersistentResearch implements PersistentData<Pair<PlayerId, S
     }
 
     @Override
-    public void save(final Pair<PlayerId, Set<Research>> data) {
+    public Pair<PlayerId, Set<Research>> save(final Pair<PlayerId, Set<Research>> data) {
         try (Connection c = this.provider.getConnection(); DSLContext create = DSL.using(c, this.provider.getDialect())) {
             ResearchesRecord research = create.fetchOne(table, table.PLAYER_ID.equal(UShort.valueOf(data.getObject1().value)));
             research.setName(StringUtil.toString(data.getObject2()));
@@ -91,6 +91,7 @@ public final class PersistentResearch implements PersistentData<Pair<PlayerId, S
         } catch (SQLException e) {
             Logger.error(e);
         }
+        return data;
     }
 
     @Override

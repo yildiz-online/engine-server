@@ -32,6 +32,7 @@ import be.yildiz.server.generated.database.tables.records.AccountsRecord;
 import be.yildiz.shared.player.Player;
 import be.yildiz.shared.player.PlayerManager;
 import be.yildiz.shared.player.PlayerRight;
+import be.yildiz.shared.player.PlayerToCreate;
 import org.jooq.DSLContext;
 import org.jooq.Result;
 import org.jooq.impl.DSL;
@@ -45,7 +46,7 @@ import java.util.Set;
  *
  * @author Grégory Van den Borre
  */
-public final class PersistentPlayer implements PersistentData<Player> {
+public final class PersistentPlayer implements PersistentData<PlayerToCreate, Player> {
 
     /**
      * Persistent unit name where data must be retrieved.
@@ -100,8 +101,27 @@ public final class PersistentPlayer implements PersistentData<Player> {
      * @param data player to add.
      */
     @Override
-    public void save(final Player data) {
-        // FIXME imlements
+    public Player save(final PlayerToCreate data) {
+        PlayerId playerId = this.getFreeId();
+        try(DSLContext context = DSL.using(this.provider.getConnection(), this.provider.getDialect())) {
+            AccountsRecord playerToCreate = context.fetchOne(table, table.ID.equal(UShort.valueOf(playerId.value)));
+            if (playerToCreate == null) {
+                playerToCreate = context.newRecord(table);
+                playerToCreate.setId(UShort.valueOf(playerId.value));
+            }
+            playerToCreate.setLogin(data.getLogin());
+            playerToCreate.setPassword(data.getPassword());
+            playerToCreate.setEmail(data.getEmail());
+            playerToCreate.setActive(true);
+            playerToCreate.setType(UByte.valueOf(0));
+            playerToCreate.setMapId(UByte.valueOf(1));
+            playerToCreate.setOnline(false);
+            playerToCreate.store();
+            return this.playerManager.createPlayer(playerId, data.getLogin());
+        } catch (Exception e) {
+            Logger.error(e);
+            return null;
+        }
     }
 
     /**
@@ -114,37 +134,6 @@ public final class PersistentPlayer implements PersistentData<Player> {
         PlayerId id = this.freeId.iterator().next();
         this.freeId.remove(id);
         return id;
-    }
-
-    /**
-     * Create a new player.
-     *
-     * @param login Player's login.
-     * @param pass  Player's password.
-     * @param email Player's email.
-     * @return The player if successfully created, null otherwise.
-     */
-    public Player createPlayer(final String login, final String pass, final String email) {
-        PlayerId playerId = this.getFreeId();
-        try(DSLContext context = DSL.using(this.provider.getConnection(), this.provider.getDialect())) {
-            AccountsRecord playerToCreate = context.fetchOne(table, table.ID.equal(UShort.valueOf(playerId.value)));
-            if (playerToCreate == null) {
-                playerToCreate = context.newRecord(table);
-                playerToCreate.setId(UShort.valueOf(playerId.value));
-            }
-            playerToCreate.setLogin(login);
-            playerToCreate.setPassword(pass);
-            playerToCreate.setEmail(email);
-            playerToCreate.setActive(true);
-            playerToCreate.setType(UByte.valueOf(0));
-            playerToCreate.setMapId(UByte.valueOf(1));
-            playerToCreate.setOnline(false);
-            playerToCreate.store();
-            return this.playerManager.createPlayer(playerId, login);
-        } catch (Exception e) {
-            Logger.error(e);
-            return null;
-        }
     }
 
     @Override

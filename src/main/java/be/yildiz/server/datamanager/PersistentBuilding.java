@@ -53,7 +53,7 @@ import java.sql.SQLException;
  *
  * @author Grégory Van den Borre
  */
-public final class PersistentBuilding implements PersistentData<BaseBuilding>, RecordMapper<BuildingsRecord, BaseBuilding> {
+public final class PersistentBuilding implements PersistentData<BaseBuilding, BaseBuilding>, RecordMapper<BuildingsRecord, BaseBuilding> {
 
     /**
      * Persistent unit where data must be retrieved.
@@ -90,7 +90,7 @@ public final class PersistentBuilding implements PersistentData<BaseBuilding>, R
     }
 
     @Override
-    public void save(final BaseBuilding data) {
+    public BaseBuilding save(final BaseBuilding data) {
         try (Connection c = this.provider.getConnection(); DSLContext create = DSL.using(c, this.provider.getDialect())) {
             create.insertInto(table, table.BASE_ID, table.POSITION, table.TYPE, table.LEVEL, table.STAFF)
                     .values(UInteger.valueOf(data.getCity().value), UByte.valueOf(data.getBuildingPosition().value), UByte.valueOf(data.getType().type), UByte.valueOf(data.getLevel().value),
@@ -98,6 +98,7 @@ public final class PersistentBuilding implements PersistentData<BaseBuilding>, R
         } catch (SQLException e) {
             Logger.error(e);
         }
+        return data;
     }
 
     @Override

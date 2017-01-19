@@ -41,6 +41,7 @@ import be.yildiz.shared.data.EntityType;
 import be.yildiz.shared.entity.*;
 import be.yildiz.shared.entity.module.ModuleGroup;
 import org.jooq.DSLContext;
+import org.jooq.RecordMapper;
 import org.jooq.Result;
 import org.jooq.conf.Settings;
 import org.jooq.impl.DSL;
@@ -58,7 +59,7 @@ import java.util.Set;
  *
  * @author Grégory Van den Borre
  */
-public final class PersistentEntity implements PersistentData<BaseEntity> {
+public final class PersistentEntity implements PersistentData<EntityToCreate, BaseEntity>, RecordMapper<EntitiesRecord, BaseEntity> {
 
     /**
      * Persistent unit where data must be retrieved.
@@ -74,6 +75,8 @@ public final class PersistentEntity implements PersistentData<BaseEntity> {
      * List of Id not used.
      */
     private final Set<EntityId> freeId = Sets.newInsertionOrderedSet();
+    private final EntityInConstructionFactory constructionFactory;
+    private final EntityFactory<BaseEntity> entityFactory;
 
     /**
      * Full constructor, retrieve data from persistent context.
@@ -86,6 +89,8 @@ public final class PersistentEntity implements PersistentData<BaseEntity> {
     public PersistentEntity(final PersistentManager manager, final EntityInConstructionFactory constructionFactory, final EntityManager<BaseEntity, GameEntityData> entityManager, final EntityFactory<BaseEntity> factory) {
         super();
         this.provider = manager.getProvider();
+        this.constructionFactory = constructionFactory;
+        this.entityFactory = factory;
         Result<EntitiesRecord> data = manager.getAll(table);
 
         Result<CitiesRecord> citiesRecords = manager.getAll(Cities.CITIES);
@@ -126,14 +131,16 @@ public final class PersistentEntity implements PersistentData<BaseEntity> {
     }
 
     @Override
-    public void save(final BaseEntity data) {
-        this.update(data);
+    public BaseEntity save(final EntityToCreate data) {
+        EntityId id = this.getFreeId();
+        DefaultEntityInConstruction eic = constructionFactory.build(id, data);
+        return entityFactory.createEntity(eic);
     }
 
     /**
      * @return An id ready to be used to build a new object.
      */
-    public EntityId getFreeId() {
+    private EntityId getFreeId() {
         if (this.freeId.isEmpty()) {
             return this.createNewLine();
         }
@@ -218,5 +225,10 @@ public final class PersistentEntity implements PersistentData<BaseEntity> {
         Settings settings = new Settings();
         settings.setExecuteLogging(false);
         return DSL.using(c, this.provider.getDialect(), settings);
+    }
+
+    @Override
+    public BaseEntity map(EntitiesRecord entitiesRecord) {
+        return null;
     }
 }

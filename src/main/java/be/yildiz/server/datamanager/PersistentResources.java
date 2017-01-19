@@ -32,6 +32,7 @@ import be.yildiz.server.generated.database.tables.Resources;
 import be.yildiz.server.generated.database.tables.records.ResourcesRecord;
 import be.yildiz.shared.resources.ResourceValue;
 import be.yildiz.shared.resources.ResourcesProducer;
+import com.sun.deploy.model.ResourceProvider;
 import org.jooq.DSLContext;
 import org.jooq.Result;
 import org.jooq.impl.DSL;
@@ -47,7 +48,7 @@ import java.sql.Timestamp;
  *
  * @author Grégory Van den Borre
  */
-public final class PersistentResources implements PersistentData<ResourcesProducer> {
+public final class PersistentResources implements PersistentData<ResourcesProducer, ResourcesProducer> {
 
     /**
      * Database table containing the data.
@@ -89,7 +90,7 @@ public final class PersistentResources implements PersistentData<ResourcesProduc
     }
 
     @Override
-    public void save(final ResourcesProducer data) {
+    public ResourcesProducer save(final ResourcesProducer data) {
         try (Connection c = this.provider.getConnection(); DSLContext create = DSL.using(c, this.provider.getDialect())) {
             create.insertInto(Resources.RESOURCES, Resources.RESOURCES.CITY_ID, Resources.RESOURCES.LAST_TIME_COMPUTED, Resources.RESOURCES.METAL, Resources.RESOURCES.ENERGY,
                     Resources.RESOURCES.MONEY, Resources.RESOURCES.RESEARCH, Resources.RESOURCES.INHABITANT)
@@ -98,6 +99,7 @@ public final class PersistentResources implements PersistentData<ResourcesProduc
         } catch (SQLException e) {
             Logger.error(e);
         }
+        return data;
     }
 
     @Override

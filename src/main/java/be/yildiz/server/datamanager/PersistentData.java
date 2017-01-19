@@ -29,20 +29,20 @@ package be.yildiz.server.datamanager;
  * @param <T> Object to set as persistent.
  * @author Grégory Van den Borre
  */
-interface PersistentData<T> {
+interface PersistentData<T, U> {
 
     /**
      * Persist a new object.
      *
      * @param data Object to save.
      */
-    void save(T data);
+    U save(T data);
 
     /**
      * Update an existing object.
      *
      * @param data Object to update.
      */
-    void update(T data);
+    void update(U data);
 
 }
