@@ -32,7 +32,6 @@ import be.yildiz.server.generated.database.tables.Resources;
 import be.yildiz.server.generated.database.tables.records.ResourcesRecord;
 import be.yildiz.shared.resources.ResourceValue;
 import be.yildiz.shared.resources.ResourcesProducer;
-import com.sun.deploy.model.ResourceProvider;
 import org.jooq.DSLContext;
 import org.jooq.Result;
 import org.jooq.impl.DSL;
