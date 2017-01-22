@@ -24,6 +24,8 @@
 package be.yildiz.server.datamanager;
 
 import be.yildiz.common.id.EntityId;
+import be.yildiz.common.log.Logger;
+import be.yildiz.module.database.DataBaseConnectionProvider;
 import be.yildiz.server.city.ServerCity;
 import be.yildiz.server.city.ServerCityManager;
 import be.yildiz.server.generated.database.tables.Resources;
@@ -31,25 +33,31 @@ import be.yildiz.server.generated.database.tables.records.ResourcesRecord;
 import be.yildiz.shared.resources.ResourceValue;
 import be.yildiz.shared.resources.ResourcesProducer;
 import org.jooq.DSLContext;
+import org.jooq.Result;
 import org.jooq.impl.DSL;
 import org.jooq.types.UInteger;
 import org.jooq.types.UShort;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.Optional;
 
 /**
  * Persistent data for the game resources.
  *
  * @author Grégory Van den Borre
  */
-public final class PersistentResources implements PersistentData<ResourcesProducer> {
+public final class PersistentResources implements PersistentData<ResourcesProducer, ResourcesProducer> {
 
     /**
      * Database table containing the data.
      */
     private static final Resources table = Resources.RESOURCES;
+
+    /**
+     * Manager to retrieve or persist resources in persistent context.
+     */
+    private final DataBaseConnectionProvider provider;
 
     /**
      * Full constructor.
@@ -59,14 +67,14 @@ public final class PersistentResources implements PersistentData<ResourcesProduc
      */
     public PersistentResources(final PersistentManager manager, final ServerCityManager entityManager) {
         super();
-        Optional.ofNullable(manager.getAll(table))
-                .ifPresent(data -> {
+        this.provider = manager.getProvider();
+        Result<ResourcesRecord> data = manager.getAll(table);
         // FIXME game related
         //Create an object ResourceModel injected in the engine at construction
         //this object contains the different fields for the resource
         //this object will be responsible to instantiate new ResourceValue
         //the database will have columns name res_0, res_1... instead of game related values.
-        data.forEach(r -> {
+        for (ResourcesRecord r : data) {
             EntityId cityId = EntityId.get(r.getValue(table.CITY_ID).longValue());
             ServerCity city = entityManager.getCityById(cityId);
             long time = r.getValue(table.LAST_TIME_COMPUTED).getTime();
@@ -77,23 +85,25 @@ public final class PersistentResources implements PersistentData<ResourcesProduc
             values[3] = r.getResearch().floatValue();
             values[4] = r.getInhabitant().floatValue();
             city.getProducer().setNewValues(time, new ResourceValue(values));
-        });
-        });
-    }
-
-    @Override
-    public void save(final ResourcesProducer data, Connection c) {
-        try (DSLContext create = DSL.using(c)) {
-            create.insertInto(Resources.RESOURCES, Resources.RESOURCES.CITY_ID, Resources.RESOURCES.LAST_TIME_COMPUTED, Resources.RESOURCES.METAL, Resources.RESOURCES.ENERGY,
-                    Resources.RESOURCES.MONEY, Resources.RESOURCES.RESEARCH, Resources.RESOURCES.INHABITANT)
-                    .values(UInteger.valueOf(data.getCity().value), new Timestamp(data.getLastUpdate()), Integer.valueOf((int) data.getResource(0)), Integer.valueOf((int) data.getResource(1)),
-                            Integer.valueOf((int) data.getResource(2)), Integer.valueOf((int) data.getResource(3)), UShort.valueOf((int) data.getResource(4))).execute();
         }
     }
 
     @Override
-    public void update(ResourcesProducer data, Connection c) {
-        try (DSLContext create = DSL.using(c)) {
+    public ResourcesProducer save(final ResourcesProducer data) {
+        try (Connection c = this.provider.getConnection(); DSLContext create = DSL.using(c, this.provider.getDialect())) {
+            create.insertInto(Resources.RESOURCES, Resources.RESOURCES.CITY_ID, Resources.RESOURCES.LAST_TIME_COMPUTED, Resources.RESOURCES.METAL, Resources.RESOURCES.ENERGY,
+                    Resources.RESOURCES.MONEY, Resources.RESOURCES.RESEARCH, Resources.RESOURCES.INHABITANT)
+                    .values(UInteger.valueOf(data.getCity().value), new Timestamp(data.getLastUpdate()), Integer.valueOf((int) data.getResource(0)), Integer.valueOf((int) data.getResource(1)),
+                            Integer.valueOf((int) data.getResource(2)), Integer.valueOf((int) data.getResource(3)), UShort.valueOf((int) data.getResource(4))).execute();
+        } catch (SQLException e) {
+            Logger.error(e);
+        }
+        return data;
+    }
+
+    @Override
+    public void update(ResourcesProducer data) {
+        try (Connection c = this.provider.getConnection(); DSLContext create = DSL.using(c, this.provider.getDialect())) {
             ResourcesRecord resources = create.fetchOne(table, table.CITY_ID.equal(UInteger.valueOf(data.getCity().value)));
             resources.setMetal(Integer.valueOf((int) data.getResource(0)));
             resources.setEnergy(Integer.valueOf((int) data.getResource(1)));
@@ -101,6 +111,8 @@ public final class PersistentResources implements PersistentData<ResourcesProduc
             resources.setResearch(Integer.valueOf((int) data.getResource(3)));
             resources.setInhabitant(UShort.valueOf((int) data.getResource(4)));
             resources.store();
+        } catch (SQLException e) {
+            Logger.error(e);
         }
     }
 }
