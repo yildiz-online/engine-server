@@ -128,10 +128,10 @@ public final class PersistentEntity implements PersistentData<EntityToCreate, Ba
     }
 
     @Override
-    public void save(final EntityToCreate data, Connection c) {
+    public BaseEntity save(final EntityToCreate data, Connection c) {
         EntityId id = this.getFreeId(c);
         DefaultEntityInConstruction eic = constructionFactory.build(id, data);
-        entityFactory.createEntity(eic);
+        return entityFactory.createEntity(eic);
     }
 
     /**

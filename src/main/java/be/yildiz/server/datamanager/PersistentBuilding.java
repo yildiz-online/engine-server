@@ -82,7 +82,7 @@ public final class PersistentBuilding implements PersistentData<BaseBuilding, Ba
     }
 
     @Override
-    public void save(final BaseBuilding data, Connection c) {
+    public BaseBuilding save(final BaseBuilding data, Connection c) {
         try (DSLContext create = DSL.using(c)) {
             create.insertInto(table, table.BASE_ID, table.POSITION, table.TYPE, table.LEVEL, table.STAFF)
                     .values(
@@ -92,6 +92,7 @@ public final class PersistentBuilding implements PersistentData<BaseBuilding, Ba
                             UByte.valueOf(data.getLevel().value),
                             UShort.valueOf(data.getStaff()))
                     .execute();
+            return data;
         }
     }
 

@@ -77,11 +77,12 @@ public final class PersistentResearch implements PersistentData<Pair<PlayerId, S
     }
 
     @Override
-    public void save(final Pair<PlayerId, Set<Research>> data, Connection c) {
+    public Pair<PlayerId, Set<Research>> save(final Pair<PlayerId, Set<Research>> data, Connection c) {
         try (DSLContext create = DSL.using(c)) {
             ResearchesRecord research = create.fetchOne(table, table.PLAYER_ID.equal(UShort.valueOf(data.getObject1().value)));
             research.setName(StringUtil.toString(data.getObject2()));
             research.store();
+            return data;
         }
     }
 

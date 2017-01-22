@@ -38,7 +38,7 @@ interface PersistentData<T, U> {
      *
      * @param data Object to save.
      */
-    void save(T data, Connection c);
+    U save(T data, Connection c);
 
     /**
      * Update an existing object.

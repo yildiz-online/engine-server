@@ -97,7 +97,7 @@ public final class PersistentPlayer implements PersistentData<PlayerToCreate, Pl
      * @param data player to add.
      */
     @Override
-    public void save(final PlayerToCreate data, Connection c) {
+    public Player save(final PlayerToCreate data, Connection c) {
         PlayerId playerId = this.getFreeId();
         try(DSLContext context = DSL.using(c)) {
             AccountsRecord playerToCreate = context.fetchOne(table, table.ID.equal(UShort.valueOf(playerId.value)));
@@ -113,7 +113,7 @@ public final class PersistentPlayer implements PersistentData<PlayerToCreate, Pl
             playerToCreate.setMapId(UByte.valueOf(1));
             playerToCreate.setOnline(false);
             playerToCreate.store();
-            this.playerManager.createPlayer(playerId, data.getLogin());
+            return this.playerManager.createPlayer(playerId, data.getLogin());
         }
     }
 
