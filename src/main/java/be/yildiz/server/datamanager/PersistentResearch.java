@@ -24,10 +24,8 @@
 package be.yildiz.server.datamanager;
 
 import be.yildiz.common.id.PlayerId;
-import be.yildiz.common.log.Logger;
 import be.yildiz.common.util.Pair;
 import be.yildiz.common.util.StringUtil;
-import be.yildiz.module.database.DataBaseConnectionProvider;
 import be.yildiz.server.generated.database.tables.Researches;
 import be.yildiz.server.generated.database.tables.records.ResearchesRecord;
 import be.yildiz.shared.player.Player;
@@ -35,12 +33,11 @@ import be.yildiz.shared.player.PlayerManager;
 import be.yildiz.shared.research.Research;
 import be.yildiz.shared.research.ResearchManager;
 import org.jooq.DSLContext;
-import org.jooq.Result;
 import org.jooq.impl.DSL;
 import org.jooq.types.UShort;
 
 import java.sql.Connection;
-import java.sql.SQLException;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -56,11 +53,6 @@ public final class PersistentResearch implements PersistentData<Pair<PlayerId, S
     private static final Researches table = Researches.RESEARCHES;
 
     /**
-     * Manager to retrieve or persist researches in persistent context.
-     */
-    private final DataBaseConnectionProvider provider;
-
-    /**
      * Full constructor.
      *
      * @param manager       Manager used to retrieve or persist the data.
@@ -69,34 +61,32 @@ public final class PersistentResearch implements PersistentData<Pair<PlayerId, S
      */
     public PersistentResearch(final PersistentManager manager, final PlayerManager playerManager, final ResearchManager researchManager) {
         super();
-        this.provider = manager.getProvider();
-        Result<ResearchesRecord> data = manager.getAll(table);
-        for (ResearchesRecord r : data) {
-            Player player = playerManager.findFromId(PlayerId.get(r.getPlayerId().intValue()));
-            if(!r.getName().isEmpty()) {
-                String[] researches = r.getName().split(",");
-                for (String s : researches) {
-                    researchManager.addResearch(Research.get(s), player);
-                }
-            }
-        }
+        Optional
+                .ofNullable(manager.getAll(table))
+                .ifPresent(data -> {
+                    data.forEach(r -> {
+                        Player player = playerManager.findFromId(PlayerId.get(r.getPlayerId().intValue()));
+                        if(!r.getName().isEmpty()) {
+                            String[] researches = r.getName().split(",");
+                            for (String s : researches) {
+                                researchManager.addResearch(Research.get(s), player);
+                            }
+                        }
+                    });
+                });
     }
 
     @Override
-    public Pair<PlayerId, Set<Research>> save(final Pair<PlayerId, Set<Research>> data) {
-        try (Connection c = this.provider.getConnection(); DSLContext create = DSL.using(c, this.provider.getDialect())) {
+    public void save(final Pair<PlayerId, Set<Research>> data, Connection c) {
+        try (DSLContext create = DSL.using(c)) {
             ResearchesRecord research = create.fetchOne(table, table.PLAYER_ID.equal(UShort.valueOf(data.getObject1().value)));
             research.setName(StringUtil.toString(data.getObject2()));
             research.store();
-        } catch (SQLException e) {
-            Logger.error(e);
         }
-        return data;
     }
 
     @Override
-    public void update(Pair<PlayerId, Set<Research>> data) {
-        // TODO Auto-generated method stub
+    public void update(Pair<PlayerId, Set<Research>> data, Connection c) {
 
     }
 }

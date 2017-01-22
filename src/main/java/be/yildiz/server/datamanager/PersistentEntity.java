@@ -29,12 +29,9 @@ import be.yildiz.common.id.ActionId;
 import be.yildiz.common.id.EntityId;
 import be.yildiz.common.id.PlayerId;
 import be.yildiz.common.id.WorldId;
-import be.yildiz.common.log.Logger;
 import be.yildiz.common.vector.Point3D;
-import be.yildiz.module.database.DataBaseConnectionProvider;
 import be.yildiz.server.generated.database.tables.Cities;
 import be.yildiz.server.generated.database.tables.Entities;
-import be.yildiz.server.generated.database.tables.records.CitiesRecord;
 import be.yildiz.server.generated.database.tables.records.EntitiesRecord;
 import be.yildiz.shared.construction.entity.EntityFactory;
 import be.yildiz.shared.data.EntityType;
@@ -42,7 +39,6 @@ import be.yildiz.shared.entity.*;
 import be.yildiz.shared.entity.module.ModuleGroup;
 import org.jooq.DSLContext;
 import org.jooq.RecordMapper;
-import org.jooq.Result;
 import org.jooq.conf.Settings;
 import org.jooq.impl.DSL;
 import org.jooq.types.UByte;
@@ -50,8 +46,8 @@ import org.jooq.types.UInteger;
 import org.jooq.types.UShort;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -65,11 +61,6 @@ public final class PersistentEntity implements PersistentData<EntityToCreate, Ba
      * Persistent unit where data must be retrieved.
      */
     private static final Entities table = Entities.ENTITIES;
-
-    /**
-     * Manager to retrieve or persist entities in persistent context.
-     */
-    private final DataBaseConnectionProvider provider;
 
     /**
      * List of Id not used.
@@ -86,63 +77,69 @@ public final class PersistentEntity implements PersistentData<EntityToCreate, Ba
      * @param entityManager Associated entity manager.
      * @param constructionFactory Construction factory.
      */
-    public PersistentEntity(final PersistentManager manager, final EntityInConstructionFactory constructionFactory, final EntityManager<BaseEntity, GameEntityData> entityManager, final EntityFactory<BaseEntity> factory) {
+    public PersistentEntity(final PersistentManager manager,
+                            final EntityInConstructionFactory constructionFactory,
+                            final EntityManager<BaseEntity, GameEntityData> entityManager,
+                            final EntityFactory<BaseEntity> factory) {
         super();
-        this.provider = manager.getProvider();
         this.constructionFactory = constructionFactory;
         this.entityFactory = factory;
-        Result<EntitiesRecord> data = manager.getAll(table);
-
-        Result<CitiesRecord> citiesRecords = manager.getAll(Cities.CITIES);
-
-
-//        faire le set a la reception du message entityinforesponse dans le client
-
         Map<EntityId, String> names = Maps.newMap();
-        for (CitiesRecord r : citiesRecords) {
-            names.put(EntityId.get(r.getId().longValue()), r.getName());
-        }
+        Optional.ofNullable(manager.getAll(Cities.CITIES))
+                .ifPresent(citiesRecords ->
+                        citiesRecords.forEach(r -> names.put(EntityId.get(r.getId().longValue()), r.getName())));
+        //        faire le set a la reception du message entity info response dans le client
 
-        for (EntitiesRecord r : data) {
-            EntityId id = EntityId.get(r.getId().longValue());
-            if (r.getActive()) {
-                PlayerId player = PlayerId.get(r.getOwnerId().intValue());
-                EntityType type = EntityType.get(r.getType().intValue());
-                ModuleGroup m = new ModuleGroup.ModuleGroupBuilder()
-                        .withHull(ActionId.get(r.getModuleHull().intValue()))
-                        .withEnergy(ActionId.get(r.getModuleEnergy().intValue()))
-                        .withDetector(ActionId.get(r.getModuleDetector().intValue()))
-                        .withMove(ActionId.get(r.getModuleMove().intValue()))
-                        .withInteraction(ActionId.get(r.getModuleInteraction().intValue()))
-                        .withAdditional1(ActionId.get(r.getModuleAdditional_1().intValue()))
-                        .withAdditional2(ActionId.get(r.getModuleAdditional_2().intValue()))
-                        .withAdditional3(ActionId.get(r.getModuleAdditional_3().intValue()))
-                        .build();
+        Optional.ofNullable(manager.getAll(table))
+                .ifPresent(data ->
+                        data.forEach(r -> {
+                            EntityId id = EntityId.get(r.getId().longValue());
+                            if (r.getActive()) {
+                                PlayerId player = PlayerId.get(r.getOwnerId().intValue());
+                                EntityType type = EntityType.get(r.getType().intValue());
+                                ModuleGroup m = new ModuleGroup.ModuleGroupBuilder()
+                                        .withHull(ActionId.get(r.getModuleHull().intValue()))
+                                        .withEnergy(ActionId.get(r.getModuleEnergy().intValue()))
+                                        .withDetector(ActionId.get(r.getModuleDetector().intValue()))
+                                        .withMove(ActionId.get(r.getModuleMove().intValue()))
+                                        .withInteraction(ActionId.get(r.getModuleInteraction().intValue()))
+                                        .withAdditional1(ActionId.get(r.getModuleAdditional_1().intValue()))
+                                        .withAdditional2(ActionId.get(r.getModuleAdditional_2().intValue()))
+                                        .withAdditional3(ActionId.get(r.getModuleAdditional_3().intValue()))
+                                        .build();
+                                Point3D pos = Point3D.xyz(r.getPositionX().floatValue(), r.getPositionY().floatValue(), r.getPositionZ().floatValue());
+                                Point3D dir = Point3D.xyz(r.getDirectionX().floatValue(), r.getDirectionY().floatValue(), r.getDirectionZ().floatValue());
+                                EntityInConstruction eic = constructionFactory.build(
+                                        type,
+                                        id,
+                                        names.getOrDefault(id, type.name),
+                                        m,
+                                        player,
+                                        pos,
+                                        dir,
+                                        r.getHitPoint().intValue(),
+                                        r.getEnergyPoint().intValue());
 
-                Point3D pos = Point3D.xyz(r.getPositionX().floatValue(), r.getPositionY().floatValue(), r.getPositionZ().floatValue());
-                Point3D dir = Point3D.xyz(r.getDirectionX().floatValue(), r.getDirectionY().floatValue(), r.getDirectionZ().floatValue());
-                EntityInConstruction eic = constructionFactory.build(type, id, names.getOrDefault(id, type.name), m, player, pos, dir, r.getHitPoint().intValue(), r.getEnergyPoint().intValue());
-
-                factory.createEntity(eic);
-            } else {
-                this.freeId.add(id);
-            }
-        }
+                                factory.createEntity(eic);
+                            } else {
+                                this.freeId.add(id);
+                            }
+                        }));
     }
 
     @Override
-    public BaseEntity save(final EntityToCreate data) {
-        EntityId id = this.getFreeId();
+    public void save(final EntityToCreate data, Connection c) {
+        EntityId id = this.getFreeId(c);
         DefaultEntityInConstruction eic = constructionFactory.build(id, data);
-        return entityFactory.createEntity(eic);
+        entityFactory.createEntity(eic);
     }
 
     /**
      * @return An id ready to be used to build a new object.
      */
-    private EntityId getFreeId() {
+    private EntityId getFreeId(Connection c) {
         if (this.freeId.isEmpty()) {
-            return this.createNewLine();
+            return this.createNewLine(c);
         }
         EntityId id = this.freeId.iterator().next();
         this.freeId.remove(id);
@@ -154,17 +151,13 @@ public final class PersistentEntity implements PersistentData<EntityToCreate, Ba
      *
      * @return the created id.
      */
-    private EntityId createNewLine() {
-        try (Connection c = this.provider.getConnection()) {
-            DSLContext create = this.getDSL(c);
+    private EntityId createNewLine(Connection c) {
+        try (DSLContext create = this.getDSL(c)) {
             create.newRecord(table).store();
 
             EntitiesRecord entity = create.fetchOne(table, table.ACTIVE.equal(false));
             return EntityId.get(entity.getId().longValue());
-        } catch (SQLException e) {
-            Logger.error(e);
         }
-        return null;
     }
 
     /**
@@ -172,20 +165,18 @@ public final class PersistentEntity implements PersistentData<EntityToCreate, Ba
      *
      * @param id Id of the entity to delete.
      */
-    public void delete(final EntityId id) {
+    public void delete(final EntityId id, Connection c) {
         this.freeId.add(id);
-        try (Connection c = this.provider.getConnection(); DSLContext create = this.getDSL(c)) {
+        try (DSLContext create = this.getDSL(c)) {
             EntitiesRecord entity = create.fetchOne(table, table.ID.equal(UInteger.valueOf(id.value)));
             entity.setActive(false);
             entity.store();
-        } catch (SQLException e) {
-            Logger.error(e);
         }
     }
 
     @Override
-    public void update(final BaseEntity data) {
-        try (Connection c = this.provider.getConnection(); DSLContext create = this.getDSL(c)) {
+    public void update(final BaseEntity data, Connection c) {
+        try (DSLContext create = this.getDSL(c)) {
             EntitiesRecord entity = create.fetchOne(table, table.ID.equal(UInteger.valueOf(data.getId().value)));
             entity.setMapId(UByte.valueOf(1));
             entity.setType(UByte.valueOf(data.getType().type));
@@ -216,15 +207,13 @@ public final class PersistentEntity implements PersistentData<EntityToCreate, Ba
             // entity.setMaxhp(UShort.valueOf(data.getMaxHitPoints()));
             // entity.setMaxenergy(UShort.valueOf(data.getMaxEnergyPoints()));
             entity.store();
-        } catch (SQLException e) {
-            Logger.error(e);
         }
     }
 
     private DSLContext getDSL(Connection c) {
         Settings settings = new Settings();
         settings.setExecuteLogging(false);
-        return DSL.using(c, this.provider.getDialect(), settings);
+        return DSL.using(c, settings);
     }
 
     @Override
