@@ -66,7 +66,7 @@ public final class PersistentEntity implements PersistentData<EntityToCreate, Ba
      * List of Id not used.
      */
     private final Set<EntityId> freeId = Sets.newInsertionOrderedSet();
-    private final EntityInConstructionFactory constructionFactory;
+    private final EntityInConstructionFactory constructionFactory = new EntityInConstructionFactorySimple();;
     private final EntityFactory<BaseEntity> entityFactory;
 
     /**
@@ -74,15 +74,10 @@ public final class PersistentEntity implements PersistentData<EntityToCreate, Ba
      *
      * @param manager Manager used with the persistent context.
      * @param factory Factory to build entities.
-     * @param entityManager Associated entity manager.
-     * @param constructionFactory Construction factory.
      */
     public PersistentEntity(final PersistentManager manager,
-                            final EntityInConstructionFactory constructionFactory,
-                            final EntityManager<BaseEntity, GameEntityData> entityManager,
                             final EntityFactory<BaseEntity> factory) {
         super();
-        this.constructionFactory = constructionFactory;
         this.entityFactory = factory;
         Map<EntityId, String> names = Maps.newMap();
         Optional.ofNullable(manager.getAll(Cities.CITIES))
