@@ -54,29 +54,31 @@ public final class PersistentResources implements PersistentData<ResourcesProduc
     /**
      * Full constructor.
      *
-     * @param manager Manager used to retrieve or persist the data.
+     * @param c SQL connection.
      * @param entityManager Entity manager.
      */
-    public PersistentResources(final PersistentManager manager, final ServerCityManager entityManager) {
+    public PersistentResources(Connection c, final ServerCityManager entityManager) {
         super();
         // FIXME game related
         //Create an object ResourceModel injected in the engine at construction
         //this object contains the different fields for the resource
         //this object will be responsible to instantiate new ResourceValue
         //the database will have columns name res_0, res_1... instead of game related values.
-        Optional.ofNullable(manager.getAll(table))
-                .ifPresent(data -> data.forEach(r -> {
-                    EntityId cityId = EntityId.get(r.getValue(table.CITY_ID).longValue());
-                    ServerCity city = entityManager.getCityById(cityId);
-                    long time = r.getValue(table.LAST_TIME_COMPUTED).getTime();
-                    float[] values = new float[5];
-                    values[0] = r.getMetal().floatValue();
-                    values[1] = r.getEnergy().floatValue();
-                    values[2] = r.getMoney().floatValue();
-                    values[3] = r.getResearch().floatValue();
-                    values[4] = r.getInhabitant().floatValue();
-                    city.getProducer().setNewValues(time, new ResourceValue(values));
-                }));
+        try (DSLContext create = DSL.using(c)) {
+            Optional.ofNullable(create.selectFrom(table).fetch())
+                    .ifPresent(data -> data.forEach(r -> {
+                        EntityId cityId = EntityId.get(r.getValue(table.CITY_ID).longValue());
+                        ServerCity city = entityManager.getCityById(cityId);
+                        long time = r.getValue(table.LAST_TIME_COMPUTED).getTime();
+                        float[] values = new float[5];
+                        values[0] = r.getMetal().floatValue();
+                        values[1] = r.getEnergy().floatValue();
+                        values[2] = r.getMoney().floatValue();
+                        values[3] = r.getResearch().floatValue();
+                        values[4] = r.getInhabitant().floatValue();
+                        city.getProducer().setNewValues(time, new ResourceValue(values));
+                    }));
+        }
     }
 
     @Override

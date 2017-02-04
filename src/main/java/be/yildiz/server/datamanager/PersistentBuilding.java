@@ -65,20 +65,22 @@ public final class PersistentBuilding implements PersistentData<BaseBuilding, Ba
     /**
      * Full constructor, retrieve data from persistent context.
      *
-     * @param manager  Manager used with the persistent context.
      * @param constructionManager Construction manager.
      * @param em City manager.
      */
-    public PersistentBuilding(final PersistentManager manager, BuildingConstructionManager<BaseBuilding, GameBuildingData, ServerCity> constructionManager, final ServerCityManager em) {
+    public PersistentBuilding(final Connection c, BuildingConstructionManager<BaseBuilding, GameBuildingData, ServerCity> constructionManager, final ServerCityManager em) {
         super();
         this.cityManager = em;
-        Optional
-                .ofNullable(manager.getAll(table))
-                .ifPresent(data -> data.map(this)
-                        .stream()
-                        .filter(BaseBuilding::exists)
-                        .forEach(constructionManager::createBuilding));
-        em.getCities().forEach(City::initializeProducer);
+        try (DSLContext create = DSL.using(c)) {
+            Optional
+                    .ofNullable(create.selectFrom(table).fetch())
+                    .ifPresent(data -> data.map(this)
+                            .stream()
+                            .filter(BaseBuilding::exists)
+                            .forEach(constructionManager::createBuilding));
+            em.getCities().forEach(City::initializeProducer);
+        }
+
     }
 
     @Override

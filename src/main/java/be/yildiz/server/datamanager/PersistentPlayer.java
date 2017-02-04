@@ -58,11 +58,6 @@ public final class PersistentPlayer implements PersistentData<PlayerToCreate, Pl
     private final Set<PlayerId> freeId;
 
     /**
-     * Persistent manager.
-     */
-    private final PersistentManager manager;
-
-    /**
      * Manager for players.
      */
     private final PlayerManager playerManager;
@@ -70,25 +65,26 @@ public final class PersistentPlayer implements PersistentData<PlayerToCreate, Pl
     /**
      * Full constructor, retrieve data from persistent context.
      *
-     * @param manager       Manager used with the persistent context.
+     * @param c SQL connection.
      * @param playerManager Player manager.
      */
-    public PersistentPlayer(final PersistentManager manager, final PlayerManager playerManager) {
+    public PersistentPlayer(final Connection c, final PlayerManager playerManager) {
         super();
         this.freeId = Sets.newSet();
         this.playerManager = playerManager;
-        this.manager = manager;
-        Optional.ofNullable(manager.getAll(table))
-                .ifPresent(data -> data.forEach(r -> {
-                    PlayerId id = PlayerId.get(r.getId().intValue());
-                    if (r.getActive()) {
-                        int right = r.getType().intValue();
-                        String name = r.getLogin();
-                        playerManager.createPlayer(id, name, PlayerRight.values()[right]);
-                    } else {
-                        this.freeId.add(id);
-                    }
-                }));
+        try (DSLContext create = DSL.using(c)) {
+            Optional.ofNullable(create.selectFrom(table).fetch())
+                    .ifPresent(data -> data.forEach(r -> {
+                        PlayerId id = PlayerId.get(r.getId().intValue());
+                        if (r.getActive()) {
+                            int right = r.getType().intValue();
+                            String name = r.getLogin();
+                            playerManager.createPlayer(id, name, PlayerRight.values()[right]);
+                        } else {
+                            this.freeId.add(id);
+                        }
+                    }));
+        }
     }
 
     /**

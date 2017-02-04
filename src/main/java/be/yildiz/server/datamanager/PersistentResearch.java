@@ -55,25 +55,27 @@ public final class PersistentResearch implements PersistentData<Pair<PlayerId, S
     /**
      * Full constructor.
      *
-     * @param manager       Manager used to retrieve or persist the data.
+     * @param c       SQL connection.
      * @param playerManager Player manager.
      * @param researchManager Research manager.
      */
-    public PersistentResearch(final PersistentManager manager, final PlayerManager playerManager, final ResearchManager researchManager) {
+    public PersistentResearch(Connection c, final PlayerManager playerManager, final ResearchManager researchManager) {
         super();
-        Optional
-                .ofNullable(manager.getAll(table))
-                .ifPresent(data -> {
-                    data.forEach(r -> {
-                        Player player = playerManager.findFromId(PlayerId.get(r.getPlayerId().intValue()));
-                        if(!r.getName().isEmpty()) {
-                            String[] researches = r.getName().split(",");
-                            for (String s : researches) {
-                                researchManager.addResearch(Research.get(s), player);
+        try (DSLContext create = DSL.using(c)) {
+            Optional
+                    .ofNullable(create.selectFrom(table).fetch())
+                    .ifPresent(data -> {
+                        data.forEach(r -> {
+                            Player player = playerManager.findFromId(PlayerId.get(r.getPlayerId().intValue()));
+                            if (!r.getName().isEmpty()) {
+                                String[] researches = r.getName().split(",");
+                                for (String s : researches) {
+                                    researchManager.addResearch(Research.get(s), player);
+                                }
                             }
-                        }
+                        });
                     });
-                });
+        }
     }
 
     @Override

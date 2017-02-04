@@ -32,20 +32,18 @@ import be.yildiz.module.network.server.Session;
 import be.yildiz.module.network.server.SessionListener;
 import be.yildiz.server.generated.database.tables.Accounts;
 import be.yildiz.server.generated.database.tables.Messages;
-import be.yildiz.server.generated.database.tables.Researches;
 import be.yildiz.server.generated.database.tables.TempAccounts;
 import be.yildiz.server.generated.database.tables.records.AccountsRecord;
 import be.yildiz.server.generated.database.tables.records.MessagesRecord;
-import be.yildiz.server.generated.database.tables.records.ResearchesRecord;
 import be.yildiz.server.generated.database.tables.records.TempAccountsRecord;
 import be.yildiz.shared.entity.action.Action;
 import be.yildiz.shared.player.Message;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.jooq.*;
-import org.jooq.exception.DataAccessException;
+import org.jooq.DSLContext;
+import org.jooq.RecordMapper;
+import org.jooq.Table;
 import org.jooq.impl.DSL;
-import org.jooq.types.UByte;
 import org.jooq.types.UShort;
 
 import java.sql.Connection;
@@ -92,71 +90,7 @@ public final class DatabasePersistentManager implements PersistentManager, Sessi
 //        }
 //    }
 
-    @Override
-    public boolean createDataForNewAccount(final String login, final String hashedPass, final String email, final PlayerId player) {
-        Connection c = null;
-        DSLContext context = null;
-        try {
-            c = this.provider.getConnection();
-            context = DSL.using(c, this.provider.getDialect());
-            Accounts table = Accounts.ACCOUNTS;
-            Researches researchTable = Researches.RESEARCHES;
-            TempAccounts tempAccountTable = TempAccounts.TEMP_ACCOUNTS;
-            c.setAutoCommit(false);
 
-
-            AccountsRecord playerToCreate = context.fetchOne(table, table.ID.equal(UShort.valueOf(player.value)));
-            if(playerToCreate == null) {
-                playerToCreate = context.newRecord(table);
-                playerToCreate.setId(UShort.valueOf(player.value));
-            }
-            playerToCreate.setLogin(login);
-            playerToCreate.setPassword(hashedPass);
-            playerToCreate.setEmail(email);
-            playerToCreate.setActive(true);
-            playerToCreate.setType(UByte.valueOf(0));
-            playerToCreate.setMapId(UByte.valueOf(1));
-            playerToCreate.setOnline(false);
-            playerToCreate.store();
-
-            ResearchesRecord recordToCreate = context.fetchOne(researchTable, researchTable.PLAYER_ID.equal(UShort.valueOf(player.value)));
-            if(recordToCreate == null) {
-                recordToCreate = context.newRecord(researchTable);
-                recordToCreate.setPlayerId(UShort.valueOf(player.value));
-            }
-            recordToCreate.setName("");
-            recordToCreate.store();
-
-            context.delete(tempAccountTable).where(tempAccountTable.LOGIN.equal(login)).execute();
-            c.commit();
-            return true;
-        } catch (SQLException | DataAccessException e) {
-            Logger.error("Create player query", e);
-            try {
-                if(c!=null) {
-                    Logger.warning("Player creation for " + login + " failed, rolling back.");
-                    c.rollback();
-                    Logger.warning("Player creation for " + login + " roll back successful.");
-                }
-
-            } catch (SQLException e1) {
-                Logger.error(e1);
-            }
-            return false;
-        } finally {
-            try {
-                if(context != null) {
-                    context.close();
-                }
-                if (c != null) {
-                    c.setAutoCommit(true);
-                    c.close();
-                }
-            } catch (SQLException e) {
-                Logger.error(e);
-            }
-        }
-    }
 
     @Override
     public List<WaitingPlayer> getPlayerWaiting() {
@@ -282,16 +216,6 @@ public final class DatabasePersistentManager implements PersistentManager, Sessi
     public void saveActionTask(List<Action> actionList) {
         // TODO Auto-generated method stub
 
-    }
-
-    @Override
-    public <T extends Record> Result<T> getAll(Table<T> t) {
-        try (Connection c = this.provider.getConnection(); DSLContext create = DSL.using(c, this.provider.getDialect())) {
-            return create.selectFrom(t).fetch();
-        } catch (SQLException e) {
-            Logger.error(e);
-        }
-        return null;
     }
 
     @Override

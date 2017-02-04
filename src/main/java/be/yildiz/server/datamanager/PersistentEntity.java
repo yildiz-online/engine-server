@@ -72,54 +72,56 @@ public final class PersistentEntity implements PersistentData<EntityToCreate, Ba
     /**
      * Full constructor, retrieve data from persistent context.
      *
-     * @param manager Manager used with the persistent context.
+     * @param c SQL connection.
      * @param factory Factory to build entities.
      */
-    public PersistentEntity(final PersistentManager manager,
+    public PersistentEntity(Connection c,
                             final EntityFactory<BaseEntity> factory) {
         super();
         this.entityFactory = factory;
         Map<EntityId, String> names = Maps.newMap();
-        Optional.ofNullable(manager.getAll(Cities.CITIES))
-                .ifPresent(citiesRecords ->
-                        citiesRecords.forEach(r -> names.put(EntityId.get(r.getId().longValue()), r.getName())));
-        //        faire le set a la reception du message entity info response dans le client
+        try (DSLContext create = DSL.using(c)) {
+            Optional.ofNullable(create.selectFrom(Cities.CITIES).fetch())
+                    .ifPresent(citiesRecords ->
+                            citiesRecords.forEach(r -> names.put(EntityId.get(r.getId().longValue()), r.getName())));
+            //        faire le set a la reception du message entity info response dans le client
 
-        Optional.ofNullable(manager.getAll(table))
-                .ifPresent(data ->
-                        data.forEach(r -> {
-                            EntityId id = EntityId.get(r.getId().longValue());
-                            if (r.getActive()) {
-                                PlayerId player = PlayerId.get(r.getOwnerId().intValue());
-                                EntityType type = EntityType.get(r.getType().intValue());
-                                ModuleGroup m = new ModuleGroup.ModuleGroupBuilder()
-                                        .withHull(ActionId.get(r.getModuleHull().intValue()))
-                                        .withEnergy(ActionId.get(r.getModuleEnergy().intValue()))
-                                        .withDetector(ActionId.get(r.getModuleDetector().intValue()))
-                                        .withMove(ActionId.get(r.getModuleMove().intValue()))
-                                        .withInteraction(ActionId.get(r.getModuleInteraction().intValue()))
-                                        .withAdditional1(ActionId.get(r.getModuleAdditional_1().intValue()))
-                                        .withAdditional2(ActionId.get(r.getModuleAdditional_2().intValue()))
-                                        .withAdditional3(ActionId.get(r.getModuleAdditional_3().intValue()))
-                                        .build();
-                                Point3D pos = Point3D.xyz(r.getPositionX().floatValue(), r.getPositionY().floatValue(), r.getPositionZ().floatValue());
-                                Point3D dir = Point3D.xyz(r.getDirectionX().floatValue(), r.getDirectionY().floatValue(), r.getDirectionZ().floatValue());
-                                EntityInConstruction eic = constructionFactory.build(
-                                        type,
-                                        id,
-                                        names.getOrDefault(id, type.name),
-                                        m,
-                                        player,
-                                        pos,
-                                        dir,
-                                        r.getHitPoint().intValue(),
-                                        r.getEnergyPoint().intValue());
+            Optional.ofNullable(create.selectFrom(table).fetch())
+                    .ifPresent(data ->
+                            data.forEach(r -> {
+                                EntityId id = EntityId.get(r.getId().longValue());
+                                if (r.getActive()) {
+                                    PlayerId player = PlayerId.get(r.getOwnerId().intValue());
+                                    EntityType type = EntityType.get(r.getType().intValue());
+                                    ModuleGroup m = new ModuleGroup.ModuleGroupBuilder()
+                                            .withHull(ActionId.get(r.getModuleHull().intValue()))
+                                            .withEnergy(ActionId.get(r.getModuleEnergy().intValue()))
+                                            .withDetector(ActionId.get(r.getModuleDetector().intValue()))
+                                            .withMove(ActionId.get(r.getModuleMove().intValue()))
+                                            .withInteraction(ActionId.get(r.getModuleInteraction().intValue()))
+                                            .withAdditional1(ActionId.get(r.getModuleAdditional_1().intValue()))
+                                            .withAdditional2(ActionId.get(r.getModuleAdditional_2().intValue()))
+                                            .withAdditional3(ActionId.get(r.getModuleAdditional_3().intValue()))
+                                            .build();
+                                    Point3D pos = Point3D.xyz(r.getPositionX().floatValue(), r.getPositionY().floatValue(), r.getPositionZ().floatValue());
+                                    Point3D dir = Point3D.xyz(r.getDirectionX().floatValue(), r.getDirectionY().floatValue(), r.getDirectionZ().floatValue());
+                                    EntityInConstruction eic = constructionFactory.build(
+                                            type,
+                                            id,
+                                            names.getOrDefault(id, type.name),
+                                            m,
+                                            player,
+                                            pos,
+                                            dir,
+                                            r.getHitPoint().intValue(),
+                                            r.getEnergyPoint().intValue());
 
-                                factory.createEntity(eic);
-                            } else {
-                                this.freeId.add(id);
-                            }
-                        }));
+                                    factory.createEntity(eic);
+                                } else {
+                                    this.freeId.add(id);
+                                }
+                            }));
+        }
     }
 
     @Override

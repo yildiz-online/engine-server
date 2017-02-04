@@ -25,36 +25,19 @@ package be.yildiz.server.datamanager;
 
 import be.yildiz.common.id.PlayerId;
 import be.yildiz.module.database.DataBaseConnectionProvider;
-import be.yildiz.shared.building.BaseBuilding;
-import be.yildiz.shared.construction.building.WaitingBuilding;
-import be.yildiz.shared.construction.entity.WaitingEntity;
 import be.yildiz.shared.entity.action.Action;
 import be.yildiz.shared.player.Message;
-import org.jooq.Record;
-import org.jooq.Result;
 import org.jooq.Table;
 
 import java.util.List;
 
 /**
- * Manage the persistent data, how data are persisted depends on the implementation(database, plain text file, serialisation...).
+ * Manage the persistent data in database.
  *
  * @author Grégory Van den Borre
  */
 public interface PersistentManager {
 
-    DataBaseConnectionProvider getProvider();
-
-    /**
-     * Create a new player, and all associated data for it.
-     *
-     * @param login      Login value.
-     * @param hashedPass Pass hashed value.
-     * @param email      Player email.
-     * @param playerId   Player unique Id.
-     * @return <code>true</code> if the operation was successful.
-     */
-    boolean createDataForNewAccount(String login, String hashedPass, String email, PlayerId playerId);
 
     /**
      * @return A list of all player waiting to be created.
@@ -103,8 +86,6 @@ public interface PersistentManager {
     //void addModuleConfiguration(ModuleConfiguration config);
 
     long createNewLine(Table<?> t);
-
-    <T extends Record> Result<T> getAll(Table<T> t);
 
     // void insert(Table<Record> t, Collection<Field<?>> fields, Collection<?> values);
 
