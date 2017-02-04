@@ -32,6 +32,7 @@ import be.yildiz.shared.player.PlayerManager;
 import be.yildiz.shared.player.PlayerRight;
 import be.yildiz.shared.player.PlayerToCreate;
 import org.jooq.DSLContext;
+import org.jooq.conf.Settings;
 import org.jooq.impl.DSL;
 import org.jooq.types.UByte;
 import org.jooq.types.UShort;
@@ -94,7 +95,7 @@ public final class PersistentPlayer implements PersistentData<PlayerToCreate, Pl
      */
     @Override
     public Player save(final PlayerToCreate data, Connection c) {
-        PlayerId playerId = this.getFreeId();
+        PlayerId playerId = this.getFreeId(c);
         try(DSLContext context = DSL.using(c)) {
             AccountsRecord playerToCreate = context.fetchOne(table, table.ID.equal(UShort.valueOf(playerId.value)));
             if (playerToCreate == null) {
@@ -116,13 +117,28 @@ public final class PersistentPlayer implements PersistentData<PlayerToCreate, Pl
     /**
      * @return A free Id for a newly created player.
      */
-    PlayerId getFreeId() {
+    private PlayerId getFreeId(Connection c) {
         if (this.freeId.isEmpty()) {
-            throw new IndexOutOfBoundsException("FreeId list is empty");
+            return this.createNewLine(c);
         }
         PlayerId id = this.freeId.iterator().next();
         this.freeId.remove(id);
         return id;
+    }
+
+    private PlayerId createNewLine(Connection c) {
+        try (DSLContext create = this.getDSL(c)) {
+            create.newRecord(table).store();
+
+            AccountsRecord entity = create.fetchOne(table, table.ACTIVE.equal(false));
+            return PlayerId.get(entity.getId().intValue());
+        }
+    }
+
+    private DSLContext getDSL(Connection c) {
+        Settings settings = new Settings();
+        settings.setExecuteLogging(false);
+        return DSL.using(c, settings);
     }
 
     @Override
