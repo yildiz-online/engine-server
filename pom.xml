@@ -41,7 +41,7 @@
   <parent>
     <groupId>be.yildiz-games</groupId>
     <artifactId>parent</artifactId>
-    <version>1.0.8-SNAPSHOT</version>
+    <version>1.0.9</version>
   </parent>
 
   <properties>
@@ -110,25 +110,6 @@
     </profile>
   </profiles>
 
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>be.yildiz-games</groupId>
-        <artifactId>bom-junit</artifactId>
-        <version>${version.bom-junit}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-      <dependency>
-        <groupId>be.yildiz-games</groupId>
-        <artifactId>bom-connectorj</artifactId>
-        <version>${version.bom-connectorj}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
-
   <dependencies>
     <dependency>
       <groupId>be.yildiz-games</groupId>
@@ -145,17 +126,18 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-all</artifactId>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>be.yildiz-games</groupId>
       <artifactId>module-database</artifactId>
       <type>test-jar</type>
       <scope>test</scope>
-      <version>${version.module-database}</version>
     </dependency>
   </dependencies>
 </project>
