@@ -73,7 +73,7 @@ public final class PersistentPlayer implements PersistentData<PlayerToCreate, Pl
         super();
         this.freeId = Sets.newSet();
         this.playerManager = playerManager;
-        try (DSLContext create = DSL.using(c)) {
+        try (DSLContext create = this.getDSL(c)) {
             Optional.ofNullable(create.selectFrom(table).fetch())
                     .ifPresent(data -> data.forEach(r -> {
                         PlayerId id = PlayerId.get(r.getId().intValue());
@@ -96,7 +96,7 @@ public final class PersistentPlayer implements PersistentData<PlayerToCreate, Pl
     @Override
     public Player save(final PlayerToCreate data, Connection c) {
         PlayerId playerId = this.getFreeId(c);
-        try(DSLContext context = DSL.using(c)) {
+        try(DSLContext context = this.getDSL(c)) {
             AccountsRecord playerToCreate = context.fetchOne(table, table.ID.equal(UShort.valueOf(playerId.value)));
             if (playerToCreate == null) {
                 playerToCreate = context.newRecord(table);
@@ -129,7 +129,6 @@ public final class PersistentPlayer implements PersistentData<PlayerToCreate, Pl
     private PlayerId createNewLine(Connection c) {
         try (DSLContext create = this.getDSL(c)) {
             create.newRecord(table).store();
-
             AccountsRecord entity = create.fetchOne(table, table.ACTIVE.equal(false));
             return PlayerId.get(entity.getId().intValue());
         }
