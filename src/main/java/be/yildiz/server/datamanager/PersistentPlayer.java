@@ -97,19 +97,15 @@ public final class PersistentPlayer implements PersistentData<PlayerToCreate, Pl
     public Player save(final PlayerToCreate data, Connection c) {
         PlayerId playerId = this.getFreeId(c);
         try(DSLContext context = this.getDSL(c)) {
-            AccountsRecord playerToCreate = context.fetchOne(table, table.ID.equal(UShort.valueOf(playerId.value)));
-            if (playerToCreate == null) {
-                playerToCreate = context.newRecord(table);
-                playerToCreate.setId(UShort.valueOf(playerId.value));
-            }
-            playerToCreate.setLogin(data.getLogin());
-            playerToCreate.setPassword(data.getPassword());
-            playerToCreate.setEmail(data.getEmail());
-            playerToCreate.setActive(true);
-            playerToCreate.setType(UByte.valueOf(0));
-            playerToCreate.setMapId(UByte.valueOf(1));
-            playerToCreate.setOnline(false);
-            playerToCreate.store();
+            context.update(table)
+                    .set(table.LOGIN, data.getLogin())
+                    .set(table.PASSWORD, data.getPassword())
+                    .set(table.EMAIL, data.getEmail())
+                    .set(table.ACTIVE, true)
+                    .set(table.TYPE, UByte.valueOf(0))
+                    .set(table.ONLINE, false)
+                    .set(table.MAP_ID, UByte.valueOf(1))
+                    .where(table.ID.equal(UShort.valueOf(playerId.value)));
             return this.playerManager.createPlayer(playerId, data.getLogin());
         }
     }
@@ -128,7 +124,7 @@ public final class PersistentPlayer implements PersistentData<PlayerToCreate, Pl
 
     private PlayerId createNewLine(Connection c) {
         try (DSLContext create = this.getDSL(c)) {
-            create.newRecord(table).store();
+            create.insertInto(table).defaultValues().execute();
             AccountsRecord entity = create.fetchOne(table, table.ACTIVE.equal(false));
             return PlayerId.get(entity.getId().intValue());
         }

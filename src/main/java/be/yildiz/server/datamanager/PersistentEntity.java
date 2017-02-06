@@ -127,8 +127,32 @@ public final class PersistentEntity implements PersistentData<EntityToCreate, Ba
     @Override
     public BaseEntity save(final EntityToCreate data, Connection c) {
         EntityId id = this.getFreeId(c);
-        DefaultEntityInConstruction eic = constructionFactory.build(id, data);
-        return entityFactory.createEntity(eic);
+        try(DSLContext context = this.getDSL(c)) {
+            context.update(table)
+                    .set(table.TYPE, UByte.valueOf(data.getType().type))
+                    .set(table.OWNER_ID, UShort.valueOf(data.getOwner().value))
+                    .set(table.MODULE_MOVE, UByte.valueOf(data.getModules().getMove().value))
+                    .set(table.MODULE_INTERACTION, UByte.valueOf(data.getModules().getInteraction().value))
+                    .set(table.MODULE_HULL, UByte.valueOf(data.getModules().getHull().value))
+                    .set(table.MODULE_ENERGY, UByte.valueOf(data.getModules().getEnergy().value))
+                    .set(table.MODULE_DETECTOR, UByte.valueOf(data.getModules().getDetector().value))
+                    .set(table.MODULE_ADDITIONAL_1, UByte.valueOf(data.getModules().getAdditional1().value))
+                    .set(table.MODULE_ADDITIONAL_2, UByte.valueOf(data.getModules().getAdditional2().value))
+                    .set(table.MODULE_ADDITIONAL_3, UByte.valueOf(data.getModules().getAdditional3().value))
+                    .set(table.MAP_ID, UByte.valueOf(1))
+                    .set(table.ACTIVE, true)
+                    .set(table.HIT_POINT, UShort.valueOf(0)) //FIXME find value
+                    .set(table.ENERGY_POINT, UShort.valueOf(0))
+                    .set(table.POSITION_X, Double.valueOf(data.getPosition().x))
+                    .set(table.POSITION_Y, Double.valueOf(data.getPosition().y))
+                    .set(table.POSITION_Z, Double.valueOf(data.getPosition().z))
+                    .set(table.DIRECTION_X, Double.valueOf(data.getDirection().x))
+                    .set(table.DIRECTION_Y, Double.valueOf(data.getDirection().y))
+                    .set(table.DIRECTION_Z, Double.valueOf(data.getDirection().z))
+                    .where(table.ID.equal(UInteger.valueOf(id.value)));
+            DefaultEntityInConstruction eic = constructionFactory.build(id, data);
+            return entityFactory.createEntity(eic);
+        }
     }
 
     /**
@@ -150,8 +174,7 @@ public final class PersistentEntity implements PersistentData<EntityToCreate, Ba
      */
     private EntityId createNewLine(Connection c) {
         try (DSLContext create = this.getDSL(c)) {
-            create.newRecord(table).store();
-
+            create.insertInto(table).defaultValues().execute();
             EntitiesRecord entity = create.fetchOne(table, table.ACTIVE.equal(false));
             return EntityId.get(entity.getId().longValue());
         }

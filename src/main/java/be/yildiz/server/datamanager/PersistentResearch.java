@@ -27,12 +27,14 @@ import be.yildiz.common.id.PlayerId;
 import be.yildiz.common.util.Pair;
 import be.yildiz.common.util.StringUtil;
 import be.yildiz.server.generated.database.tables.Researches;
+import be.yildiz.server.generated.database.tables.records.AccountsRecord;
 import be.yildiz.server.generated.database.tables.records.ResearchesRecord;
 import be.yildiz.shared.player.Player;
 import be.yildiz.shared.player.PlayerManager;
 import be.yildiz.shared.research.Research;
 import be.yildiz.shared.research.ResearchManager;
 import org.jooq.DSLContext;
+import org.jooq.conf.Settings;
 import org.jooq.impl.DSL;
 import org.jooq.types.UShort;
 
@@ -82,6 +84,10 @@ public final class PersistentResearch implements PersistentData<Pair<PlayerId, S
     public Pair<PlayerId, Set<Research>> save(final Pair<PlayerId, Set<Research>> data, Connection c) {
         try (DSLContext create = DSL.using(c)) {
             ResearchesRecord research = create.fetchOne(table, table.PLAYER_ID.equal(UShort.valueOf(data.getObject1().value)));
+            if(research == null) {
+                research = create.newRecord(table);
+                research.setPlayerId(UShort.valueOf(data.getObject1().value));
+            }
             research.setName(StringUtil.toString(data.getObject2()));
             research.store();
             return data;
