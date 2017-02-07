@@ -149,7 +149,8 @@ public final class PersistentEntity implements PersistentData<EntityToCreate, Ba
                     .set(table.DIRECTION_X, Double.valueOf(data.getDirection().x))
                     .set(table.DIRECTION_Y, Double.valueOf(data.getDirection().y))
                     .set(table.DIRECTION_Z, Double.valueOf(data.getDirection().z))
-                    .where(table.ID.equal(UInteger.valueOf(id.value)));
+                    .where(table.ID.equal(UInteger.valueOf(id.value)))
+                    .execute();
             DefaultEntityInConstruction eic = constructionFactory.build(id, data);
             return entityFactory.createEntity(eic);
         }

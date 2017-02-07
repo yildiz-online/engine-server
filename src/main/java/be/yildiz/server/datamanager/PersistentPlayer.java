@@ -105,7 +105,8 @@ public final class PersistentPlayer implements PersistentData<PlayerToCreate, Pl
                     .set(table.TYPE, UByte.valueOf(0))
                     .set(table.ONLINE, false)
                     .set(table.MAP_ID, UByte.valueOf(1))
-                    .where(table.ID.equal(UShort.valueOf(playerId.value)));
+                    .where(table.ID.equal(UShort.valueOf(playerId.value)))
+                    .execute();
             return this.playerManager.createPlayer(playerId, data.getLogin());
         }
     }
