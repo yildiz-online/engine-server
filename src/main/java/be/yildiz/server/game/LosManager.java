@@ -28,7 +28,6 @@ import be.yildiz.common.id.PlayerId;
 import be.yildiz.module.physics.CollisionListener;
 import be.yildiz.module.physics.CollisionResult;
 import be.yildiz.shared.entity.Entity;
-import be.yildiz.shared.entity.EntityData;
 import be.yildiz.shared.entity.EntityManager;
 import be.yildiz.shared.player.Player;
 import be.yildiz.shared.player.PlayerManager;
@@ -42,7 +41,7 @@ import java.util.List;
  * @author Grégory Van den Borre
  */
 @AllArgsConstructor
-public final class LosManager<T extends Entity, E extends EntityData> implements CollisionListener {
+public final class LosManager<T extends Entity> implements CollisionListener {
 
     /**
      * Listeners to notify about los events changes.
@@ -52,7 +51,7 @@ public final class LosManager<T extends Entity, E extends EntityData> implements
     /**
      * Associated entity manager.
      */
-    private final EntityManager<T, E> entityManager;
+    private final EntityManager<T> entityManager;
 
     /**
      * Associated player manager.
