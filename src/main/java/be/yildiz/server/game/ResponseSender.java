@@ -29,6 +29,8 @@ import be.yildiz.module.network.protocol.ServerResponse;
 /**
  * @author Grégory Van den Borre
  */
+@FunctionalInterface
 public interface ResponseSender {
+
     void sendMessage(PlayerId player, ServerResponse response);
 }

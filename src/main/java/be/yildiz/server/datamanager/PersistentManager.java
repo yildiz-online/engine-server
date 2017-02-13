@@ -24,7 +24,6 @@
 package be.yildiz.server.datamanager;
 
 import be.yildiz.common.id.PlayerId;
-import be.yildiz.module.database.DataBaseConnectionProvider;
 import be.yildiz.shared.entity.action.Action;
 import be.yildiz.shared.player.Message;
 import org.jooq.Table;
@@ -44,34 +43,6 @@ public interface PersistentManager {
      */
     List<WaitingPlayer> getPlayerWaiting();
 
-    /**
-     * Save all current executing building construction tasks.
-     *
-     * @param buildingList Building construction task list.
-     */
-    //void saveBuildingTask(List<WaitingBuilding<BaseBuilding>> buildingList);
-
-    /**
-     * Save all current executing entity construction tasks.
-     *
-     * @param entityList Entity construction task list.
-     */
-    //void saveEntityTask(List<WaitingEntity> entityList);
-
-    /**
-     * Retrieve all persisted building construction tasks.
-     *
-     * @return The list of building construction tasks.
-     */
-    //List<TaskBuilding> retrieveBuildingTask();
-
-    /**
-     * Retrieve all persisted entity construction tasks.
-     *
-     * @return The list of entity construction tasks.
-     */
-    //List<TaskEntity> retrieveEntityTask();
-
     List<Message> retrieveMessage(PlayerId player);
 
     /**
@@ -83,10 +54,6 @@ public interface PersistentManager {
 
     void saveActionTask(List<Action> actionList);
 
-    //void addModuleConfiguration(ModuleConfiguration config);
-
     long createNewLine(Table<?> t);
-
-    // void insert(Table<Record> t, Collection<Field<?>> fields, Collection<?> values);
 
 }

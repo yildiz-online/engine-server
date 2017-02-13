@@ -65,8 +65,7 @@ public final class PersistentResearch implements PersistentData<Pair<PlayerId, S
         try (DSLContext create = this.getDSL(c)) {
             Optional
                     .ofNullable(create.selectFrom(table).fetch())
-                    .ifPresent(data -> {
-                        data.forEach(r -> {
+                    .ifPresent(data -> data.forEach(r -> {
                             Player player = playerManager.findFromId(PlayerId.get(r.getPlayerId().intValue()));
                             if (!r.getName().isEmpty()) {
                                 String[] researches = r.getName().split(",");
@@ -74,8 +73,7 @@ public final class PersistentResearch implements PersistentData<Pair<PlayerId, S
                                     researchManager.addResearch(Research.get(s), player);
                                 }
                             }
-                        });
-                    });
+                        }));
         }
     }
 
@@ -95,7 +93,7 @@ public final class PersistentResearch implements PersistentData<Pair<PlayerId, S
 
     @Override
     public void update(Pair<PlayerId, Set<Research>> data, Connection c) {
-
+        //FIXME implements
     }
 
     private DSLContext getDSL(Connection c) {

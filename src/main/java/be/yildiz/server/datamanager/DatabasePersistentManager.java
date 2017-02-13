@@ -68,30 +68,6 @@ public final class DatabasePersistentManager implements PersistentManager, Sessi
     @Getter
     private final DataBaseConnectionProvider provider;
 
-
-//    @Override
-//    public void addModuleConfiguration(ModuleConfiguration config) {
-//        try (Connection c = this.provider.getConnection();) {
-//            DSLContext create = DSL.using(c, this.provider.getDialect());
-//            PlayerModulesConfigurations table = PlayerModulesConfigurations.PLAYER_MODULES_CONFIGURATIONS;
-//            PlayerModulesConfigurationsRecord record = create.newRecord(table);
-//            record.setPlayerId(UShort.valueOf(config.getPlayer().value));
-//            record.setEntityType(UByte.valueOf(config.getType().type));
-//            record.setConfigurationName(config.getName());
-//            record.setMove(UShort.valueOf(config.getModules().getMove().value));
-//            record.setInteraction(UShort.valueOf(config.getModules().getInteraction().value));
-//            record.setProtect(UShort.valueOf(config.getModules().getHull().value));
-//            record.setOther_1(UShort.valueOf(config.getModules().getModules().getOr(0, ActionId.get(0)).value));
-//            record.setOther_2(UShort.valueOf(config.getModules().getModules().getOr(1, ActionId.get(0)).value));
-//            record.setOther_3(UShort.valueOf(config.getModules().getModules().getOr(2, ActionId.get(0)).value));
-//            record.store();
-//        } catch (SQLException e) {
-//            Logger.error(e);
-//        }
-//    }
-
-
-
     @Override
     public List<WaitingPlayer> getPlayerWaiting() {
         try (Connection c = this.provider.getConnection(); DSLContext create = DSL.using(c, this.provider.getDialect())) {
@@ -130,64 +106,6 @@ public final class DatabasePersistentManager implements PersistentManager, Sessi
             Logger.error("Set connected query", e);
         }
     }
-
-    /*@Override
-    public void saveBuildingTask(final List<WaitingBuilding<BaseBuilding>> buildingList) {
-        final long now = System.currentTimeMillis();
-        try (Connection c = this.provider.getConnection(); DSLContext create = DSL.using(c, this.provider.getDialect())) {
-            TaskBuildBuilding table = TaskBuildBuilding.TASK_BUILD_BUILDING;
-            create.delete(table).execute();
-            for (WaitingBuilding<BaseBuilding> wb : buildingList) {
-                TaskBuildBuildingRecord record = create.newRecord(table);
-                record.setId(UInteger.valueOf(wb.getB().getCity().value));
-                record.setPosition(UByte.valueOf(wb.getB().getBuildingPosition().value));
-                record.setType(UByte.valueOf(wb.getB().getType().type));
-                record.setTimeLeft(UInteger.valueOf(wb.getTime() - now));
-                record.setStaff(UShort.valueOf(wb.getB().getStaff()));
-                record.setLevel(UByte.valueOf(wb.getB().getLevel().value));
-                record.store();
-            }
-        } catch (SQLException e) {
-            Logger.error(e);
-        }
-    }
-
-    @Override
-    public void saveEntityTask(final List<WaitingEntity> entityList) {
-        try (Connection c = this.provider.getConnection(); DSLContext create = DSL.using(c, this.provider.getDialect())) {
-            TaskBuildEntity table = TaskBuildEntity.TASK_BUILD_ENTITY;
-            create.delete(table).execute();
-            for (WaitingEntity we : entityList) {
-                create.insertInto(table, table.ID, table.OWNER_ID, table.POSITION, table.TYPE, table.TIME_LEFT)
-                        .values(UInteger.valueOf(we.entity.getId().value), UShort.valueOf(we.entity.getOwner().value), we.entity.getPosition().toString(), UByte.valueOf(we.entity.getType().type),
-                                UInteger.valueOf(we.representation.getTime())).execute();
-            }
-        } catch (SQLException e) {
-            Logger.error(e);
-        }
-    }
-
-    @Override
-    public List<TaskBuilding> retrieveBuildingTask() {
-        try (Connection c = this.provider.getConnection(); DSLContext create = DSL.using(c, this.provider.getDialect())) {
-            TaskBuildBuilding table = TaskBuildBuilding.TASK_BUILD_BUILDING;
-            return Lists.newList(create.selectFrom(table).fetch(new TaskBuildBuildingMapper()));
-        } catch (SQLException e) {
-            Logger.error("Get entity creation task", e);
-        }
-        return Collections.emptyList();
-    }
-
-    @Override
-    public List<TaskEntity> retrieveEntityTask() {
-        try (Connection c = this.provider.getConnection(); DSLContext create = DSL.using(c, this.provider.getDialect())) {
-            TaskBuildEntity table = TaskBuildEntity.TASK_BUILD_ENTITY;
-            return Lists.newList(create.selectFrom(table).fetch(new TaskBuildEntityMapper()));
-        } catch (SQLException e) {
-            Logger.error("Get entity creation task", e);
-        }
-        return Collections.emptyList();
-    }*/
 
     @Override
     public List<Message> retrieveMessage(final PlayerId player) {
@@ -236,25 +154,6 @@ public final class DatabasePersistentManager implements PersistentManager, Sessi
         }
 
     }
-
-    /*private class TaskBuildBuildingMapper implements RecordMapper<TaskBuildBuildingRecord, TaskBuilding> {
-
-        @Override
-        public TaskBuilding map(TaskBuildBuildingRecord r) {
-            return new TaskBuilding(EntityId.get(r.getId().longValue()), r.getPosition().intValue(), r.getType().intValue(), r.getLevel().intValue(), r.getStaff().intValue(), r.getTimeLeft()
-                    .longValue());
-        }
-
-    }
-
-    private class TaskBuildEntityMapper implements RecordMapper<TaskBuildEntityRecord, TaskEntity> {
-
-        @Override
-        public TaskEntity map(TaskBuildEntityRecord r) {
-            return new TaskEntity(EntityId.get(r.getId().longValue()), PlayerId.get(r.getOwnerId().intValue()), new Point3D(r.getPosition()), r.getType().intValue(), r.getTimeLeft().longValue());
-        }
-
-    }*/
 
     private class MessageMapper implements RecordMapper<MessagesRecord, Message> {
 
