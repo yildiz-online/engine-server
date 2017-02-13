@@ -31,6 +31,7 @@ import be.yildiz.server.generated.database.tables.records.ResourcesRecord;
 import be.yildiz.shared.resources.ResourceValue;
 import be.yildiz.shared.resources.ResourcesProducer;
 import org.jooq.DSLContext;
+import org.jooq.conf.Settings;
 import org.jooq.impl.DSL;
 import org.jooq.types.UInteger;
 import org.jooq.types.UShort;
@@ -64,7 +65,7 @@ public final class PersistentResources implements PersistentData<ResourcesProduc
         //this object contains the different fields for the resource
         //this object will be responsible to instantiate new ResourceValue
         //the database will have columns name res_0, res_1... instead of game related values.
-        try (DSLContext create = DSL.using(c)) {
+        try (DSLContext create = this.getDSL(c)) {
             Optional.ofNullable(create.selectFrom(table).fetch())
                     .ifPresent(data -> data.forEach(r -> {
                         EntityId cityId = EntityId.get(r.getValue(table.CITY_ID).longValue());
@@ -83,7 +84,7 @@ public final class PersistentResources implements PersistentData<ResourcesProduc
 
     @Override
     public ResourcesProducer save(final ResourcesProducer data, Connection c) {
-        try (DSLContext create = DSL.using(c)) {
+        try (DSLContext create = this.getDSL(c)) {
             create.insertInto(Resources.RESOURCES, Resources.RESOURCES.CITY_ID, Resources.RESOURCES.LAST_TIME_COMPUTED, Resources.RESOURCES.METAL, Resources.RESOURCES.ENERGY,
                     Resources.RESOURCES.MONEY, Resources.RESOURCES.RESEARCH, Resources.RESOURCES.INHABITANT)
                     .values(UInteger.valueOf(data.getCity().value), new Timestamp(data.getLastUpdate()), (int) data.getResource(0), (int) data.getResource(1),
@@ -94,7 +95,7 @@ public final class PersistentResources implements PersistentData<ResourcesProduc
 
     @Override
     public void update(ResourcesProducer data, Connection c) {
-        try (DSLContext create = DSL.using(c)) {
+        try (DSLContext create = this.getDSL(c)) {
             ResourcesRecord resources = create.fetchOne(table, table.CITY_ID.equal(UInteger.valueOf(data.getCity().value)));
             resources.setMetal((int) data.getResource(0));
             resources.setEnergy((int) data.getResource(1));
@@ -103,5 +104,11 @@ public final class PersistentResources implements PersistentData<ResourcesProduc
             resources.setInhabitant(UShort.valueOf((int) data.getResource(4)));
             resources.store();
         }
+    }
+
+    private DSLContext getDSL(Connection c) {
+        Settings settings = new Settings();
+        settings.setExecuteLogging(false);
+        return DSL.using(c, settings);
     }
 }

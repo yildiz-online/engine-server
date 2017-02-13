@@ -80,7 +80,7 @@ public final class PersistentEntity implements PersistentData<EntityToCreate, Ba
         super();
         this.entityFactory = factory;
         Map<EntityId, String> names = Maps.newMap();
-        try (DSLContext create = DSL.using(c)) {
+        try (DSLContext create = this.getDSL(c)) {
             Optional.ofNullable(create.selectFrom(Cities.CITIES).fetch())
                     .ifPresent(citiesRecords ->
                             citiesRecords.forEach(r -> names.put(EntityId.get(r.getId().longValue()), r.getName())));

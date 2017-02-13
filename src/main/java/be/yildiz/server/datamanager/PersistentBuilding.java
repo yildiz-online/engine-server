@@ -37,6 +37,7 @@ import be.yildiz.shared.data.EntityType;
 import be.yildiz.shared.data.Level;
 import org.jooq.DSLContext;
 import org.jooq.RecordMapper;
+import org.jooq.conf.Settings;
 import org.jooq.impl.DSL;
 import org.jooq.types.UByte;
 import org.jooq.types.UInteger;
@@ -71,7 +72,7 @@ public final class PersistentBuilding implements PersistentData<BaseBuilding, Ba
     public PersistentBuilding(final Connection c, BuildingConstructionManager<BaseBuilding, GameBuildingData, ServerCity> constructionManager, final ServerCityManager em) {
         super();
         this.cityManager = em;
-        try (DSLContext create = DSL.using(c)) {
+        try (DSLContext create = this.getDSL(c)) {
             Optional
                     .ofNullable(create.selectFrom(table).fetch())
                     .ifPresent(data -> data.map(this)
@@ -85,7 +86,7 @@ public final class PersistentBuilding implements PersistentData<BaseBuilding, Ba
 
     @Override
     public BaseBuilding save(final BaseBuilding data, Connection c) {
-        try (DSLContext create = DSL.using(c)) {
+        try (DSLContext create = this.getDSL(c)) {
             create.insertInto(table, table.BASE_ID, table.POSITION, table.TYPE, table.LEVEL, table.STAFF)
                     .values(
                             UInteger.valueOf(data.getCity().value),
@@ -100,7 +101,7 @@ public final class PersistentBuilding implements PersistentData<BaseBuilding, Ba
 
     @Override
     public void update(final BaseBuilding data, Connection c) {
-        try (DSLContext create = DSL.using(c)) {
+        try (DSLContext create = this.getDSL(c)) {
             BuildingsRecord building = create.fetchOne(table, table.BASE_ID.equal(UInteger.valueOf(data.getCity().value)).and(table.POSITION.equal(UByte.valueOf(data.getBuildingPosition().value))));
             building.setBaseId(UInteger.valueOf(data.getCity().value));
             building.setType(UByte.valueOf(data.getType().type));
@@ -118,5 +119,11 @@ public final class PersistentBuilding implements PersistentData<BaseBuilding, Ba
         Level level = new Level(r.getLevel().intValue());
         int staff = r.getStaff().intValue();
         return new BaseBuilding(id, cityManager.getData(type), pos, level, staff);
+    }
+
+    private DSLContext getDSL(Connection c) {
+        Settings settings = new Settings();
+        settings.setExecuteLogging(false);
+        return DSL.using(c, settings);
     }
 }

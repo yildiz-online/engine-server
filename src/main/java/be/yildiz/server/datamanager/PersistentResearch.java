@@ -27,7 +27,6 @@ import be.yildiz.common.id.PlayerId;
 import be.yildiz.common.util.Pair;
 import be.yildiz.common.util.StringUtil;
 import be.yildiz.server.generated.database.tables.Researches;
-import be.yildiz.server.generated.database.tables.records.AccountsRecord;
 import be.yildiz.server.generated.database.tables.records.ResearchesRecord;
 import be.yildiz.shared.player.Player;
 import be.yildiz.shared.player.PlayerManager;
@@ -63,7 +62,7 @@ public final class PersistentResearch implements PersistentData<Pair<PlayerId, S
      */
     public PersistentResearch(Connection c, final PlayerManager playerManager, final ResearchManager researchManager) {
         super();
-        try (DSLContext create = DSL.using(c)) {
+        try (DSLContext create = this.getDSL(c)) {
             Optional
                     .ofNullable(create.selectFrom(table).fetch())
                     .ifPresent(data -> {
@@ -82,7 +81,7 @@ public final class PersistentResearch implements PersistentData<Pair<PlayerId, S
 
     @Override
     public Pair<PlayerId, Set<Research>> save(final Pair<PlayerId, Set<Research>> data, Connection c) {
-        try (DSLContext create = DSL.using(c)) {
+        try (DSLContext create = this.getDSL(c)) {
             ResearchesRecord research = create.fetchOne(table, table.PLAYER_ID.equal(UShort.valueOf(data.getObject1().value)));
             if(research == null) {
                 research = create.newRecord(table);
@@ -97,5 +96,11 @@ public final class PersistentResearch implements PersistentData<Pair<PlayerId, S
     @Override
     public void update(Pair<PlayerId, Set<Research>> data, Connection c) {
 
+    }
+
+    private DSLContext getDSL(Connection c) {
+        Settings settings = new Settings();
+        settings.setExecuteLogging(false);
+        return DSL.using(c, settings);
     }
 }

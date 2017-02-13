@@ -131,15 +131,17 @@ public final class PersistentPlayer implements PersistentData<PlayerToCreate, Pl
         }
     }
 
-    private DSLContext getDSL(Connection c) {
-        Settings settings = new Settings();
-        settings.setExecuteLogging(false);
-        return DSL.using(c, settings);
-    }
+
 
     @Override
     public void update(Player data, Connection c) {
         // TODO Auto-generated method stub
 
+    }
+
+    private DSLContext getDSL(Connection c) {
+        Settings settings = new Settings();
+        settings.setExecuteLogging(false);
+        return DSL.using(c, settings);
     }
 }
