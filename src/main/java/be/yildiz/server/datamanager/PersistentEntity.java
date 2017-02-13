@@ -199,6 +199,7 @@ public final class PersistentEntity implements PersistentData<EntityToCreate, Ba
     public void update(final BaseEntity data, Connection c) {
         try (DSLContext create = this.getDSL(c)) {
             EntitiesRecord entity = create.fetchOne(table, table.ID.equal(UInteger.valueOf(data.getId().value)));
+            entity.setId(UInteger.valueOf(data.getId().value));
             entity.setMapId(UByte.valueOf(1));
             entity.setType(UByte.valueOf(data.getType().type));
             entity.setOwnerId(UShort.valueOf(data.getOwner().value));
@@ -227,7 +228,7 @@ public final class PersistentEntity implements PersistentData<EntityToCreate, Ba
             // Deducted from the modules.
             // entity.setMaxhp(UShort.valueOf(data.getMaxHitPoints()));
             // entity.setMaxenergy(UShort.valueOf(data.getMaxEnergyPoints()));
-            entity.store();
+            create.executeUpdate(entity);
         }
     }
 

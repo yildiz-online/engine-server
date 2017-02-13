@@ -107,7 +107,7 @@ public final class PersistentBuilding implements PersistentData<BaseBuilding, Ba
             building.setType(UByte.valueOf(data.getType().type));
             building.setLevel(UByte.valueOf(data.getLevel().value));
             building.setStaff(UShort.valueOf(data.getStaff()));
-            building.store();
+            create.executeUpdate(building);
         }
     }
 

@@ -102,7 +102,7 @@ public final class PersistentResources implements PersistentData<ResourcesProduc
             resources.setMoney((int) data.getResource(2));
             resources.setResearch((int) data.getResource(3));
             resources.setInhabitant(UShort.valueOf((int) data.getResource(4)));
-            resources.store();
+            create.executeUpdate(resources);
         }
     }
 
