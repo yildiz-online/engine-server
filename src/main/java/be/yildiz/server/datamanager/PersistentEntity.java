@@ -66,7 +66,7 @@ public final class PersistentEntity implements PersistentData<EntityToCreate, Ba
      * List of Id not used.
      */
     private final Set<EntityId> freeId = Sets.newInsertionOrderedSet();
-    private final EntityInConstructionFactory constructionFactory = new EntityInConstructionFactorySimple();;
+    private final EntityInConstructionFactory constructionFactory = new EntityInConstructionFactorySimple();
     private final EntityFactory<BaseEntity> entityFactory;
 
     /**
