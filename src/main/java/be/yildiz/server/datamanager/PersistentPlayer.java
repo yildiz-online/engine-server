@@ -26,6 +26,7 @@ package be.yildiz.server.datamanager;
 import be.yildiz.common.collections.Sets;
 import be.yildiz.common.id.PlayerId;
 import be.yildiz.server.generated.database.tables.Accounts;
+import be.yildiz.server.generated.database.tables.TempAccounts;
 import be.yildiz.server.generated.database.tables.records.AccountsRecord;
 import be.yildiz.shared.player.Player;
 import be.yildiz.shared.player.PlayerManager;
@@ -137,6 +138,14 @@ public final class PersistentPlayer implements PersistentData<PlayerToCreate, Pl
     public void update(Player data, Connection c) {
         // TODO Auto-generated method stub
 
+    }
+
+    public void deleteTempAccount(String login, Connection c) {
+        try (DSLContext create = this.getDSL(c)) {
+            create.delete(TempAccounts.TEMP_ACCOUNTS)
+                    .where(TempAccounts.TEMP_ACCOUNTS.LOGIN.equal(login))
+                    .execute();
+        }
     }
 
     private DSLContext getDSL(Connection c) {
