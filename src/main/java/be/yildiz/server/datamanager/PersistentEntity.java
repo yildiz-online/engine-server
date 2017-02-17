@@ -191,7 +191,7 @@ public final class PersistentEntity implements PersistentData<EntityToCreate, Ba
         try (DSLContext create = this.getDSL(c)) {
             EntitiesRecord entity = create.fetchOne(table, table.ID.equal(UInteger.valueOf(id.value)));
             entity.setActive(false);
-            entity.store();
+            create.executeUpdate(entity);
         }
     }
 
