@@ -32,10 +32,8 @@ import be.yildiz.module.network.server.Session;
 import be.yildiz.module.network.server.SessionListener;
 import be.yildiz.server.generated.database.tables.Accounts;
 import be.yildiz.server.generated.database.tables.Messages;
-import be.yildiz.server.generated.database.tables.TempAccounts;
 import be.yildiz.server.generated.database.tables.records.AccountsRecord;
 import be.yildiz.server.generated.database.tables.records.MessagesRecord;
-import be.yildiz.server.generated.database.tables.records.TempAccountsRecord;
 import be.yildiz.shared.entity.action.Action;
 import be.yildiz.shared.player.Message;
 import lombok.AllArgsConstructor;
@@ -67,16 +65,6 @@ public final class DatabasePersistentManager implements PersistentManager, Sessi
      */
     @Getter
     private final DataBaseConnectionProvider provider;
-
-    @Override
-    public List<WaitingPlayer> getPlayerWaiting() {
-        try (Connection c = this.provider.getConnection(); DSLContext create = DSL.using(c, this.provider.getDialect())) {
-            return Lists.newList(create.selectFrom(TempAccounts.TEMP_ACCOUNTS).fetch(new TempAccountsMapper()));
-        } catch (SQLException e) {
-            Logger.error(e);
-        }
-        return Collections.emptyList();
-    }
 
     @Override
     public void messageReceived(final Session player, final MessageWrapper message) {
@@ -144,15 +132,6 @@ public final class DatabasePersistentManager implements PersistentManager, Sessi
             Logger.error(e);
         }
         return 0;
-    }
-
-    private class TempAccountsMapper implements RecordMapper<TempAccountsRecord, WaitingPlayer> {
-
-        @Override
-        public WaitingPlayer map(TempAccountsRecord r) {
-            return new WaitingPlayer(r.getLogin(), r.getPassword(), r.getEmail());
-        }
-
     }
 
     private class MessageMapper implements RecordMapper<MessagesRecord, Message> {

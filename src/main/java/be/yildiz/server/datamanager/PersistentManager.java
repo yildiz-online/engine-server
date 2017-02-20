@@ -37,12 +37,6 @@ import java.util.List;
  */
 public interface PersistentManager {
 
-
-    /**
-     * @return A list of all player waiting to be created.
-     */
-    List<WaitingPlayer> getPlayerWaiting();
-
     List<Message> retrieveMessage(PlayerId player);
 
     /**
