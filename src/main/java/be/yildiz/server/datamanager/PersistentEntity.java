@@ -70,13 +70,15 @@ public final class PersistentEntity implements PersistentData<EntityToCreate, Ba
     private final EntityFactory<BaseEntity> entityFactory;
 
     /**
-     * Full constructor, retrieve data from persistent context.
+     * Full constructor, retrieve data from persistent context, create them in the factory and register them in the entity manager.
      *
      * @param c SQL connection.
      * @param factory Factory to build entities.
+     * @param entityManager To register the loaded entities.
      */
     public PersistentEntity(Connection c,
-                            final EntityFactory<BaseEntity> factory) {
+                            final EntityFactory<BaseEntity> factory,
+                            EntityManager<BaseEntity> entityManager) {
         super();
         this.entityFactory = factory;
         Map<EntityId, String> names = Maps.newMap();
@@ -116,7 +118,7 @@ public final class PersistentEntity implements PersistentData<EntityToCreate, Ba
                                             r.getHitPoint().intValue(),
                                             r.getEnergyPoint().intValue());
 
-                                    factory.createEntity(eic);
+                                    entityManager.addEntity(factory.createEntity(eic));
                                 } else {
                                     this.freeId.add(id);
                                 }
