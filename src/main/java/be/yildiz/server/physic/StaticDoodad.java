@@ -27,7 +27,6 @@ import be.yildiz.common.id.EntityId;
 import be.yildiz.common.vector.Point3D;
 import be.yildiz.module.physics.AbstractStaticObject;
 import be.yildiz.server.gameobject.ServerGameEntity;
-import lombok.NonNull;
 
 /**
  * A static doodad is an an object not moving and not meant to have any interaction with the game entities.
@@ -48,7 +47,7 @@ final class StaticDoodad extends AbstractStaticObject implements ServerGameEntit
      * @param dir Immutable direction.
      * requires true.
      */
-    StaticDoodad(@NonNull final Point3D pos, @NonNull final Point3D dir) {
+    StaticDoodad(final Point3D pos, final Point3D dir) {
         super(pos, dir);
     }
 

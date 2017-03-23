@@ -25,33 +25,38 @@ package be.yildiz.server.datamanager;
 
 import be.yildiz.common.id.EntityId;
 import be.yildiz.common.vector.Point3D;
-import lombok.AllArgsConstructor;
-import lombok.NonNull;
 
 /**
  * Simple container for an entity move task data.
  *
  * @author Grégory Van den Borre
  */
-@AllArgsConstructor
 public final class TaskMove {
 
     /**
      * Entity's id.
      */
-    @NonNull
     private final EntityId entity;
 
     /**
      * Entity destination.
      */
-    @NonNull
     private final Point3D destination;
 
     /**
      * Entity speed.
      */
     private final float speed;
+
+    public TaskMove(EntityId entity, Point3D destination, float speed) {
+        super();
+        assert entity != null;
+        assert  destination != null;
+        assert speed >= 0;
+        this.entity = entity;
+        this.destination = destination;
+        this.speed = speed;
+    }
 
     public EntityId getEntity() {
         return entity;

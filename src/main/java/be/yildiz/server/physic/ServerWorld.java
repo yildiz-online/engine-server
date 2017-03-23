@@ -29,22 +29,24 @@ import be.yildiz.common.shape.Sphere;
 import be.yildiz.common.vector.Point3D;
 import be.yildiz.module.physics.*;
 import be.yildiz.server.gameobject.ServerGameEntity;
-import lombok.AllArgsConstructor;
-import lombok.NonNull;
 
 /**
  * Bullet implementation for the ServerWorld_todelete.
  *
  * @author Grégory Van den Borre
  */
-@AllArgsConstructor
 public final class ServerWorld implements World {
 
     /**
      * Physic world used to build and manage server world objects.
      */
-    @NonNull
     private final PhysicWorld physicWorld;
+
+    public ServerWorld(PhysicWorld physicWorld) {
+        super();
+        assert  physicWorld != null;
+        this.physicWorld = physicWorld;
+    }
 
     /**
      * Create a static physic box, it a given Id, cannot move, and will not be affected in any way by physics dynamic, but is collidable. It is usually used to represent collidable object like
