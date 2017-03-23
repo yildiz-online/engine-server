@@ -26,8 +26,6 @@ package be.yildiz.server.datamanager;
 import be.yildiz.common.id.EntityId;
 import be.yildiz.common.id.PlayerId;
 import be.yildiz.common.vector.Point3D;
-import lombok.Getter;
-import lombok.NonNull;
 
 import java.security.InvalidParameterException;
 
@@ -36,7 +34,6 @@ import java.security.InvalidParameterException;
  *
  * @author Grégory Van den Borre
  */
-@Getter
 public final class TaskEntity {
 
     /**
@@ -64,11 +61,14 @@ public final class TaskEntity {
      */
     private final long timeLeft;
 
-    public TaskEntity(@NonNull final EntityId entity, @NonNull final PlayerId owner, @NonNull final Point3D position, final int type, final long timeLeft) {
+    public TaskEntity(final EntityId entity, final PlayerId owner, final Point3D position, final int type, final long timeLeft) {
         super();
         if (type < 0 || timeLeft < 0) {
             throw new InvalidParameterException("Value must be positive.");
         }
+        assert entity != null;
+        assert owner != null;
+        assert position != null;
         this.entity = entity;
         this.owner = owner;
         this.position = position;
@@ -76,4 +76,23 @@ public final class TaskEntity {
         this.timeLeft = timeLeft;
     }
 
+    public EntityId getEntity() {
+        return entity;
+    }
+
+    public PlayerId getOwner() {
+        return owner;
+    }
+
+    public Point3D getPosition() {
+        return position;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public long getTimeLeft() {
+        return timeLeft;
+    }
 }

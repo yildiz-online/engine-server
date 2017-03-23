@@ -31,7 +31,6 @@ import be.yildiz.shared.entity.Entity;
 import be.yildiz.shared.entity.EntityManager;
 import be.yildiz.shared.player.Player;
 import be.yildiz.shared.player.PlayerManager;
-import lombok.AllArgsConstructor;
 
 import java.util.List;
 
@@ -40,7 +39,6 @@ import java.util.List;
  *
  * @author Grégory Van den Borre
  */
-@AllArgsConstructor
 public final class LosManager<T extends Entity> implements CollisionListener {
 
     /**
@@ -57,6 +55,12 @@ public final class LosManager<T extends Entity> implements CollisionListener {
      * Associated player manager.
      */
     private final PlayerManager playerManager;
+
+    public LosManager(EntityManager<T> entityManager, PlayerManager playerManager) {
+        super();
+        this.entityManager = entityManager;
+        this.playerManager = playerManager;
+    }
 
     /**
      * An entity has entered in the field of view of another entity.

@@ -26,7 +26,6 @@ package be.yildiz.server.datamanager;
 import be.yildiz.common.id.EntityId;
 import be.yildiz.common.vector.Point3D;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NonNull;
 
 /**
@@ -35,7 +34,6 @@ import lombok.NonNull;
  * @author Grégory Van den Borre
  */
 @AllArgsConstructor
-@Getter
 public final class TaskMove {
 
     /**
@@ -54,4 +52,16 @@ public final class TaskMove {
      * Entity speed.
      */
     private final float speed;
+
+    public EntityId getEntity() {
+        return entity;
+    }
+
+    public Point3D getDestination() {
+        return destination;
+    }
+
+    public float getSpeed() {
+        return speed;
+    }
 }

@@ -36,7 +36,6 @@ import be.yildiz.server.generated.database.tables.records.AccountsRecord;
 import be.yildiz.server.generated.database.tables.records.MessagesRecord;
 import be.yildiz.shared.entity.action.Action;
 import be.yildiz.shared.player.Message;
-import lombok.Getter;
 import org.jooq.DSLContext;
 import org.jooq.RecordMapper;
 import org.jooq.Table;
@@ -61,7 +60,6 @@ public final class DatabasePersistentManager implements PersistentManager, Sessi
     /**
      * Provide connection to the database.
      */
-    @Getter
     private final DataBaseConnectionProvider provider;
 
     public DatabasePersistentManager(DataBaseConnectionProvider provider) {
@@ -135,6 +133,10 @@ public final class DatabasePersistentManager implements PersistentManager, Sessi
             Logger.error(e);
         }
         return 0;
+    }
+
+    public DataBaseConnectionProvider getProvider() {
+        return provider;
     }
 
     private class MessageMapper implements RecordMapper<MessagesRecord, Message> {

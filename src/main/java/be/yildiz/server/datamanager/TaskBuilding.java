@@ -24,16 +24,12 @@
 package be.yildiz.server.datamanager;
 
 import be.yildiz.common.id.EntityId;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 
 /**
  * Simple container for a building construction task data.
  *
  * @author Grégory Van den Borre
  */
-@AllArgsConstructor
-@Getter
 public final class TaskBuilding {
 
     /**
@@ -65,4 +61,39 @@ public final class TaskBuilding {
      * Time left before building is completed.
      */
     private final long timeLeft;
+
+    public TaskBuilding(EntityId city, int position, int type, int level, int staff, long timeLeft) {
+        super();
+        this.city = city;
+        this.position = position;
+        this.type = type;
+        this.level = level;
+        this.staff = staff;
+        this.timeLeft = timeLeft;
+    }
+
+
+    public EntityId getCity() {
+        return city;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public int getStaff() {
+        return staff;
+    }
+
+    public long getTimeLeft() {
+        return timeLeft;
+    }
 }

@@ -24,28 +24,38 @@
 package be.yildiz.server.datamanager;
 
 import be.yildiz.common.id.EntityId;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NonNull;
 
 /**
  * Simple container for an attack task data.
  *
  * @author Grégory Van den Borre
  */
-@AllArgsConstructor
-@Getter
 public final class TaskAttack {
 
     /**
      * Attacker's id.
      */
-    @NonNull
     private final EntityId attacker;
 
     /**
      * Target's id.
      */
-    @NonNull
     private final EntityId target;
+
+    public TaskAttack(EntityId attacker, EntityId target) {
+        super();
+        assert attacker != null;
+        assert target != null;
+        this.attacker = attacker;
+        this.target = target;
+    }
+
+
+    public EntityId getAttacker() {
+        return attacker;
+    }
+
+    public EntityId getTarget() {
+        return target;
+    }
 }
