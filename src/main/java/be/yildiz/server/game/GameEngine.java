@@ -37,7 +37,6 @@ import be.yildiz.server.physic.ServerWorld;
 import be.yildiz.shared.game.engine.AbstractGameEngine;
 import be.yildiz.shared.game.engine.DataInitializer;
 import be.yildiz.shared.game.engine.Initializable;
-import lombok.Getter;
 
 /**
  * Server side implementation for the game engine.
@@ -60,7 +59,7 @@ public final class GameEngine extends AbstractGameEngine implements ResponseSend
      * Class used to initialize the data.
      */
     private final DataInitializer initializer;
-    @Getter
+
     private final SessionManager sessionManager;
     /**
      * Currently active world.
@@ -171,5 +170,9 @@ public final class GameEngine extends AbstractGameEngine implements ResponseSend
     //@Ensures this.activeWorld.listeners.contains(listener)
     public final void addGhostListener(CollisionListener listener) {
         this.activeWorld.addGhostCollisionListener(listener);
+    }
+
+    public SessionManager getSessionManager() {
+        return sessionManager;
     }
 }

@@ -27,7 +27,6 @@ import be.yildiz.common.id.EntityId;
 import be.yildiz.common.vector.Point3D;
 import be.yildiz.module.physics.AbstractStaticObject;
 import be.yildiz.server.gameobject.ServerGameEntity;
-import lombok.Getter;
 import lombok.NonNull;
 
 /**
@@ -38,15 +37,8 @@ import lombok.NonNull;
 final class StaticDoodad extends AbstractStaticObject implements ServerGameEntity {
 
     /**
-     * Game entity id, world value as it has no interaction with the game..
-     */
-    @Getter
-    private final EntityId id = EntityId.WORLD;
-
-    /**
      * Current scaling.
      */
-    @Getter
     private Point3D scaleSize = new Point3D(1);
 
     /**
@@ -54,7 +46,7 @@ final class StaticDoodad extends AbstractStaticObject implements ServerGameEntit
      *
      * @param pos Immutable position.
      * @param dir Immutable direction.
-     * @requires true.
+     * requires true.
      */
     StaticDoodad(@NonNull final Point3D pos, @NonNull final Point3D dir) {
         super(pos, dir);
@@ -62,25 +54,44 @@ final class StaticDoodad extends AbstractStaticObject implements ServerGameEntit
 
     @Override
     public void setPosition(final float posX, final float posY, final float posZ) {
+        //no set position as static
     }
 
     @Override
     public void setDirection(final float dirX, final float dirY, final float dirZ) {
+        //no set direction as static
     }
 
     @Override
     public void sleep(final boolean b) {
+        //no sleep as static
     }
 
     @Override
     public void scale(final float x, final float y, final float z) {
+        //no scale as static
     }
 
     @Override
     public void rotate(final float x, final float y, final float z, final float w) {
+        //no rotate as static
     }
 
     @Override
     public void delete() {
+        //FIXME implements
+    }
+
+    /**
+     * Game entity id, world value as it has no interaction with the game..
+     */
+    @Override
+    public EntityId getId() {
+        return EntityId.WORLD;
+    }
+
+    @Override
+    public Point3D getScaleSize() {
+        return scaleSize;
     }
 }

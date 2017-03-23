@@ -36,7 +36,6 @@ import be.yildiz.server.generated.database.tables.records.AccountsRecord;
 import be.yildiz.server.generated.database.tables.records.MessagesRecord;
 import be.yildiz.shared.entity.action.Action;
 import be.yildiz.shared.player.Message;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.jooq.DSLContext;
 import org.jooq.RecordMapper;
@@ -57,7 +56,6 @@ import java.util.List;
  *
  * @author Grégory Van den Borre
  */
-@AllArgsConstructor
 public final class DatabasePersistentManager implements PersistentManager, SessionListener {
 
     /**
@@ -65,6 +63,11 @@ public final class DatabasePersistentManager implements PersistentManager, Sessi
      */
     @Getter
     private final DataBaseConnectionProvider provider;
+
+    public DatabasePersistentManager(DataBaseConnectionProvider provider) {
+        super();
+        this.provider = provider;
+    }
 
     @Override
     public void messageReceived(final Session player, final MessageWrapper message) {
