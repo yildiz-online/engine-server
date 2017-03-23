@@ -43,19 +43,19 @@ public final class TaskEntityTest {
 
     @Test
     public void testTaskEntity() {
-        this.rule.expect(NullPointerException.class);
+        this.rule.expect(AssertionError.class);
         new TaskEntity(null, PlayerId.get(4), Point3D.ZERO, 1, 0);
     }
 
     @Test
     public void testTaskEntity2() {
-        this.rule.expect(NullPointerException.class);
+        this.rule.expect(AssertionError.class);
         new TaskEntity(EntityId.get(1L), null, Point3D.ZERO, 1, 0);
     }
 
     @Test
     public void testTaskEntity3() {
-        this.rule.expect(NullPointerException.class);
+        this.rule.expect(AssertionError.class);
         new TaskEntity(EntityId.get(1L), PlayerId.get(2), null, 1, 0);
     }
 

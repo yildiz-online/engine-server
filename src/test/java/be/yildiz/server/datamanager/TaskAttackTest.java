@@ -39,13 +39,13 @@ public final class TaskAttackTest {
 
     @Test
     public void testTaskAttack() {
-        rule.expect(NullPointerException.class);
+        rule.expect(AssertionError.class);
         new TaskAttack(null, EntityId.get(1L));
     }
 
     @Test
     public void testTaskAttack2() {
-        rule.expect(NullPointerException.class);
+        rule.expect(AssertionError.class);
         new TaskAttack(EntityId.get(1L), null);
     }
 

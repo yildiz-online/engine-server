@@ -40,13 +40,13 @@ public class TaskMoveTest {
 
     @Test
     public void testTaskMove1() {
-        this.rule.expect(NullPointerException.class);
+        this.rule.expect(AssertionError.class);
         new TaskMove(null, Point3D.ZERO, 0);
     }
 
     @Test
     public void testTaskMove2() {
-        this.rule.expect(NullPointerException.class);
+        this.rule.expect(AssertionError.class);
         new TaskMove(EntityId.get(5L), null, 0);
     }
 
