@@ -118,7 +118,7 @@ public final class PersistentEntity implements PersistentData<EntityToCreate, Ba
                                             r.getHitPoint().intValue(),
                                             r.getEnergyPoint().intValue());
 
-                                    entityManager.addEntity(factory.createEntity(eic));
+                                    factory.createEntity(eic);
                                 } else {
                                     this.freeId.add(id);
                                 }
