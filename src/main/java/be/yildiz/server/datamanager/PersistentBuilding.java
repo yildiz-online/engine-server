@@ -81,13 +81,12 @@ public final class PersistentBuilding implements PersistentData<BaseBuilding, Ba
                             .forEach(constructionManager::createBuilding));
             em.getCities().forEach(City::initializeProducer);
         }
-
     }
 
     @Override
     public BaseBuilding save(final BaseBuilding data, Connection c) {
         try (DSLContext create = this.getDSL(c)) {
-            create.insertInto(table, table.BASE_ID, table.POSITION, table.TYPE, table.LEVEL, table.STAFF)
+            create.insertInto(table, table.CITY_ID, table.POSITION, table.TYPE, table.LEVEL, table.STAFF)
                     .values(
                             UInteger.valueOf(data.getCity().value),
                             UByte.valueOf(data.getBuildingPosition().value),
@@ -102,8 +101,8 @@ public final class PersistentBuilding implements PersistentData<BaseBuilding, Ba
     @Override
     public void update(final BaseBuilding data, Connection c) {
         try (DSLContext create = this.getDSL(c)) {
-            BuildingsRecord building = create.fetchOne(table, table.BASE_ID.equal(UInteger.valueOf(data.getCity().value)).and(table.POSITION.equal(UByte.valueOf(data.getBuildingPosition().value))));
-            building.setBaseId(UInteger.valueOf(data.getCity().value));
+            BuildingsRecord building = create.fetchOne(table, table.CITY_ID.equal(UInteger.valueOf(data.getCity().value)).and(table.POSITION.equal(UByte.valueOf(data.getBuildingPosition().value))));
+            building.setCityId(UInteger.valueOf(data.getCity().value));
             building.setType(UByte.valueOf(data.getType().type));
             building.setLevel(UByte.valueOf(data.getLevel().value));
             building.setStaff(UShort.valueOf(data.getStaff()));
@@ -113,7 +112,7 @@ public final class PersistentBuilding implements PersistentData<BaseBuilding, Ba
 
     @Override
     public BaseBuilding map(BuildingsRecord r) {
-        EntityId id = EntityId.get(r.getBaseId().longValue());
+        EntityId id = EntityId.get(r.getCityId().longValue());
         BuildingPosition pos = new BuildingPosition(r.getPosition().intValue());
         EntityType type = EntityType.get(r.getType().intValue());
         Level level = new Level(r.getLevel().intValue());

@@ -87,8 +87,14 @@ public final class PersistentResources implements PersistentData<ResourcesProduc
         try (DSLContext create = this.getDSL(c)) {
             create.insertInto(Resources.RESOURCES, Resources.RESOURCES.CITY_ID, Resources.RESOURCES.LAST_TIME_COMPUTED, Resources.RESOURCES.METAL, Resources.RESOURCES.ENERGY,
                     Resources.RESOURCES.MONEY, Resources.RESOURCES.RESEARCH, Resources.RESOURCES.INHABITANT)
-                    .values(UInteger.valueOf(data.getCity().value), new Timestamp(data.getLastUpdate()), (int) data.getResource(0), (int) data.getResource(1),
-                            (int) data.getResource(2), (int) data.getResource(3), UShort.valueOf((int) data.getResource(4))).execute();
+                    .values(
+                            UInteger.valueOf(data.getCity().value),
+                            new Timestamp(data.getLastUpdate()),
+                            (double)data.getResource(0),
+                            (double)data.getResource(1),
+                            (double)data.getResource(2),
+                            (double)data.getResource(3),
+                            (double)data.getResource(4)).execute();
         return data;
         }
     }
@@ -97,11 +103,11 @@ public final class PersistentResources implements PersistentData<ResourcesProduc
     public void update(ResourcesProducer data, Connection c) {
         try (DSLContext create = this.getDSL(c)) {
             ResourcesRecord resources = create.fetchOne(table, table.CITY_ID.equal(UInteger.valueOf(data.getCity().value)));
-            resources.setMetal((int) data.getResource(0));
-            resources.setEnergy((int) data.getResource(1));
-            resources.setMoney((int) data.getResource(2));
-            resources.setResearch((int) data.getResource(3));
-            resources.setInhabitant(UShort.valueOf((int) data.getResource(4)));
+            resources.setMetal((double)data.getResource(0));
+            resources.setEnergy((double)data.getResource(1));
+            resources.setMoney((double)data.getResource(2));
+            resources.setResearch((double)data.getResource(3));
+            resources.setInhabitant((double)data.getResource(4));
             create.executeUpdate(resources);
         }
     }
