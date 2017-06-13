@@ -14,7 +14,6 @@ import be.yildiz.server.generated.database.tables.Messages;
 import be.yildiz.server.generated.database.tables.Missions;
 import be.yildiz.server.generated.database.tables.Researches;
 import be.yildiz.server.generated.database.tables.Resources;
-import be.yildiz.server.generated.database.tables.Tasks;
 import be.yildiz.server.generated.database.tables.TasksStatus;
 import be.yildiz.server.generated.database.tables.TempAccounts;
 
@@ -83,11 +82,6 @@ public class Tables {
      * The table <code>YILDIZDATABASE.RESOURCES</code>.
      */
     public static final Resources RESOURCES = be.yildiz.server.generated.database.tables.Resources.RESOURCES;
-
-    /**
-     * The table <code>YILDIZDATABASE.TASKS</code>.
-     */
-    public static final Tasks TASKS = be.yildiz.server.generated.database.tables.Tasks.TASKS;
 
     /**
      * The table <code>YILDIZDATABASE.TASKS_STATUS</code>.

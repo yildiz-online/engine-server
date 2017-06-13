@@ -14,7 +14,6 @@ import be.yildiz.server.generated.database.tables.Messages;
 import be.yildiz.server.generated.database.tables.Missions;
 import be.yildiz.server.generated.database.tables.Researches;
 import be.yildiz.server.generated.database.tables.Resources;
-import be.yildiz.server.generated.database.tables.Tasks;
 import be.yildiz.server.generated.database.tables.TasksStatus;
 import be.yildiz.server.generated.database.tables.TempAccounts;
 
@@ -42,7 +41,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Yildizdatabase extends SchemaImpl {
 
-    private static final long serialVersionUID = -1822841118;
+    private static final long serialVersionUID = -2087203011;
 
     /**
      * The reference instance of <code>YILDIZDATABASE</code>
@@ -100,11 +99,6 @@ public class Yildizdatabase extends SchemaImpl {
     public final Resources RESOURCES = be.yildiz.server.generated.database.tables.Resources.RESOURCES;
 
     /**
-     * The table <code>YILDIZDATABASE.TASKS</code>.
-     */
-    public final Tasks TASKS = be.yildiz.server.generated.database.tables.Tasks.TASKS;
-
-    /**
      * The table <code>YILDIZDATABASE.TASKS_STATUS</code>.
      */
     public final TasksStatus TASKS_STATUS = be.yildiz.server.generated.database.tables.TasksStatus.TASKS_STATUS;
@@ -149,7 +143,6 @@ public class Yildizdatabase extends SchemaImpl {
             Missions.MISSIONS,
             Researches.RESEARCHES,
             Resources.RESOURCES,
-            Tasks.TASKS,
             TasksStatus.TASKS_STATUS,
             TempAccounts.TEMP_ACCOUNTS);
     }

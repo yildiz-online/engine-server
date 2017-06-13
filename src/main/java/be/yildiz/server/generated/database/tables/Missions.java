@@ -20,7 +20,9 @@ import org.jooq.Table;
 import org.jooq.TableField;
 import org.jooq.UniqueKey;
 import org.jooq.impl.TableImpl;
+import org.jooq.types.UByte;
 import org.jooq.types.UInteger;
+import org.jooq.types.UShort;
 
 
 /**
@@ -36,7 +38,7 @@ import org.jooq.types.UInteger;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Missions extends TableImpl<MissionsRecord> {
 
-    private static final long serialVersionUID = 885845345;
+    private static final long serialVersionUID = -1137625207;
 
     /**
      * The reference instance of <code>YILDIZDATABASE.MISSIONS</code>
@@ -55,6 +57,16 @@ public class Missions extends TableImpl<MissionsRecord> {
      * The column <code>YILDIZDATABASE.MISSIONS.MIS_ID</code>.
      */
     public final TableField<MissionsRecord, UInteger> MIS_ID = createField("MIS_ID", org.jooq.impl.SQLDataType.INTEGERUNSIGNED.nullable(false), this, "");
+
+    /**
+     * The column <code>YILDIZDATABASE.MISSIONS.PLY_ID</code>.
+     */
+    public final TableField<MissionsRecord, UShort> PLY_ID = createField("PLY_ID", org.jooq.impl.SQLDataType.SMALLINTUNSIGNED, this, "");
+
+    /**
+     * The column <code>YILDIZDATABASE.MISSIONS.STATUS</code>.
+     */
+    public final TableField<MissionsRecord, UByte> STATUS = createField("STATUS", org.jooq.impl.SQLDataType.TINYINTUNSIGNED.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.TINYINTUNSIGNED)), this, "");
 
     /**
      * Create a <code>YILDIZDATABASE.MISSIONS</code> table reference

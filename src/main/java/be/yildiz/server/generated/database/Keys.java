@@ -13,7 +13,6 @@ import be.yildiz.server.generated.database.tables.Messages;
 import be.yildiz.server.generated.database.tables.Missions;
 import be.yildiz.server.generated.database.tables.Researches;
 import be.yildiz.server.generated.database.tables.Resources;
-import be.yildiz.server.generated.database.tables.Tasks;
 import be.yildiz.server.generated.database.tables.TasksStatus;
 import be.yildiz.server.generated.database.tables.TempAccounts;
 import be.yildiz.server.generated.database.tables.records.AccountsRecord;
@@ -25,7 +24,6 @@ import be.yildiz.server.generated.database.tables.records.MessagesRecord;
 import be.yildiz.server.generated.database.tables.records.MissionsRecord;
 import be.yildiz.server.generated.database.tables.records.ResearchesRecord;
 import be.yildiz.server.generated.database.tables.records.ResourcesRecord;
-import be.yildiz.server.generated.database.tables.records.TasksRecord;
 import be.yildiz.server.generated.database.tables.records.TasksStatusRecord;
 import be.yildiz.server.generated.database.tables.records.TempAccountsRecord;
 
@@ -61,7 +59,6 @@ public class Keys {
     public static final Identity<MessagesRecord, UInteger> IDENTITY_MESSAGES = Identities0.IDENTITY_MESSAGES;
     public static final Identity<MissionsRecord, UInteger> IDENTITY_MISSIONS = Identities0.IDENTITY_MISSIONS;
     public static final Identity<ResearchesRecord, UShort> IDENTITY_RESEARCHES = Identities0.IDENTITY_RESEARCHES;
-    public static final Identity<TasksRecord, UInteger> IDENTITY_TASKS = Identities0.IDENTITY_TASKS;
     public static final Identity<TempAccountsRecord, UShort> IDENTITY_TEMP_ACCOUNTS = Identities0.IDENTITY_TEMP_ACCOUNTS;
 
     // -------------------------------------------------------------------------
@@ -77,7 +74,6 @@ public class Keys {
     public static final UniqueKey<MissionsRecord> KEY_MISSIONS_PRIMARY = UniqueKeys0.KEY_MISSIONS_PRIMARY;
     public static final UniqueKey<ResearchesRecord> KEY_RESEARCHES_PRIMARY = UniqueKeys0.KEY_RESEARCHES_PRIMARY;
     public static final UniqueKey<ResourcesRecord> KEY_RESOURCES_PRIMARY = UniqueKeys0.KEY_RESOURCES_PRIMARY;
-    public static final UniqueKey<TasksRecord> KEY_TASKS_PRIMARY = UniqueKeys0.KEY_TASKS_PRIMARY;
     public static final UniqueKey<TasksStatusRecord> KEY_TASKS_STATUS_PRIMARY = UniqueKeys0.KEY_TASKS_STATUS_PRIMARY;
     public static final UniqueKey<TempAccountsRecord> KEY_TEMP_ACCOUNTS_PRIMARY = UniqueKeys0.KEY_TEMP_ACCOUNTS_PRIMARY;
 
@@ -96,7 +92,6 @@ public class Keys {
         public static Identity<MessagesRecord, UInteger> IDENTITY_MESSAGES = createIdentity(Messages.MESSAGES, Messages.MESSAGES.MSG_ID);
         public static Identity<MissionsRecord, UInteger> IDENTITY_MISSIONS = createIdentity(Missions.MISSIONS, Missions.MISSIONS.MIS_ID);
         public static Identity<ResearchesRecord, UShort> IDENTITY_RESEARCHES = createIdentity(Researches.RESEARCHES, Researches.RESEARCHES.RES_ID);
-        public static Identity<TasksRecord, UInteger> IDENTITY_TASKS = createIdentity(Tasks.TASKS, Tasks.TASKS.TSK_ID);
         public static Identity<TempAccountsRecord, UShort> IDENTITY_TEMP_ACCOUNTS = createIdentity(TempAccounts.TEMP_ACCOUNTS, TempAccounts.TEMP_ACCOUNTS.ID);
     }
 
@@ -110,7 +105,6 @@ public class Keys {
         public static final UniqueKey<MissionsRecord> KEY_MISSIONS_PRIMARY = createUniqueKey(Missions.MISSIONS, "KEY_MISSIONS_PRIMARY", Missions.MISSIONS.MIS_ID);
         public static final UniqueKey<ResearchesRecord> KEY_RESEARCHES_PRIMARY = createUniqueKey(Researches.RESEARCHES, "KEY_RESEARCHES_PRIMARY", Researches.RESEARCHES.RES_ID);
         public static final UniqueKey<ResourcesRecord> KEY_RESOURCES_PRIMARY = createUniqueKey(Resources.RESOURCES, "KEY_RESOURCES_PRIMARY", Resources.RESOURCES.CITY_ID);
-        public static final UniqueKey<TasksRecord> KEY_TASKS_PRIMARY = createUniqueKey(Tasks.TASKS, "KEY_TASKS_PRIMARY", Tasks.TASKS.TSK_ID);
         public static final UniqueKey<TasksStatusRecord> KEY_TASKS_STATUS_PRIMARY = createUniqueKey(TasksStatus.TASKS_STATUS, "KEY_TASKS_STATUS_PRIMARY", TasksStatus.TASKS_STATUS.TSK_ID);
         public static final UniqueKey<TempAccountsRecord> KEY_TEMP_ACCOUNTS_PRIMARY = createUniqueKey(TempAccounts.TEMP_ACCOUNTS, "KEY_TEMP_ACCOUNTS_PRIMARY", TempAccounts.TEMP_ACCOUNTS.ID);
     }
