@@ -10,7 +10,7 @@ import be.yildiz.server.generated.database.tables.Cities;
 import be.yildiz.server.generated.database.tables.Databasechangeloglock;
 import be.yildiz.server.generated.database.tables.Entities;
 import be.yildiz.server.generated.database.tables.Messages;
-import be.yildiz.server.generated.database.tables.Missions;
+import be.yildiz.server.generated.database.tables.MissionsStatus;
 import be.yildiz.server.generated.database.tables.Researches;
 import be.yildiz.server.generated.database.tables.Resources;
 import be.yildiz.server.generated.database.tables.TasksStatus;
@@ -21,7 +21,7 @@ import be.yildiz.server.generated.database.tables.records.CitiesRecord;
 import be.yildiz.server.generated.database.tables.records.DatabasechangeloglockRecord;
 import be.yildiz.server.generated.database.tables.records.EntitiesRecord;
 import be.yildiz.server.generated.database.tables.records.MessagesRecord;
-import be.yildiz.server.generated.database.tables.records.MissionsRecord;
+import be.yildiz.server.generated.database.tables.records.MissionsStatusRecord;
 import be.yildiz.server.generated.database.tables.records.ResearchesRecord;
 import be.yildiz.server.generated.database.tables.records.ResourcesRecord;
 import be.yildiz.server.generated.database.tables.records.TasksStatusRecord;
@@ -57,7 +57,7 @@ public class Keys {
     public static final Identity<AccountsRecord, UShort> IDENTITY_ACCOUNTS = Identities0.IDENTITY_ACCOUNTS;
     public static final Identity<EntitiesRecord, UInteger> IDENTITY_ENTITIES = Identities0.IDENTITY_ENTITIES;
     public static final Identity<MessagesRecord, UInteger> IDENTITY_MESSAGES = Identities0.IDENTITY_MESSAGES;
-    public static final Identity<MissionsRecord, UInteger> IDENTITY_MISSIONS = Identities0.IDENTITY_MISSIONS;
+    public static final Identity<MissionsStatusRecord, UInteger> IDENTITY_MISSIONS_STATUS = Identities0.IDENTITY_MISSIONS_STATUS;
     public static final Identity<ResearchesRecord, UShort> IDENTITY_RESEARCHES = Identities0.IDENTITY_RESEARCHES;
     public static final Identity<TempAccountsRecord, UShort> IDENTITY_TEMP_ACCOUNTS = Identities0.IDENTITY_TEMP_ACCOUNTS;
 
@@ -71,7 +71,7 @@ public class Keys {
     public static final UniqueKey<DatabasechangeloglockRecord> KEY_DATABASECHANGELOGLOCK_PRIMARY = UniqueKeys0.KEY_DATABASECHANGELOGLOCK_PRIMARY;
     public static final UniqueKey<EntitiesRecord> KEY_ENTITIES_PRIMARY = UniqueKeys0.KEY_ENTITIES_PRIMARY;
     public static final UniqueKey<MessagesRecord> KEY_MESSAGES_PRIMARY = UniqueKeys0.KEY_MESSAGES_PRIMARY;
-    public static final UniqueKey<MissionsRecord> KEY_MISSIONS_PRIMARY = UniqueKeys0.KEY_MISSIONS_PRIMARY;
+    public static final UniqueKey<MissionsStatusRecord> KEY_MISSIONS_STATUS_PRIMARY = UniqueKeys0.KEY_MISSIONS_STATUS_PRIMARY;
     public static final UniqueKey<ResearchesRecord> KEY_RESEARCHES_PRIMARY = UniqueKeys0.KEY_RESEARCHES_PRIMARY;
     public static final UniqueKey<ResourcesRecord> KEY_RESOURCES_PRIMARY = UniqueKeys0.KEY_RESOURCES_PRIMARY;
     public static final UniqueKey<TasksStatusRecord> KEY_TASKS_STATUS_PRIMARY = UniqueKeys0.KEY_TASKS_STATUS_PRIMARY;
@@ -90,7 +90,7 @@ public class Keys {
         public static Identity<AccountsRecord, UShort> IDENTITY_ACCOUNTS = createIdentity(Accounts.ACCOUNTS, Accounts.ACCOUNTS.ID);
         public static Identity<EntitiesRecord, UInteger> IDENTITY_ENTITIES = createIdentity(Entities.ENTITIES, Entities.ENTITIES.ID);
         public static Identity<MessagesRecord, UInteger> IDENTITY_MESSAGES = createIdentity(Messages.MESSAGES, Messages.MESSAGES.MSG_ID);
-        public static Identity<MissionsRecord, UInteger> IDENTITY_MISSIONS = createIdentity(Missions.MISSIONS, Missions.MISSIONS.MIS_ID);
+        public static Identity<MissionsStatusRecord, UInteger> IDENTITY_MISSIONS_STATUS = createIdentity(MissionsStatus.MISSIONS_STATUS, MissionsStatus.MISSIONS_STATUS.MST_ID);
         public static Identity<ResearchesRecord, UShort> IDENTITY_RESEARCHES = createIdentity(Researches.RESEARCHES, Researches.RESEARCHES.RES_ID);
         public static Identity<TempAccountsRecord, UShort> IDENTITY_TEMP_ACCOUNTS = createIdentity(TempAccounts.TEMP_ACCOUNTS, TempAccounts.TEMP_ACCOUNTS.ID);
     }
@@ -102,10 +102,10 @@ public class Keys {
         public static final UniqueKey<DatabasechangeloglockRecord> KEY_DATABASECHANGELOGLOCK_PRIMARY = createUniqueKey(Databasechangeloglock.DATABASECHANGELOGLOCK, "KEY_DATABASECHANGELOGLOCK_PRIMARY", Databasechangeloglock.DATABASECHANGELOGLOCK.ID);
         public static final UniqueKey<EntitiesRecord> KEY_ENTITIES_PRIMARY = createUniqueKey(Entities.ENTITIES, "KEY_ENTITIES_PRIMARY", Entities.ENTITIES.ID);
         public static final UniqueKey<MessagesRecord> KEY_MESSAGES_PRIMARY = createUniqueKey(Messages.MESSAGES, "KEY_MESSAGES_PRIMARY", Messages.MESSAGES.MSG_ID);
-        public static final UniqueKey<MissionsRecord> KEY_MISSIONS_PRIMARY = createUniqueKey(Missions.MISSIONS, "KEY_MISSIONS_PRIMARY", Missions.MISSIONS.MIS_ID);
+        public static final UniqueKey<MissionsStatusRecord> KEY_MISSIONS_STATUS_PRIMARY = createUniqueKey(MissionsStatus.MISSIONS_STATUS, "KEY_MISSIONS_STATUS_PRIMARY", MissionsStatus.MISSIONS_STATUS.MST_ID);
         public static final UniqueKey<ResearchesRecord> KEY_RESEARCHES_PRIMARY = createUniqueKey(Researches.RESEARCHES, "KEY_RESEARCHES_PRIMARY", Researches.RESEARCHES.RES_ID);
         public static final UniqueKey<ResourcesRecord> KEY_RESOURCES_PRIMARY = createUniqueKey(Resources.RESOURCES, "KEY_RESOURCES_PRIMARY", Resources.RESOURCES.CITY_ID);
-        public static final UniqueKey<TasksStatusRecord> KEY_TASKS_STATUS_PRIMARY = createUniqueKey(TasksStatus.TASKS_STATUS, "KEY_TASKS_STATUS_PRIMARY", TasksStatus.TASKS_STATUS.TSK_ID);
+        public static final UniqueKey<TasksStatusRecord> KEY_TASKS_STATUS_PRIMARY = createUniqueKey(TasksStatus.TASKS_STATUS, "KEY_TASKS_STATUS_PRIMARY", TasksStatus.TASKS_STATUS.TST_ID);
         public static final UniqueKey<TempAccountsRecord> KEY_TEMP_ACCOUNTS_PRIMARY = createUniqueKey(TempAccounts.TEMP_ACCOUNTS, "KEY_TEMP_ACCOUNTS_PRIMARY", TempAccounts.TEMP_ACCOUNTS.ID);
     }
 }

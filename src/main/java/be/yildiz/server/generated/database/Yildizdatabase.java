@@ -11,7 +11,7 @@ import be.yildiz.server.generated.database.tables.Databasechangelog;
 import be.yildiz.server.generated.database.tables.Databasechangeloglock;
 import be.yildiz.server.generated.database.tables.Entities;
 import be.yildiz.server.generated.database.tables.Messages;
-import be.yildiz.server.generated.database.tables.Missions;
+import be.yildiz.server.generated.database.tables.MissionsStatus;
 import be.yildiz.server.generated.database.tables.Researches;
 import be.yildiz.server.generated.database.tables.Resources;
 import be.yildiz.server.generated.database.tables.TasksStatus;
@@ -41,7 +41,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Yildizdatabase extends SchemaImpl {
 
-    private static final long serialVersionUID = -2087203011;
+    private static final long serialVersionUID = -1373595203;
 
     /**
      * The reference instance of <code>YILDIZDATABASE</code>
@@ -84,9 +84,9 @@ public class Yildizdatabase extends SchemaImpl {
     public final Messages MESSAGES = be.yildiz.server.generated.database.tables.Messages.MESSAGES;
 
     /**
-     * The table <code>YILDIZDATABASE.MISSIONS</code>.
+     * The table <code>YILDIZDATABASE.MISSIONS_STATUS</code>.
      */
-    public final Missions MISSIONS = be.yildiz.server.generated.database.tables.Missions.MISSIONS;
+    public final MissionsStatus MISSIONS_STATUS = be.yildiz.server.generated.database.tables.MissionsStatus.MISSIONS_STATUS;
 
     /**
      * The table <code>YILDIZDATABASE.RESEARCHES</code>.
@@ -140,7 +140,7 @@ public class Yildizdatabase extends SchemaImpl {
             Databasechangeloglock.DATABASECHANGELOGLOCK,
             Entities.ENTITIES,
             Messages.MESSAGES,
-            Missions.MISSIONS,
+            MissionsStatus.MISSIONS_STATUS,
             Researches.RESEARCHES,
             Resources.RESOURCES,
             TasksStatus.TASKS_STATUS,

@@ -36,7 +36,7 @@ import org.jooq.types.UShort;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class TasksStatus extends TableImpl<TasksStatusRecord> {
 
-    private static final long serialVersionUID = -648693624;
+    private static final long serialVersionUID = 1357393620;
 
     /**
      * The reference instance of <code>YILDIZDATABASE.TASKS_STATUS</code>
@@ -52,9 +52,14 @@ public class TasksStatus extends TableImpl<TasksStatusRecord> {
     }
 
     /**
+     * The column <code>YILDIZDATABASE.TASKS_STATUS.TST_ID</code>.
+     */
+    public final TableField<TasksStatusRecord, UInteger> TST_ID = createField("TST_ID", org.jooq.impl.SQLDataType.INTEGERUNSIGNED.nullable(false), this, "");
+
+    /**
      * The column <code>YILDIZDATABASE.TASKS_STATUS.TSK_ID</code>.
      */
-    public final TableField<TasksStatusRecord, UInteger> TSK_ID = createField("TSK_ID", org.jooq.impl.SQLDataType.INTEGERUNSIGNED.nullable(false), this, "");
+    public final TableField<TasksStatusRecord, UInteger> TSK_ID = createField("TSK_ID", org.jooq.impl.SQLDataType.INTEGERUNSIGNED, this, "");
 
     /**
      * The column <code>YILDIZDATABASE.TASKS_STATUS.PLY_ID</code>.
