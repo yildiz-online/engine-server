@@ -2,7 +2,6 @@ package be.yildiz.server.datamanager;
 
 import be.yildiz.common.collections.Lists;
 import be.yildiz.common.id.PlayerId;
-import be.yildiz.server.generated.database.tables.Missions;
 import be.yildiz.server.generated.database.tables.MissionsStatus;
 import be.yildiz.server.generated.database.tables.TasksStatus;
 import be.yildiz.shared.mission.MissionId;
