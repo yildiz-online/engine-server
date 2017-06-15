@@ -54,6 +54,7 @@ public class PersistentMission {
             this.missions.stream()
                     .filter(status -> status.status == MissionStatus.WAITING_FOR_ACCEPTANCE)
                     .forEach(status -> m.prepareMission(status.id, status.player));
+
         }
     }
 
