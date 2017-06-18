@@ -21,39 +21,40 @@ import java.util.Optional;
  */
 public class PersistentMission {
 
-    private static final MissionsStatus table = MissionsStatus.MISSIONS_STATUS.MISSIONS_STATUS;
-
-    private static final TasksStatus taskTable = TasksStatus.TASKS_STATUS;
-
     private List<PlayerMissionStatus> missions = Lists.newList();
 
     private List<PlayerTaskStatus> tasks = Lists.newList();
 
-    public PersistentMission(Connection c, MissionManager m) {
+    public PersistentMission(Connection c, MissionManager manager) {
         super();
         try(DSLContext dsl = this.getDSL(c)) {
+            MissionsStatus table = MissionsStatus.MISSIONS_STATUS;
             Optional.ofNullable(dsl.selectFrom(table))
                     .ifPresent(data -> data.forEach(
                                     value -> missions.add(new PlayerMissionStatus(
                                             new MissionId(value.getMisId().intValue()),
-                                            PlayerId.get(value.getPlyId().intValue()),
+                                            PlayerId.valueOf(value.getPlyId().intValue()),
                                             MissionStatus.valueOf(value.getStatus().intValue())
                                             ))));
+            TasksStatus taskTable = TasksStatus.TASKS_STATUS;
             Optional.ofNullable(dsl.selectFrom(taskTable))
                     .ifPresent(data -> data.forEach(
                             value -> tasks.add(new PlayerTaskStatus(
                                             new TaskId(value.getTskId().intValue()),
-                                            PlayerId.get(value.getPlyId().intValue()),
+                                            PlayerId.valueOf(value.getPlyId().intValue()),
                                             new MissionId(value.getMisId().intValue()),
                                             value.getStatus()
                                             ))));
             this.missions.stream()
-                    .filter(status -> status.status == MissionStatus.STARTED)
-                    .forEach(status -> m.startMission(status.id, status.player));
+                    .filter(mission -> mission.status == MissionStatus.STARTED)
+                    .forEach(mission -> manager.startMission(mission.id, mission.player));
 
             this.missions.stream()
-                    .filter(status -> status.status == MissionStatus.WAITING_FOR_ACCEPTANCE)
-                    .forEach(status -> m.prepareMission(status.id, status.player));
+                    .filter(mission -> mission.status == MissionStatus.WAITING_FOR_ACCEPTANCE)
+                    .forEach(mission -> manager.prepareMission(mission.id, mission.player));
+
+            this.tasks
+                    .forEach(task -> manager.updateTaskStatus(task.id, task.mission, task.player, task.status));
 
         }
     }
