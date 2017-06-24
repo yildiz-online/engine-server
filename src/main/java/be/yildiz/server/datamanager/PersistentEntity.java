@@ -85,28 +85,28 @@ public final class PersistentEntity implements PersistentData<EntityToCreate, Ba
         try (DSLContext create = this.getDSL(c)) {
             Optional.ofNullable(create.selectFrom(Cities.CITIES).fetch())
                     .ifPresent(citiesRecords ->
-                            citiesRecords.forEach(r -> names.put(EntityId.get(r.getId().longValue()), r.getName())));
+                            citiesRecords.forEach(r -> names.put(EntityId.valueOf(r.getId().longValue()), r.getName())));
             //        faire le set a la reception du message entity info response dans le client
 
             Optional.ofNullable(create.selectFrom(table).fetch())
                     .ifPresent(data ->
                             data.forEach(r -> {
-                                EntityId id = EntityId.get(r.getId().longValue());
+                                EntityId id = EntityId.valueOf(r.getId().longValue());
                                 if (r.getActive()) {
-                                    PlayerId player = PlayerId.get(r.getOwnerId().intValue());
+                                    PlayerId player = PlayerId.valueOf(r.getOwnerId().intValue());
                                     EntityType type = EntityType.get(r.getType().intValue());
                                     ModuleGroup m = new ModuleGroup.ModuleGroupBuilder()
-                                            .withHull(ActionId.get(r.getModuleHull().intValue()))
-                                            .withEnergy(ActionId.get(r.getModuleEnergy().intValue()))
-                                            .withDetector(ActionId.get(r.getModuleDetector().intValue()))
-                                            .withMove(ActionId.get(r.getModuleMove().intValue()))
-                                            .withInteraction(ActionId.get(r.getModuleInteraction().intValue()))
-                                            .withAdditional1(ActionId.get(r.getModuleAdditional_1().intValue()))
-                                            .withAdditional2(ActionId.get(r.getModuleAdditional_2().intValue()))
-                                            .withAdditional3(ActionId.get(r.getModuleAdditional_3().intValue()))
+                                            .withHull(ActionId.valueOf(r.getModuleHull().intValue()))
+                                            .withEnergy(ActionId.valueOf(r.getModuleEnergy().intValue()))
+                                            .withDetector(ActionId.valueOf(r.getModuleDetector().intValue()))
+                                            .withMove(ActionId.valueOf(r.getModuleMove().intValue()))
+                                            .withInteraction(ActionId.valueOf(r.getModuleInteraction().intValue()))
+                                            .withAdditional1(ActionId.valueOf(r.getModuleAdditional_1().intValue()))
+                                            .withAdditional2(ActionId.valueOf(r.getModuleAdditional_2().intValue()))
+                                            .withAdditional3(ActionId.valueOf(r.getModuleAdditional_3().intValue()))
                                             .build();
-                                    Point3D pos = Point3D.xyz(r.getPositionX().floatValue(), r.getPositionY().floatValue(), r.getPositionZ().floatValue());
-                                    Point3D dir = Point3D.xyz(r.getDirectionX().floatValue(), r.getDirectionY().floatValue(), r.getDirectionZ().floatValue());
+                                    Point3D pos = Point3D.valueOf(r.getPositionX().floatValue(), r.getPositionY().floatValue(), r.getPositionZ().floatValue());
+                                    Point3D dir = Point3D.valueOf(r.getDirectionX().floatValue(), r.getDirectionY().floatValue(), r.getDirectionZ().floatValue());
                                     EntityInConstruction eic = constructionFactory.build(
                                             type,
                                             id,
@@ -179,7 +179,7 @@ public final class PersistentEntity implements PersistentData<EntityToCreate, Ba
         try (DSLContext create = this.getDSL(c)) {
             create.insertInto(table).defaultValues().execute();
             EntitiesRecord entity = create.fetchOne(table, table.ACTIVE.equal(false));
-            return EntityId.get(entity.getId().longValue());
+            return EntityId.valueOf(entity.getId().longValue());
         }
     }
 
