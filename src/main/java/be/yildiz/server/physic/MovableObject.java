@@ -25,6 +25,7 @@ package be.yildiz.server.physic;
 
 import be.yildiz.common.id.EntityId;
 import be.yildiz.common.vector.Point3D;
+import be.yildiz.common.vector.Quaternion;
 import be.yildiz.module.physics.AbstractMovableObject;
 import be.yildiz.module.physics.KinematicBody;
 import be.yildiz.server.gameobject.ServerGameEntity;
@@ -44,7 +45,7 @@ final class MovableObject extends AbstractMovableObject implements ServerGameEnt
     /**
      * Current scaling factor.
      */
-    protected Point3D scaleSize = Point3D.xyz(1);
+    protected Point3D scaleSize = Point3D.valueOf(1);
 
     /**
      * Full constructor.
@@ -78,7 +79,7 @@ final class MovableObject extends AbstractMovableObject implements ServerGameEnt
 
     @Override
     public void rotate(float x, float y, float z, float w) {
-
+        this.body.setOrientation(new Quaternion(w, x, y, z));
     }
 
     @Override
@@ -88,7 +89,7 @@ final class MovableObject extends AbstractMovableObject implements ServerGameEnt
 
     @Override
     public void scale(final float x, final float y, final float z) {
-        this.scaleSize = Point3D.xyz(x, y, z);
+        this.scaleSize = Point3D.valueOf(x, y, z);
         this.body.scale(x, y, z);
     }
 }
