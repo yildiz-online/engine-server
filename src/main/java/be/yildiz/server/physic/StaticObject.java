@@ -44,7 +44,7 @@ public final class StaticObject extends AbstractStaticObject implements ServerGa
     /**
      * Current scaling factor.
      */
-    protected Point3D scaleSize = Point3D.xyz(1);
+    protected Point3D scaleSize = Point3D.valueOf(1);
 
     /**
      * Full constructor.
@@ -69,6 +69,7 @@ public final class StaticObject extends AbstractStaticObject implements ServerGa
 
     @Override
     public void rotate(float x, float y, float z, float w) {
+        //Does nothing
     }
 
     @Override
@@ -78,7 +79,7 @@ public final class StaticObject extends AbstractStaticObject implements ServerGa
 
     @Override
     public void scale(final float x, final float y, final float z) {
-        this.scaleSize = Point3D.xyz(x, y, z);
+        this.scaleSize = Point3D.valueOf(x, y, z);
         this.body.scale(x, y, z);
     }
 
