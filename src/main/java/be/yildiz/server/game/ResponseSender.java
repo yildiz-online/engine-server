@@ -24,7 +24,6 @@
 package be.yildiz.server.game;
 
 import be.yildiz.common.id.PlayerId;
-import be.yildiz.module.network.protocol.ServerResponse;
 
 /**
  * @author Grégory Van den Borre

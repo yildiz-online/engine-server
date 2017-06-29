@@ -26,7 +26,6 @@ package be.yildiz.server.game;
 import be.yildiz.common.Version;
 import be.yildiz.common.id.PlayerId;
 import be.yildiz.common.log.Logger;
-import be.yildiz.module.network.protocol.ServerResponse;
 import be.yildiz.module.network.server.Server;
 import be.yildiz.module.network.server.SessionListener;
 import be.yildiz.module.network.server.SessionManager;
