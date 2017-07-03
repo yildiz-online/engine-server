@@ -44,37 +44,37 @@ public final class TaskEntityTest {
     @Test
     public void testTaskEntity() {
         this.rule.expect(AssertionError.class);
-        new TaskEntity(null, PlayerId.get(4), Point3D.ZERO, 1, 0);
+        new TaskEntity(null, PlayerId.valueOf(4), Point3D.ZERO, 1, 0);
     }
 
     @Test
     public void testTaskEntity2() {
         this.rule.expect(AssertionError.class);
-        new TaskEntity(EntityId.get(1L), null, Point3D.ZERO, 1, 0);
+        new TaskEntity(EntityId.valueOf(1L), null, Point3D.ZERO, 1, 0);
     }
 
     @Test
     public void testTaskEntity3() {
         this.rule.expect(AssertionError.class);
-        new TaskEntity(EntityId.get(1L), PlayerId.get(2), null, 1, 0);
+        new TaskEntity(EntityId.valueOf(1L), PlayerId.valueOf(2), null, 1, 0);
     }
 
     @Test
     public void testTaskEntity4() {
         this.rule.expect(InvalidParameterException.class);
-        new TaskEntity(EntityId.get(1L), PlayerId.get(2), Point3D.ZERO, -1, 0);
+        new TaskEntity(EntityId.valueOf(1L), PlayerId.valueOf(2), Point3D.ZERO, -1, 0);
     }
 
     @Test
     public void testTaskEntity5() {
         this.rule.expect(InvalidParameterException.class);
-        new TaskEntity(EntityId.get(1L), PlayerId.get(2), Point3D.ZERO, 5, -1);
+        new TaskEntity(EntityId.valueOf(1L), PlayerId.valueOf(2), Point3D.ZERO, 5, -1);
     }
 
     @Test
     public void testTaskEntity6() {
         try {
-            new TaskEntity(EntityId.get(1L), PlayerId.get(2), Point3D.ZERO, 5, 0);
+            new TaskEntity(EntityId.valueOf(1L), PlayerId.valueOf(2), Point3D.ZERO, 5, 0);
         } catch (Exception e) {
             Assert.fail();
         }
@@ -82,10 +82,10 @@ public final class TaskEntityTest {
 
     @Test
     public void testGetEntity() {
-        TaskEntity te = new TaskEntity(EntityId.get(1L), PlayerId.get(2), new Point3D(5), 5, 0);
-        Assert.assertEquals(EntityId.get(1L), te.getEntity());
-        Assert.assertEquals(PlayerId.get(2), te.getOwner());
-        Assert.assertEquals(new Point3D(5), te.getPosition());
+        TaskEntity te = new TaskEntity(EntityId.valueOf(1L), PlayerId.valueOf(2), Point3D.valueOf(5), 5, 0);
+        Assert.assertEquals(EntityId.valueOf(1L), te.getEntity());
+        Assert.assertEquals(PlayerId.valueOf(2), te.getOwner());
+        Assert.assertEquals(Point3D.valueOf(5), te.getPosition());
         Assert.assertEquals(5, te.getType());
         Assert.assertEquals(0, te.getTimeLeft());
     }

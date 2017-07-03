@@ -40,19 +40,19 @@ public final class TaskAttackTest {
     @Test
     public void testTaskAttack() {
         rule.expect(AssertionError.class);
-        new TaskAttack(null, EntityId.get(1L));
+        new TaskAttack(null, EntityId.valueOf(1L));
     }
 
     @Test
     public void testTaskAttack2() {
         rule.expect(AssertionError.class);
-        new TaskAttack(EntityId.get(1L), null);
+        new TaskAttack(EntityId.valueOf(1L), null);
     }
 
     @Test
     public void testGet() {
-        TaskAttack ta = new TaskAttack(EntityId.get(1L), EntityId.get(2L));
-        Assert.assertEquals(EntityId.get(1L), ta.getAttacker());
-        Assert.assertEquals(EntityId.get(2L), ta.getTarget());
+        TaskAttack ta = new TaskAttack(EntityId.valueOf(1L), EntityId.valueOf(2L));
+        Assert.assertEquals(EntityId.valueOf(1L), ta.getAttacker());
+        Assert.assertEquals(EntityId.valueOf(2L), ta.getTarget());
     }
 }

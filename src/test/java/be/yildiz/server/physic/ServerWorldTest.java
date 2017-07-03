@@ -52,8 +52,8 @@ public class ServerWorldTest {
     @Test
     public void updateGhostFindResultTest() throws InterruptedException {
         givenPhysicEngineWithWorldAndGhostCollisionListener();
-        GhostObject go = this.world.createGhostObject(EntityId.get(1L), new Box(100), Point3D.valueOf(100, 100, 100));
-        ServerGameEntity se = this.world.createMovableObject(EntityId.get(2L), new Box(10), Point3D.valueOf(100, 100, 100));
+        GhostObject go = this.world.createGhostObject(EntityId.valueOf(1L), new Box(100), Point3D.valueOf(100, 100, 100));
+        ServerGameEntity se = this.world.createMovableObject(EntityId.valueOf(2L), new Box(10), Point3D.valueOf(100, 100, 100));
         whenEngineUpdate(20);
         Assert.assertEquals(go.getId(), this.collisionListener.object1.get());
         Assert.assertEquals(se.getId(), this.collisionListener.object2.get());
@@ -62,8 +62,8 @@ public class ServerWorldTest {
     @Test
     public void updateGhostLoseResultTest() throws InterruptedException {
         givenPhysicEngineWithWorldAndGhostCollisionListener();
-        GhostObject go = this.world.createGhostObject(EntityId.get(1L), new Box(100), Point3D.valueOf(100, 100, 100));
-        ServerGameEntity se = this.world.createMovableObject(EntityId.get(2L), new Box(10), Point3D.valueOf(100, 100, 100));
+        GhostObject go = this.world.createGhostObject(EntityId.valueOf(1L), new Box(100), Point3D.valueOf(100, 100, 100));
+        ServerGameEntity se = this.world.createMovableObject(EntityId.valueOf(2L), new Box(10), Point3D.valueOf(100, 100, 100));
         whenEngineUpdate(20);
         Assert.assertEquals(go.getId(), this.collisionListener.object1.get());
         Assert.assertEquals(se.getId(), this.collisionListener.object2.get());
@@ -87,11 +87,11 @@ public class ServerWorldTest {
     @Test
     public void updateCollisionFindResultTest() throws InterruptedException {
         givenPhysicEngineWithWorldAndCollisionListener();
-        ServerGameEntity se = this.world.createMovableObject(EntityId.get(2L), new Box(100), Point3D.xyz(100));
+        ServerGameEntity se = this.world.createMovableObject(EntityId.valueOf(2L), new Box(100), Point3D.valueOf(100));
         whenEngineUpdate(20);
         Assert.assertFalse(this.collisionListener.object1.isPresent());
         Assert.assertFalse(this.collisionListener.object2.isPresent());
-        ServerGameEntity se2 = this.world.createMovableObject(EntityId.get(3L), new Box(100), Point3D.xyz(100));
+        ServerGameEntity se2 = this.world.createMovableObject(EntityId.valueOf(3L), new Box(100), Point3D.valueOf(100));
         whenEngineUpdate(20);
         Assert.assertEquals(se.getId(), this.collisionListener.object1.get());
         Assert.assertEquals(se2.getId(), this.collisionListener.object2.get());
@@ -101,8 +101,8 @@ public class ServerWorldTest {
     @Test
     public void updateCollisionLoseResultTest() throws InterruptedException {
         givenPhysicEngineWithWorldAndCollisionListener();
-        ServerGameEntity se = this.world.createMovableObject(EntityId.get(2L), new Box(10), Point3D.xyz(100));
-        ServerGameEntity se2 = this.world.createMovableObject(EntityId.get(3L), new Box(10), Point3D.xyz(100));
+        ServerGameEntity se = this.world.createMovableObject(EntityId.valueOf(2L), new Box(10), Point3D.valueOf(100));
+        ServerGameEntity se2 = this.world.createMovableObject(EntityId.valueOf(3L), new Box(10), Point3D.valueOf(100));
         whenEngineUpdate(20);
         Assert.assertEquals(se.getId(), this.collisionListener.object1.get());
         Assert.assertEquals(se2.getId(), this.collisionListener.object2.get());

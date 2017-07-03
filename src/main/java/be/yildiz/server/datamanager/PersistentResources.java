@@ -34,7 +34,6 @@ import org.jooq.DSLContext;
 import org.jooq.conf.Settings;
 import org.jooq.impl.DSL;
 import org.jooq.types.UInteger;
-import org.jooq.types.UShort;
 
 import java.sql.Connection;
 import java.sql.Timestamp;
@@ -68,7 +67,7 @@ public final class PersistentResources implements PersistentData<ResourcesProduc
         try (DSLContext create = this.getDSL(c)) {
             Optional.ofNullable(create.selectFrom(table).fetch())
                     .ifPresent(data -> data.forEach(r -> {
-                        EntityId cityId = EntityId.get(r.getValue(table.CITY_ID).longValue());
+                        EntityId cityId = EntityId.valueOf(r.getValue(table.CITY_ID).longValue());
                         ServerCity city = entityManager.getCityById(cityId);
                         long time = r.getValue(table.LAST_TIME_COMPUTED).getTime();
                         float[] values = new float[5];

@@ -23,12 +23,10 @@
 
 package be.yildiz.server.game;
 
-import be.yildiz.common.exeption.BaseCheckedException;
-
 /**
  * @author Grégory Van den Borre
  */
-public class ExistingPlayerException extends BaseCheckedException {
+public class ExistingPlayerException extends Exception {
 
     /**
      *

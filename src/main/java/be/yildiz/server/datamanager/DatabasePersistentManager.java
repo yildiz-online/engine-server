@@ -46,7 +46,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 
@@ -112,7 +111,7 @@ public final class DatabasePersistentManager implements PersistentManager, Sessi
         try (Connection c = this.provider.getConnection(); DSLContext create = DSL.using(c, this.provider.getDialect())) {
             Messages table = Messages.MESSAGES;
             create.insertInto(table, table.SENDER_ID, table.RECEIVER_ID, table.MESSAGE, table.READ, table.DATE)
-                    .values(UShort.valueOf(message.getSender().value), UShort.valueOf(message.getReceiver().value), message.getMessage(), message.isRead(), new Timestamp(message.getDate().getTime()))
+                    .values(UShort.valueOf(message.getSender().value), UShort.valueOf(message.getReceiver().value), message.getMessage(), message.isRead(), new Timestamp(message.getDate()))
                     .execute();
         } catch (SQLException e) {
             Logger.error(e);
@@ -143,7 +142,7 @@ public final class DatabasePersistentManager implements PersistentManager, Sessi
 
         @Override
         public Message map(MessagesRecord r) {
-            return new Message(PlayerId.valueOf(r.getSenderId().intValue()), PlayerId.valueOf(r.getReceiverId().intValue()), r.getMessage(), new Date(r.getDate().getTime()), r.getRead());
+            return new Message(PlayerId.valueOf(r.getSenderId().intValue()), PlayerId.valueOf(r.getReceiverId().intValue()), r.getMessage(), r.getDate().getTime(), r.getRead());
         }
 
     }

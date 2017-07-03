@@ -112,10 +112,10 @@ public final class PersistentBuilding implements PersistentData<BaseBuilding, Ba
 
     @Override
     public BaseBuilding map(BuildingsRecord r) {
-        EntityId id = EntityId.get(r.getCityId().longValue());
-        BuildingPosition pos = new BuildingPosition(r.getPosition().intValue());
-        EntityType type = EntityType.get(r.getType().intValue());
-        Level level = new Level(r.getLevel().intValue());
+        EntityId id = EntityId.valueOf(r.getCityId().longValue());
+        BuildingPosition pos = BuildingPosition.valueOf(r.getPosition().intValue());
+        EntityType type = EntityType.valueOf(r.getType().intValue());
+        Level level = Level.valueOf(r.getLevel().intValue());
         int staff = r.getStaff().intValue();
         return new BaseBuilding(id, cityManager.getData(type), pos, level, staff);
     }

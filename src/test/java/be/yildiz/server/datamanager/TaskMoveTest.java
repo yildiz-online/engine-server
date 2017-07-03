@@ -47,13 +47,13 @@ public class TaskMoveTest {
     @Test
     public void testTaskMove2() {
         this.rule.expect(AssertionError.class);
-        new TaskMove(EntityId.get(5L), null, 0);
+        new TaskMove(EntityId.valueOf(5L), null, 0);
     }
 
     @Test
     public void testTaskMove() {
         try {
-            new TaskMove(EntityId.get(5L), Point3D.ZERO, 0);
+            new TaskMove(EntityId.valueOf(5L), Point3D.ZERO, 0);
         } catch (Exception e) {
             Assert.fail();
         }
@@ -61,9 +61,9 @@ public class TaskMoveTest {
 
     @Test
     public void testGet() {
-        TaskMove tm = new TaskMove(EntityId.get(2L), new Point3D(1), 12);
-        Assert.assertEquals(EntityId.get(2L), tm.getEntity());
-        Assert.assertEquals(new Point3D(1), tm.getDestination());
+        TaskMove tm = new TaskMove(EntityId.valueOf(2L), Point3D.valueOf(1), 12);
+        Assert.assertEquals(EntityId.valueOf(2L), tm.getEntity());
+        Assert.assertEquals(Point3D.valueOf(1), tm.getDestination());
         Assert.assertEquals(12, tm.getSpeed(), 0.001);
     }
 }

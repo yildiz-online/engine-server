@@ -94,7 +94,7 @@ public final class PersistentEntity implements PersistentData<EntityToCreate, Ba
                                 EntityId id = EntityId.valueOf(r.getId().longValue());
                                 if (r.getActive()) {
                                     PlayerId player = PlayerId.valueOf(r.getOwnerId().intValue());
-                                    EntityType type = EntityType.get(r.getType().intValue());
+                                    EntityType type = EntityType.valueOf(r.getType().intValue());
                                     ModuleGroup m = new ModuleGroup.ModuleGroupBuilder()
                                             .withHull(ActionId.valueOf(r.getModuleHull().intValue()))
                                             .withEnergy(ActionId.valueOf(r.getModuleEnergy().intValue()))

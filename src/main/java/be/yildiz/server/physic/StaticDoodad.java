@@ -38,7 +38,7 @@ final class StaticDoodad extends AbstractStaticObject implements ServerGameEntit
     /**
      * Current scaling.
      */
-    private Point3D scaleSize = new Point3D(1);
+    private Point3D scaleSize = Point3D.valueOf(1);
 
     /**
      * Create a new doodad.
