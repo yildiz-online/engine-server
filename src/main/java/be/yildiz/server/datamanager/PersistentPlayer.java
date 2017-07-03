@@ -83,7 +83,7 @@ public final class PersistentPlayer implements PersistentData<PlayerToCreate, Pl
         try (DSLContext create = this.getDSL(c)) {
             Optional.ofNullable(create.selectFrom(table).fetch())
                     .ifPresent(data -> data.forEach(r -> {
-                        PlayerId id = PlayerId.get(r.getId().intValue());
+                        PlayerId id = PlayerId.valueOf(r.getId().intValue());
                         if (r.getActive()) {
                             int right = r.getType().intValue();
                             String name = r.getLogin();
@@ -134,7 +134,7 @@ public final class PersistentPlayer implements PersistentData<PlayerToCreate, Pl
         try (DSLContext create = this.getDSL(c)) {
             create.insertInto(table).defaultValues().execute();
             AccountsRecord entity = create.fetchOne(table, table.ACTIVE.equal(false));
-            return PlayerId.get(entity.getId().intValue());
+            return PlayerId.valueOf(entity.getId().intValue());
         }
     }
 

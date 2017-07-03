@@ -143,7 +143,7 @@ public final class DatabasePersistentManager implements PersistentManager, Sessi
 
         @Override
         public Message map(MessagesRecord r) {
-            return new Message(PlayerId.get(r.getSenderId().intValue()), PlayerId.get(r.getReceiverId().intValue()), r.getMessage(), new Date(r.getDate().getTime()), r.getRead());
+            return new Message(PlayerId.valueOf(r.getSenderId().intValue()), PlayerId.valueOf(r.getReceiverId().intValue()), r.getMessage(), new Date(r.getDate().getTime()), r.getRead());
         }
 
     }

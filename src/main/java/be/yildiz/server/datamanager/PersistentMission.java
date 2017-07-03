@@ -32,7 +32,7 @@ public class PersistentMission {
             Optional.ofNullable(dsl.selectFrom(table))
                     .ifPresent(data -> data.forEach(
                                     value -> missions.add(new PlayerMissionStatus(
-                                            new MissionId(value.getMisId().intValue()),
+                                            MissionId.valueOf(value.getMisId().intValue()),
                                             PlayerId.valueOf(value.getPlyId().intValue()),
                                             MissionStatus.valueOf(value.getStatus().intValue())
                                             ))));
@@ -40,9 +40,9 @@ public class PersistentMission {
             Optional.ofNullable(dsl.selectFrom(taskTable))
                     .ifPresent(data -> data.forEach(
                             value -> tasks.add(new PlayerTaskStatus(
-                                            new TaskId(value.getTskId().intValue()),
+                                            TaskId.valueOf(value.getTskId().intValue()),
                                             PlayerId.valueOf(value.getPlyId().intValue()),
-                                            new MissionId(value.getMisId().intValue()),
+                                            MissionId.valueOf(value.getMisId().intValue()),
                                             value.getStatus()
                                             ))));
             this.missions.stream()

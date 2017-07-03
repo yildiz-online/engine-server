@@ -66,7 +66,7 @@ public final class PersistentResearch implements PersistentData<Pair<PlayerId, S
             Optional
                     .ofNullable(create.selectFrom(table).fetch())
                     .ifPresent(data -> data.forEach(r -> {
-                            Player player = playerManager.findFromId(PlayerId.get(r.getPlayerId().intValue()));
+                            Player player = playerManager.findFromId(PlayerId.valueOf(r.getPlayerId().intValue()));
                             if (!r.getName().isEmpty()) {
                                 String[] researches = r.getName().split(",");
                                 for (String s : researches) {

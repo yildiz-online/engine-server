@@ -24,6 +24,7 @@
 package be.yildiz.server.game;
 
 import be.yildiz.common.id.PlayerId;
+import be.yildiz.module.network.protocol.NetworkMessage;
 
 /**
  * @author Grégory Van den Borre
@@ -31,5 +32,5 @@ import be.yildiz.common.id.PlayerId;
 @FunctionalInterface
 public interface ResponseSender {
 
-    void sendMessage(PlayerId player, ServerResponse response);
+    void sendMessage(PlayerId player, NetworkMessage response);
 }

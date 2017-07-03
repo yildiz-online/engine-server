@@ -26,6 +26,7 @@ package be.yildiz.server.game;
 import be.yildiz.common.Version;
 import be.yildiz.common.id.PlayerId;
 import be.yildiz.common.log.Logger;
+import be.yildiz.module.network.protocol.NetworkMessage;
 import be.yildiz.module.network.server.Server;
 import be.yildiz.module.network.server.SessionListener;
 import be.yildiz.module.network.server.SessionManager;
@@ -156,7 +157,7 @@ public final class GameEngine extends AbstractGameEngine implements ResponseSend
     }
 
     @Override
-    public final void sendMessage(final PlayerId player, final ServerResponse response) {
+    public final void sendMessage(final PlayerId player, final NetworkMessage response) {
         this.sessionManager.getSessionByPlayer(player).sendMessage(response);
     }
 
