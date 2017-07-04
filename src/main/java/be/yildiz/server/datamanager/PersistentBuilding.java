@@ -30,6 +30,7 @@ import be.yildiz.server.generated.database.tables.Buildings;
 import be.yildiz.server.generated.database.tables.records.BuildingsRecord;
 import be.yildiz.shared.building.BaseBuilding;
 import be.yildiz.shared.building.GameBuildingData;
+import be.yildiz.shared.building.staff.Staff;
 import be.yildiz.shared.city.City;
 import be.yildiz.shared.construction.building.BuildingConstructionManager;
 import be.yildiz.shared.data.BuildingPosition;
@@ -92,7 +93,7 @@ public final class PersistentBuilding implements PersistentData<BaseBuilding, Ba
                             UByte.valueOf(data.getBuildingPosition().value),
                             UByte.valueOf(data.getType().type),
                             UByte.valueOf(data.getLevel().value),
-                            UShort.valueOf(data.getStaff()))
+                            UShort.valueOf(data.getStaff().value))
                     .execute();
             return data;
         }
@@ -105,7 +106,7 @@ public final class PersistentBuilding implements PersistentData<BaseBuilding, Ba
             building.setCityId(UInteger.valueOf(data.getCity().value));
             building.setType(UByte.valueOf(data.getType().type));
             building.setLevel(UByte.valueOf(data.getLevel().value));
-            building.setStaff(UShort.valueOf(data.getStaff()));
+            building.setStaff(UShort.valueOf(data.getStaff().value));
             create.executeUpdate(building);
         }
     }
@@ -116,7 +117,7 @@ public final class PersistentBuilding implements PersistentData<BaseBuilding, Ba
         BuildingPosition pos = BuildingPosition.valueOf(r.getPosition().intValue());
         EntityType type = EntityType.valueOf(r.getType().intValue());
         Level level = Level.valueOf(r.getLevel().intValue());
-        int staff = r.getStaff().intValue();
+        Staff staff = Staff.valueOf(r.getStaff().intValue());
         return new BaseBuilding(id, cityManager.getData(type), pos, level, staff);
     }
 
