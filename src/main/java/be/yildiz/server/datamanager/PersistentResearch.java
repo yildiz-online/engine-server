@@ -28,9 +28,7 @@ import be.yildiz.common.util.Pair;
 import be.yildiz.common.util.StringUtil;
 import be.yildiz.server.generated.database.tables.Researches;
 import be.yildiz.server.generated.database.tables.records.ResearchesRecord;
-import be.yildiz.shared.player.Player;
-import be.yildiz.shared.player.PlayerManager;
-import be.yildiz.shared.research.Research;
+import be.yildiz.shared.research.ResearchId;
 import be.yildiz.shared.research.ResearchManager;
 import org.jooq.DSLContext;
 import org.jooq.conf.Settings;
@@ -46,7 +44,7 @@ import java.util.Set;
  *
  * @author Grégory Van den Borre
  */
-public final class PersistentResearch implements PersistentData<Pair<PlayerId, Set<Research>>, Pair<PlayerId, Set<Research>>> {
+public final class PersistentResearch implements PersistentData<Pair<PlayerId, Set<ResearchId>>, Pair<PlayerId, Set<ResearchId>>> {
 
     /**
      * Database table containing the data.
@@ -57,20 +55,19 @@ public final class PersistentResearch implements PersistentData<Pair<PlayerId, S
      * Full constructor.
      *
      * @param c       SQL connection.
-     * @param playerManager Player manager.
      * @param researchManager Research manager.
      */
-    public PersistentResearch(Connection c, final PlayerManager playerManager, final ResearchManager researchManager) {
+    public PersistentResearch(Connection c, final ResearchManager researchManager) {
         super();
         try (DSLContext create = this.getDSL(c)) {
             Optional
                     .ofNullable(create.selectFrom(table).fetch())
                     .ifPresent(data -> data.forEach(r -> {
-                            Player player = playerManager.findFromId(PlayerId.valueOf(r.getPlayerId().intValue()));
+                            PlayerId player = PlayerId.valueOf(r.getPlayerId().intValue());
                             if (!r.getName().isEmpty()) {
                                 String[] researches = r.getName().split(",");
                                 for (String s : researches) {
-                                    researchManager.addResearch(Research.get(s), player);
+                                    researchManager.addResearch(ResearchId.valueOf(Integer.valueOf(s)), player);
                                 }
                             }
                         }));
@@ -78,7 +75,7 @@ public final class PersistentResearch implements PersistentData<Pair<PlayerId, S
     }
 
     @Override
-    public Pair<PlayerId, Set<Research>> save(final Pair<PlayerId, Set<Research>> data, Connection c) {
+    public Pair<PlayerId, Set<ResearchId>> save(final Pair<PlayerId, Set<ResearchId>> data, Connection c) {
         try (DSLContext create = this.getDSL(c)) {
             ResearchesRecord research = create.fetchOne(table, table.PLAYER_ID.equal(UShort.valueOf(data.getObject1().value)));
             if(research == null) {
@@ -92,7 +89,7 @@ public final class PersistentResearch implements PersistentData<Pair<PlayerId, S
     }
 
     @Override
-    public void update(Pair<PlayerId, Set<Research>> data, Connection c) {
+    public void update(Pair<PlayerId, Set<ResearchId>> data, Connection c) {
         //FIXME implements
     }
 
