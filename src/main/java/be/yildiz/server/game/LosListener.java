@@ -25,7 +25,6 @@ package be.yildiz.server.game;
 
 import be.yildiz.common.id.PlayerId;
 import be.yildiz.shared.entity.Entity;
-import be.yildiz.shared.player.Player;
 
 /**
  * Listener to notify when an Entity visibility state change for an other Entity.
@@ -67,7 +66,7 @@ public interface LosListener<T extends Entity> {
      * @param player Player no longer seeing the entity.
      * @param viewed Entity now invisible for that player.
      */
-    default void playerNoLongerSee(Player player, T viewed) {
+    default void playerNoLongerSee(PlayerId player, T viewed) {
     }
 
 }
