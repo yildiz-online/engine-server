@@ -3,14 +3,15 @@ package be.yildiz.server.datamanager;
 import be.yildiz.common.collections.Lists;
 import be.yildiz.common.id.PlayerId;
 import be.yildiz.server.generated.database.tables.MissionsStatus;
-import be.yildiz.server.generated.database.tables.TasksStatus;
 import be.yildiz.shared.mission.MissionId;
 import be.yildiz.shared.mission.MissionManager;
 import be.yildiz.shared.mission.MissionStatus;
-import be.yildiz.shared.mission.task.TaskId;
 import org.jooq.DSLContext;
 import org.jooq.conf.Settings;
 import org.jooq.impl.DSL;
+import org.jooq.types.UByte;
+import org.jooq.types.UInteger;
+import org.jooq.types.UShort;
 
 import java.sql.Connection;
 import java.util.List;
@@ -19,31 +20,21 @@ import java.util.Optional;
 /**
  * @author Grégory Van den Borre
  */
-public class PersistentMission {
+public class PersistentMission implements PersistentData<PersistentMission.PlayerMissionStatus, PersistentMission.PlayerMissionStatus>{
+
+    private static final MissionsStatus TABLE = MissionsStatus.MISSIONS_STATUS;
 
     private List<PlayerMissionStatus> missions = Lists.newList();
-
-    private List<PlayerTaskStatus> tasks = Lists.newList();
 
     public PersistentMission(Connection c, MissionManager manager) {
         super();
         try(DSLContext dsl = this.getDSL(c)) {
-            MissionsStatus table = MissionsStatus.MISSIONS_STATUS;
-            Optional.ofNullable(dsl.selectFrom(table))
+            Optional.ofNullable(dsl.selectFrom(TABLE))
                     .ifPresent(data -> data.forEach(
                                     value -> missions.add(new PlayerMissionStatus(
                                             MissionId.valueOf(value.getMisId().intValue()),
                                             PlayerId.valueOf(value.getPlyId().intValue()),
                                             MissionStatus.valueOf(value.getStatus().intValue())
-                                            ))));
-            TasksStatus taskTable = TasksStatus.TASKS_STATUS;
-            Optional.ofNullable(dsl.selectFrom(taskTable))
-                    .ifPresent(data -> data.forEach(
-                            value -> tasks.add(new PlayerTaskStatus(
-                                            TaskId.valueOf(value.getTskId().intValue()),
-                                            PlayerId.valueOf(value.getPlyId().intValue()),
-                                            MissionId.valueOf(value.getMisId().intValue()),
-                                            value.getStatus()
                                             ))));
             this.missions.stream()
                     .filter(mission -> mission.status == MissionStatus.STARTED)
@@ -52,10 +43,6 @@ public class PersistentMission {
             this.missions.stream()
                     .filter(mission -> mission.status == MissionStatus.WAITING_FOR_ACCEPTANCE)
                     .forEach(mission -> manager.prepareMission(mission.id, mission.player));
-
-            this.tasks
-                    .forEach(task -> manager.updateTaskStatus(task.id, task.mission, task.player, task.status));
-
         }
     }
 
@@ -65,7 +52,24 @@ public class PersistentMission {
         return DSL.using(c, settings);
     }
 
-    private class PlayerMissionStatus {
+    @Override
+    public PlayerMissionStatus save(PlayerMissionStatus data, Connection c) {
+        try(DSLContext dsl = this.getDSL(c)) {
+            dsl.insertInto(TABLE)
+                    .set(TABLE.MIS_ID, UInteger.valueOf(data.id.value))
+                    .set(TABLE.PLY_ID, UShort.valueOf(data.player.value))
+                    .set(TABLE.STATUS, UByte.valueOf(data.status.value))
+                    .newRecord();
+        }
+        return data;
+    }
+
+    @Override
+    public void update(PlayerMissionStatus data, Connection c) {
+
+    }
+
+    public static class PlayerMissionStatus {
 
         private final MissionId id;
 
@@ -76,26 +80,6 @@ public class PersistentMission {
         private PlayerMissionStatus(MissionId id, PlayerId player, MissionStatus status) {
             this.id = id;
             this.player = player;
-            this.status = status;
-        }
-    }
-
-    private class PlayerTaskStatus {
-
-        private final TaskId id;
-
-        private final PlayerId player;
-
-        private final MissionId mission;
-
-        private final String status;
-
-
-        private PlayerTaskStatus(TaskId id, PlayerId player, MissionId mission, String status) {
-            super();
-            this.id = id;
-            this.player = player;
-            this.mission = mission;
             this.status = status;
         }
     }
