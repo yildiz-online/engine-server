@@ -82,7 +82,7 @@ public class PersistentMissionTask implements PersistentData<PersistentMissionTa
                     .set(TABLE.PLY_ID, UShort.valueOf(data.player.value))
                     .set(TABLE.MIS_ID, UInteger.valueOf(data.mission.value))
                     .set(TABLE.STATUS, data.status)
-                    .newRecord();
+                    .execute();
         }
         return data;
     }
@@ -103,7 +103,7 @@ public class PersistentMissionTask implements PersistentData<PersistentMissionTa
         private final String status;
 
 
-        private PlayerTaskStatus(TaskId id, PlayerId player, MissionId mission, String status) {
+        public PlayerTaskStatus(TaskId id, PlayerId player, MissionId mission, String status) {
             super();
             this.id = id;
             this.player = player;
