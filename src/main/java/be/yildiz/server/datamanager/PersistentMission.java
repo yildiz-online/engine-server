@@ -6,6 +6,7 @@ import be.yildiz.server.generated.database.tables.MissionsStatus;
 import be.yildiz.shared.mission.MissionId;
 import be.yildiz.shared.mission.MissionManager;
 import be.yildiz.shared.mission.MissionStatus;
+import be.yildiz.shared.mission.PlayerMissionStatus;
 import org.jooq.DSLContext;
 import org.jooq.conf.Settings;
 import org.jooq.impl.DSL;
@@ -20,7 +21,7 @@ import java.util.Optional;
 /**
  * @author Grégory Van den Borre
  */
-public class PersistentMission implements PersistentData<PersistentMission.PlayerMissionStatus, PersistentMission.PlayerMissionStatus>{
+public class PersistentMission implements PersistentData<PlayerMissionStatus, PlayerMissionStatus>{
 
     private static final MissionsStatus TABLE = MissionsStatus.MISSIONS_STATUS;
 
@@ -28,21 +29,15 @@ public class PersistentMission implements PersistentData<PersistentMission.Playe
 
     public PersistentMission(Connection c, MissionManager manager) {
         super();
-        try(DSLContext dsl = this.getDSL(c)) {
+        try (DSLContext dsl = this.getDSL(c)) {
             Optional.ofNullable(dsl.selectFrom(TABLE))
                     .ifPresent(data -> data.forEach(
-                                    value -> missions.add(new PlayerMissionStatus(
+                            value -> manager.initialize(
+                                    new PlayerMissionStatus(
                                             MissionId.valueOf(value.getMisId().intValue()),
                                             PlayerId.valueOf(value.getPlyId().intValue()),
                                             MissionStatus.valueOf(value.getStatus().intValue())
-                                            ))));
-            this.missions.stream()
-                    .filter(mission -> mission.status == MissionStatus.STARTED)
-                    .forEach(mission -> manager.startMission(mission.id, mission.player));
-
-            this.missions.stream()
-                    .filter(mission -> mission.status == MissionStatus.WAITING_FOR_ACCEPTANCE)
-                    .forEach(mission -> manager.prepareMission(mission.id, mission.player));
+                            ))));
         }
     }
 
@@ -69,18 +64,5 @@ public class PersistentMission implements PersistentData<PersistentMission.Playe
 
     }
 
-    public static class PlayerMissionStatus {
 
-        private final MissionId id;
-
-        private final PlayerId player;
-
-        private final MissionStatus status;
-
-        public PlayerMissionStatus(MissionId id, PlayerId player, MissionStatus status) {
-            this.id = id;
-            this.player = player;
-            this.status = status;
-        }
-    }
 }
