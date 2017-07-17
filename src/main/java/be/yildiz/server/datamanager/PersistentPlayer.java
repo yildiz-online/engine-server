@@ -23,19 +23,16 @@
 
 package be.yildiz.server.datamanager;
 
-import be.yildiz.common.collections.Lists;
 import be.yildiz.common.collections.Sets;
 import be.yildiz.common.id.PlayerId;
 import be.yildiz.server.generated.database.tables.Accounts;
 import be.yildiz.server.generated.database.tables.TempAccounts;
 import be.yildiz.server.generated.database.tables.records.AccountsRecord;
-import be.yildiz.server.generated.database.tables.records.TempAccountsRecord;
 import be.yildiz.shared.player.Player;
 import be.yildiz.shared.player.PlayerManager;
 import be.yildiz.shared.player.PlayerRight;
 import be.yildiz.shared.player.PlayerToCreate;
 import org.jooq.DSLContext;
-import org.jooq.RecordMapper;
 import org.jooq.conf.Settings;
 import org.jooq.impl.DSL;
 import org.jooq.types.UByte;
@@ -67,8 +64,6 @@ public final class PersistentPlayer implements PersistentData<PlayerToCreate, Pl
      * Manager for players.
      */
     private final PlayerManager playerManager;
-
-    private final TempAccountsMapper tempAccountsMapper = new TempAccountsMapper();
 
     /**
      * Full constructor, retrieve data from persistent context.
@@ -147,16 +142,18 @@ public final class PersistentPlayer implements PersistentData<PlayerToCreate, Pl
     }
 
     public void deleteTempAccount(String login, Connection c) {
-        try (DSLContext create = this.getDSL(c)) {
-            create.delete(TempAccounts.TEMP_ACCOUNTS)
+        try (DSLContext dsl = this.getDSL(c)) {
+            dsl.delete(TempAccounts.TEMP_ACCOUNTS)
                     .where(TempAccounts.TEMP_ACCOUNTS.LOGIN.equal(login))
                     .execute();
         }
     }
 
     public List<WaitingPlayer> getTempAccount(Connection c) {
-        try (DSLContext create = this.getDSL(c)) {
-            return Lists.newList(create.selectFrom(TempAccounts.TEMP_ACCOUNTS).fetch(this.tempAccountsMapper));
+        try (DSLContext dsl = this.getDSL(c)) {
+            return dsl
+                    .selectFrom(TempAccounts.TEMP_ACCOUNTS)
+                    .fetch(a -> new WaitingPlayer(a.getLogin(), a.getPassword(), a.getEmail()));
         }
     }
 
@@ -164,14 +161,5 @@ public final class PersistentPlayer implements PersistentData<PlayerToCreate, Pl
         Settings settings = new Settings();
         settings.setExecuteLogging(false);
         return DSL.using(c, settings);
-    }
-
-    private class TempAccountsMapper implements RecordMapper<TempAccountsRecord, WaitingPlayer> {
-
-        @Override
-        public WaitingPlayer map(TempAccountsRecord r) {
-            return new WaitingPlayer(r.getLogin(), r.getPassword(), r.getEmail());
-        }
-
     }
 }
