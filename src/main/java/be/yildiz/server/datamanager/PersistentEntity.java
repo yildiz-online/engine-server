@@ -206,12 +206,12 @@ public final class PersistentEntity implements PersistentData<EntityToCreate, Ba
             entity.setMapId(UByte.valueOf(1));
             entity.setType(UByte.valueOf(data.getType().type));
             entity.setOwnerId(UShort.valueOf(data.getOwner().value));
-            entity.setPositionX(Double.valueOf(data.getPosition().x));
-            entity.setPositionY(Double.valueOf(data.getPosition().y));
-            entity.setPositionZ(Double.valueOf(data.getPosition().z));
-            entity.setDirectionX(Double.valueOf(data.getDirection().x));
-            entity.setDirectionY(Double.valueOf(data.getDirection().y));
-            entity.setDirectionZ(Double.valueOf(data.getDirection().z));
+            entity.setPositionX((double)data.getPosition().x);
+            entity.setPositionY((double) data.getPosition().y);
+            entity.setPositionZ((double) data.getPosition().z);
+            entity.setDirectionX((double) data.getDirection().x);
+            entity.setDirectionY((double) data.getDirection().y);
+            entity.setDirectionZ((double) data.getDirection().z);
             ModuleGroup modules = data.getModules();
             entity.setModuleHull(UByte.valueOf(modules.getHull().value));
             entity.setModuleEnergy(UByte.valueOf(modules.getEnergy().value));
