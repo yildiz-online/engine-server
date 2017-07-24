@@ -187,6 +187,7 @@ public final class PersistentEntity implements PersistentData<EntityToCreate, Ba
      * Delete an entity.
      *
      * @param id Id of the entity to delete.
+     * @param c Connexion the persistence unit.
      */
     public void delete(final EntityId id, Connection c) {
         this.freeId.add(id);

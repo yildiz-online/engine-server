@@ -67,6 +67,7 @@ public final class PersistentBuilding implements PersistentData<BaseBuilding, Ba
     /**
      * Full constructor, retrieve data from persistent context.
      *
+     * @param c Connection to the persistence unit.
      * @param constructionManager Construction manager.
      * @param em City manager.
      */

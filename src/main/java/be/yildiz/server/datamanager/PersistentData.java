@@ -37,6 +37,8 @@ interface PersistentData<T, U> {
      * Persist a new object.
      *
      * @param data Object to save.
+     * @param c Connection to the persistent unit.
+     * @return The saved object.
      */
     U save(T data, Connection c);
 
@@ -44,6 +46,7 @@ interface PersistentData<T, U> {
      * Update an existing object.
      *
      * @param data Object to update.
+     * @param c Connection to the persistent unit.
      */
     void update(U data, Connection c);
 
