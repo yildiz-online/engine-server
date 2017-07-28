@@ -26,7 +26,6 @@ package be.yildiz.server.entity;
 
 import be.yildiz.shared.entity.BaseEntity;
 import be.yildiz.shared.entity.LosManager;
-import be.yildiz.shared.player.PlayerManager;
 
 /**
  * @author Grégory Van den Borre
@@ -36,7 +35,7 @@ public class ServerLosManager extends LosManager<BaseEntity> {
     private static final ServerLosManager INSTANCE = new ServerLosManager();
 
     private ServerLosManager() {
-        super(ServerEntityManager.getInstance(), PlayerManager.getInstance());
+        super(ServerEntityManager.getInstance());
     }
 
     public static ServerLosManager getInstance() {
