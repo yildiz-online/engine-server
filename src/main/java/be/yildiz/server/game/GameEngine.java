@@ -43,7 +43,7 @@ import be.yildiz.shared.game.engine.Initializable;
  *
  * @author Grégory Van den Borre
  */
-public final class GameEngine extends AbstractGameEngine implements ResponseSender {
+public final class GameEngine extends AbstractGameEngine implements ResponseSender, AutoCloseable {
 
     /**
      * Frame limiter.
