@@ -73,6 +73,7 @@ public final class GameEngine extends AbstractGameEngine implements ResponseSend
 
     /**
      * Full constructor, initialize the physic and the network engines, create the data manager.
+     * Also add a shutdown hook to handle gracefully the termination signal.
      * @param physicEngine Associated physic engine.
      * @param sessionManager Session manager.
      * @param server Network server.
@@ -86,6 +87,7 @@ public final class GameEngine extends AbstractGameEngine implements ResponseSend
         this.activeWorld = this.physicEngine.createWorld();
         this.initializer = new DataInitializer();
         this.sessionManager = sessionManager;
+        Runtime.getRuntime().addShutdownHook(new Thread(this::close));
         server.startServer();
     }
 
