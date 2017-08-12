@@ -23,7 +23,7 @@
 
 package be.yildiz.server.physic;
 
-import be.yildiz.module.physics.AbstractPhysicEngine;
+import be.yildiz.module.physics.PhysicEngine;
 
 /**
  * Wrap a physic engine to provide game objects.
@@ -35,7 +35,7 @@ public final class ServerPhysicEngine {
     /**
      * Physic engine used by this server engine.
      */
-    private final AbstractPhysicEngine engine;
+    private final PhysicEngine engine;
 
     /**
      * Create a server physic engine instance.
@@ -44,7 +44,7 @@ public final class ServerPhysicEngine {
      */
     //@Requires engine != null
     //@Ensures this.engine == engine
-    public ServerPhysicEngine(final AbstractPhysicEngine engine) {
+    public ServerPhysicEngine(final PhysicEngine engine) {
         super();
         this.engine = engine;
     }
@@ -56,7 +56,7 @@ public final class ServerPhysicEngine {
      */
     //@Ensures result != null
     public ServerWorld createWorld() {
-        return new ServerWorld(this.engine.createPhysicWorld());
+        return new ServerWorld(this.engine.createWorld());
     }
 
     /**

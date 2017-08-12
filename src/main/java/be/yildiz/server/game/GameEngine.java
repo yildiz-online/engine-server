@@ -30,7 +30,7 @@ import be.yildiz.module.network.protocol.NetworkMessage;
 import be.yildiz.module.network.server.Server;
 import be.yildiz.module.network.server.SessionListener;
 import be.yildiz.module.network.server.SessionManager;
-import be.yildiz.module.physics.AbstractPhysicEngine;
+import be.yildiz.module.physics.PhysicEngine;
 import be.yildiz.module.physics.CollisionListener;
 import be.yildiz.server.physic.ServerPhysicEngine;
 import be.yildiz.server.physic.ServerWorld;
@@ -80,7 +80,7 @@ public final class GameEngine extends AbstractGameEngine implements ResponseSend
      * @param version Game version.
      */
     //@effect Create a new engine.
-    public GameEngine(AbstractPhysicEngine physicEngine, SessionManager sessionManager, Server server, Version version) {
+    public GameEngine(PhysicEngine physicEngine, SessionManager sessionManager, Server server, Version version) {
         super(version);
         Logger.info("Starting server game engine...");
         this.physicEngine = new ServerPhysicEngine(physicEngine);
