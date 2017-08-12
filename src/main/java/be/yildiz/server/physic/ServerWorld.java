@@ -60,7 +60,7 @@ public final class ServerWorld implements World {
      */
     public ServerGameEntity createStaticObject(final EntityId id, final Box box, final Point3D position, final Point3D direction) {
         StaticBody body = this.physicWorld
-                .createBuilder()
+                .createObject()
                 .withId(id)
                 .withShape(box)
                 .atPosition(position)
@@ -94,7 +94,7 @@ public final class ServerWorld implements World {
      */
     public ServerGameEntity createStaticObject(final EntityId id, final Sphere sphere, final Point3D position, final Point3D direction) {
         StaticBody body = this.physicWorld
-                .createBuilder()
+                .createObject()
                 .withId(id)
                 .withShape(sphere)
                 .atPosition(position)
@@ -128,7 +128,7 @@ public final class ServerWorld implements World {
      */
     public ServerGameEntity createStaticObject(final EntityId id, final PhysicMesh mesh, final Point3D position, final Point3D direction) {
         StaticBody body = this.physicWorld
-                .createBuilder()
+                .createObject()
                 .withId(id)
                 .withShape(mesh)
                 .atPosition(position)
@@ -161,7 +161,7 @@ public final class ServerWorld implements World {
      */
     public ServerGameEntity createMovableObject(final EntityId id, final Box box, final Point3D position) {
         KinematicBody body = this.physicWorld
-                .createBuilder()
+                .createObject()
                 .withId(id)
                 .withShape(box)
                 .atPosition(position)
@@ -180,7 +180,7 @@ public final class ServerWorld implements World {
      */
     public ServerGameEntity createMovableObject(final EntityId id, final Sphere sphere, final Point3D position) {
         KinematicBody body = this.physicWorld
-                .createBuilder()
+                .createObject()
                 .withId(id)
                 .withShape(sphere)
                 .atPosition(position)
@@ -199,7 +199,7 @@ public final class ServerWorld implements World {
      */
     public ServerGameEntity createMovableObject(final EntityId id, final PhysicMesh mesh, final Point3D position) {
         KinematicBody body = this.physicWorld
-                .createBuilder()
+                .createObject()
                 .withId(id)
                 .withShape(mesh)
                 .atPosition(position)
@@ -234,7 +234,7 @@ public final class ServerWorld implements World {
 
     public GhostObject createGhostObject(final EntityId id, final Box box, final Point3D position) {
         return this.physicWorld
-                .createBuilder()
+                .createObject()
                 .withId(id)
                 .withShape(box)
                 .atPosition(position)
@@ -243,7 +243,7 @@ public final class ServerWorld implements World {
 
     public GhostObject createGhostObject(final EntityId id, final Sphere sphere, final Point3D position) {
         return this.physicWorld
-                .createBuilder()
+                .createObject()
                 .withId(id)
                 .withShape(sphere)
                 .atPosition(position)
