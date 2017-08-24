@@ -23,6 +23,7 @@
 
 package be.yildiz.server.physic;
 
+import be.yildiz.common.gameobject.Movable;
 import be.yildiz.common.id.EntityId;
 import be.yildiz.common.vector.Point3D;
 import be.yildiz.module.physics.AbstractStaticObject;
@@ -86,5 +87,25 @@ public final class StaticObject extends AbstractStaticObject implements ServerGa
     @Override
     public void sleep(boolean b) {
         this.body.sleep(b);
+    }
+
+    @Override
+    public void detachFromParent() {
+        //TODO implements
+    }
+
+    @Override
+    public void addOptionalChild(Movable child) {
+        //TODO implements
+    }
+
+    @Override
+    public void removeChild(Movable child) {
+        //TODO implements
+    }
+
+    @Override
+    public Movable getInternal() {
+        return this.body;
     }
 }

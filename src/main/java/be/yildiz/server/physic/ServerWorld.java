@@ -166,7 +166,7 @@ public final class ServerWorld implements World {
                 .withShape(box)
                 .atPosition(position)
                 .buildKinematic();
-        return new MovableObject(body, position);
+        return new MovableObject(body);
     }
 
     /**
@@ -185,7 +185,7 @@ public final class ServerWorld implements World {
                 .withShape(sphere)
                 .atPosition(position)
                 .buildKinematic();
-        return new MovableObject(body, position);
+        return new MovableObject(body);
     }
 
     /**
@@ -204,7 +204,7 @@ public final class ServerWorld implements World {
                 .withShape(mesh)
                 .atPosition(position)
                 .buildKinematic();
-        return new MovableObject(body, position);
+        return new MovableObject(body);
     }
 
     @Override

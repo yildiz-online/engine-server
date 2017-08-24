@@ -23,6 +23,7 @@
 
 package be.yildiz.server.physic;
 
+import be.yildiz.common.gameobject.Movable;
 import be.yildiz.common.id.EntityId;
 import be.yildiz.common.vector.Point3D;
 import be.yildiz.module.physics.AbstractStaticObject;
@@ -52,6 +53,11 @@ final class StaticDoodad extends AbstractStaticObject implements ServerGameEntit
     }
 
     @Override
+    public void detachFromParent() {
+        //TODO need to be done?
+    }
+
+    @Override
     public void setPosition(final float posX, final float posY, final float posZ) {
         //no set position as static
     }
@@ -59,6 +65,22 @@ final class StaticDoodad extends AbstractStaticObject implements ServerGameEntit
     @Override
     public void setDirection(final float dirX, final float dirY, final float dirZ) {
         //no set direction as static
+    }
+
+    @Override
+    public void addOptionalChild(Movable child) {
+        //TODO need to be done?
+    }
+
+    @Override
+    public void removeChild(Movable child) {
+        //TODO need to be done?
+    }
+
+    @Override
+    public Movable getInternal() {
+        //TODO correct?
+        return this;
     }
 
     @Override

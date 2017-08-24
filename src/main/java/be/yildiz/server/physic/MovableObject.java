@@ -23,6 +23,7 @@
 
 package be.yildiz.server.physic;
 
+import be.yildiz.common.gameobject.Movable;
 import be.yildiz.common.id.EntityId;
 import be.yildiz.common.vector.Point3D;
 import be.yildiz.common.vector.Quaternion;
@@ -52,19 +53,14 @@ final class MovableObject extends AbstractMovableObject implements ServerGameEnt
      *
      * @param kinematicBody Bullet kinematic body.
      */
-    MovableObject(final KinematicBody kinematicBody, final Point3D position) {
-        super(position);
+    MovableObject(final KinematicBody kinematicBody) {
+        super();
         this.body = kinematicBody;
     }
 
     @Override
     public EntityId getId() {
         return this.body.getId();
-    }
-
-    @Override
-    public void setPositionImpl(final Point3D position) {
-        this.body.setPosition(position.x, position.y, position.z);
     }
 
     @Override
@@ -91,5 +87,30 @@ final class MovableObject extends AbstractMovableObject implements ServerGameEnt
     public void scale(final float x, final float y, final float z) {
         this.scaleSize = Point3D.valueOf(x, y, z);
         this.body.scale(x, y, z);
+    }
+
+    @Override
+    public Point3D getPosition() {
+        return this.body.getPosition();
+    }
+
+    @Override
+    public Point3D getDirection() {
+        return this.body.getDirection();
+    }
+
+    @Override
+    public void setPosition(float posX, float posY, float posZ) {
+        this.body.setPosition(posX, posY, posZ);
+    }
+
+    @Override
+    public void setDirection(float dirX, float dirY, float dirZ) {
+        this.body.setDirection(dirX, dirY, dirZ);
+    }
+
+    @Override
+    public Movable getInternal() {
+        return this.body;
     }
 }
