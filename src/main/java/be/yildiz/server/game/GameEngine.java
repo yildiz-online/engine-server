@@ -25,18 +25,19 @@ package be.yildiz.server.game;
 
 import be.yildiz.common.Version;
 import be.yildiz.common.id.PlayerId;
-import be.yildiz.common.log.Logger;
 import be.yildiz.module.network.protocol.NetworkMessage;
 import be.yildiz.module.network.server.Server;
 import be.yildiz.module.network.server.SessionListener;
 import be.yildiz.module.network.server.SessionManager;
-import be.yildiz.module.physics.PhysicEngine;
 import be.yildiz.module.physics.CollisionListener;
+import be.yildiz.module.physics.PhysicEngine;
 import be.yildiz.server.physic.ServerPhysicEngine;
 import be.yildiz.server.physic.ServerWorld;
 import be.yildiz.shared.game.engine.AbstractGameEngine;
 import be.yildiz.shared.game.engine.DataInitializer;
 import be.yildiz.shared.game.engine.Initializable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Server side implementation for the game engine.
@@ -44,6 +45,8 @@ import be.yildiz.shared.game.engine.Initializable;
  * @author Grégory Van den Borre
  */
 public final class GameEngine extends AbstractGameEngine implements ResponseSender, AutoCloseable {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(GameEngine.class);
 
     /**
      * Frame limiter.
@@ -69,6 +72,7 @@ public final class GameEngine extends AbstractGameEngine implements ResponseSend
      * <code>true</code> if the engine is currently running, <code>false</code> otherwise.
      */
     private boolean running;
+
     private boolean check;
 
     /**
@@ -82,7 +86,7 @@ public final class GameEngine extends AbstractGameEngine implements ResponseSend
     //@effect Create a new engine.
     public GameEngine(PhysicEngine physicEngine, SessionManager sessionManager, Server server, Version version) {
         super(version);
-        Logger.info("Starting server game engine...");
+        LOGGER.info("Starting server game engine...");
         this.physicEngine = new ServerPhysicEngine(physicEngine);
         this.activeWorld = this.physicEngine.createWorld();
         this.initializer = new DataInitializer();
@@ -106,15 +110,15 @@ public final class GameEngine extends AbstractGameEngine implements ResponseSend
 
     @Override
     public void start() {
-        Logger.info("Starting server data initialization...");
-        Logger.info("Server data initialized.");
-        Logger.info("Server game engine started.");
+        LOGGER.info("Starting server data initialization...");
+        LOGGER.info("Server data initialized.");
+        LOGGER.info("Server game engine started.");
         this.setFrameLimiter(FPS);
         this.running = true;
         while (this.running) {
             this.runOneFrame();
         }
-        Logger.info("Closing engine.");
+        LOGGER.info("Closing engine.");
     }
 
     /**

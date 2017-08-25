@@ -25,7 +25,6 @@ package be.yildiz.server.datamanager;
 
 import be.yildiz.common.collections.Lists;
 import be.yildiz.common.id.PlayerId;
-import be.yildiz.common.log.Logger;
 import be.yildiz.module.database.DataBaseConnectionProvider;
 import be.yildiz.module.network.protocol.MessageWrapper;
 import be.yildiz.module.network.server.Session;
@@ -41,6 +40,8 @@ import org.jooq.RecordMapper;
 import org.jooq.Table;
 import org.jooq.impl.DSL;
 import org.jooq.types.UShort;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -55,6 +56,8 @@ import java.util.List;
  * @author Grégory Van den Borre
  */
 public final class DatabasePersistentManager implements PersistentManager, SessionListener {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DatabasePersistentManager.class);
 
     /**
      * Provide connection to the database.
@@ -91,7 +94,7 @@ public final class DatabasePersistentManager implements PersistentManager, Sessi
             account.setOnline(true);
             account.store();
         } catch (SQLException e) {
-            Logger.error("Set connected query", e);
+            LOGGER.error("Set connected query", e);
         }
     }
 
@@ -101,7 +104,7 @@ public final class DatabasePersistentManager implements PersistentManager, Sessi
             Messages table = Messages.MESSAGES;
             return Lists.newList(create.selectFrom(table).where(table.RECEIVER_ID.equal(UShort.valueOf(player.value))).fetch(new MessageMapper()));
         } catch (SQLException e) {
-            Logger.error("Get message list", e);
+            LOGGER.error("Get message list", e);
         }
         return Collections.emptyList();
     }
@@ -114,7 +117,7 @@ public final class DatabasePersistentManager implements PersistentManager, Sessi
                     .values(UShort.valueOf(message.getSender().value), UShort.valueOf(message.getReceiver().value), message.getMessage(), message.isRead(), new Timestamp(message.getDate()))
                     .execute();
         } catch (SQLException e) {
-            Logger.error(e);
+            LOGGER.error("Persist message error", e);
         }
     }
 
@@ -129,7 +132,7 @@ public final class DatabasePersistentManager implements PersistentManager, Sessi
         try (Connection c = this.provider.getConnection(); DSLContext create = DSL.using(c, this.provider.getDialect())) {
             create.insertInto(t).defaultValues().execute();
         } catch (SQLException e) {
-            Logger.error(e);
+            LOGGER.error("Create row error", e);
         }
         return 0;
     }
