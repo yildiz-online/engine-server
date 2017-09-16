@@ -26,68 +26,56 @@ package be.yildiz.server.datamanager;
 import be.yildiz.common.id.EntityId;
 import be.yildiz.common.id.PlayerId;
 import be.yildiz.common.vector.Point3D;
-import org.junit.Assert;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Test;
 
 import java.security.InvalidParameterException;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author Grégory Van den Borre
  */
-public final class TaskEntityTest {
-
-    @Rule
-    public final ExpectedException rule = ExpectedException.none();
+final class TaskEntityTest {
 
     @Test
-    public void testTaskEntity() {
-        this.rule.expect(AssertionError.class);
-        new TaskEntity(null, PlayerId.valueOf(4), Point3D.ZERO, 1, 0);
+    void testTaskEntity() {
+        assertThrows(AssertionError.class, () -> new TaskEntity(null, PlayerId.valueOf(4), Point3D.ZERO, 1, 0));
     }
 
     @Test
-    public void testTaskEntity2() {
-        this.rule.expect(AssertionError.class);
-        new TaskEntity(EntityId.valueOf(1L), null, Point3D.ZERO, 1, 0);
+    void testTaskEntity2() {
+        assertThrows(AssertionError.class, () -> new TaskEntity(EntityId.valueOf(1L), null, Point3D.ZERO, 1, 0));
     }
 
     @Test
-    public void testTaskEntity3() {
-        this.rule.expect(AssertionError.class);
-        new TaskEntity(EntityId.valueOf(1L), PlayerId.valueOf(2), null, 1, 0);
+    void testTaskEntity3() {
+        assertThrows(AssertionError.class, () -> new TaskEntity(EntityId.valueOf(1L), PlayerId.valueOf(2), null, 1, 0));
     }
 
     @Test
-    public void testTaskEntity4() {
-        this.rule.expect(InvalidParameterException.class);
-        new TaskEntity(EntityId.valueOf(1L), PlayerId.valueOf(2), Point3D.ZERO, -1, 0);
+    void testTaskEntity4() {
+        assertThrows(InvalidParameterException.class, () -> new TaskEntity(EntityId.valueOf(1L), PlayerId.valueOf(2), Point3D.ZERO, -1, 0));
     }
 
     @Test
-    public void testTaskEntity5() {
-        this.rule.expect(InvalidParameterException.class);
-        new TaskEntity(EntityId.valueOf(1L), PlayerId.valueOf(2), Point3D.ZERO, 5, -1);
+    void testTaskEntity5() {
+        assertThrows(InvalidParameterException.class, () -> new TaskEntity(EntityId.valueOf(1L), PlayerId.valueOf(2), Point3D.ZERO, 5, -1));
     }
 
     @Test
-    public void testTaskEntity6() {
-        try {
-            new TaskEntity(EntityId.valueOf(1L), PlayerId.valueOf(2), Point3D.ZERO, 5, 0);
-        } catch (Exception e) {
-            Assert.fail();
-        }
+    void testTaskEntity6() {
+        new TaskEntity(EntityId.valueOf(1L), PlayerId.valueOf(2), Point3D.ZERO, 5, 0);
     }
 
     @Test
-    public void testGetEntity() {
+    void testGetEntity() {
         TaskEntity te = new TaskEntity(EntityId.valueOf(1L), PlayerId.valueOf(2), Point3D.valueOf(5), 5, 0);
-        Assert.assertEquals(EntityId.valueOf(1L), te.getEntity());
-        Assert.assertEquals(PlayerId.valueOf(2), te.getOwner());
-        Assert.assertEquals(Point3D.valueOf(5), te.getPosition());
-        Assert.assertEquals(5, te.getType());
-        Assert.assertEquals(0, te.getTimeLeft());
+        assertEquals(EntityId.valueOf(1L), te.getEntity());
+        assertEquals(PlayerId.valueOf(2), te.getOwner());
+        assertEquals(Point3D.valueOf(5), te.getPosition());
+        assertEquals(5, te.getType());
+        assertEquals(0, te.getTimeLeft());
     }
 
 }

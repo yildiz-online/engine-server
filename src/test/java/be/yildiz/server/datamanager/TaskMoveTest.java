@@ -25,45 +25,37 @@ package be.yildiz.server.datamanager;
 
 import be.yildiz.common.id.EntityId;
 import be.yildiz.common.vector.Point3D;
-import org.junit.Assert;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author Grégory Van den Borre
  */
-public class TaskMoveTest {
+class TaskMoveTest {
 
-    @Rule
-    public final ExpectedException rule = ExpectedException.none();
 
     @Test
-    public void testTaskMove1() {
-        this.rule.expect(AssertionError.class);
-        new TaskMove(null, Point3D.ZERO, 0);
+    void testTaskMove1() {
+        assertThrows(AssertionError.class, () -> new TaskMove(null, Point3D.ZERO, 0));
     }
 
     @Test
-    public void testTaskMove2() {
-        this.rule.expect(AssertionError.class);
-        new TaskMove(EntityId.valueOf(5L), null, 0);
+    void testTaskMove2() {
+        assertThrows(AssertionError.class, () -> new TaskMove(EntityId.valueOf(5L), null, 0));
     }
 
     @Test
-    public void testTaskMove() {
-        try {
-            new TaskMove(EntityId.valueOf(5L), Point3D.ZERO, 0);
-        } catch (Exception e) {
-            Assert.fail();
-        }
+    void testTaskMove() {
+        new TaskMove(EntityId.valueOf(5L), Point3D.ZERO, 0);
     }
 
     @Test
-    public void testGet() {
+    void testGet() {
         TaskMove tm = new TaskMove(EntityId.valueOf(2L), Point3D.valueOf(1), 12);
-        Assert.assertEquals(EntityId.valueOf(2L), tm.getEntity());
-        Assert.assertEquals(Point3D.valueOf(1), tm.getDestination());
-        Assert.assertEquals(12, tm.getSpeed(), 0.001);
+        assertEquals(EntityId.valueOf(2L), tm.getEntity());
+        assertEquals(Point3D.valueOf(1), tm.getDestination());
+        assertEquals(12, tm.getSpeed(), 0.001);
     }
 }

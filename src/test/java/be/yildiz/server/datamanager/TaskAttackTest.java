@@ -24,35 +24,30 @@
 package be.yildiz.server.datamanager;
 
 import be.yildiz.common.id.EntityId;
-import org.junit.Assert;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author Grégory Van den Borre
  */
-public final class TaskAttackTest {
-
-    @Rule
-    public final ExpectedException rule = ExpectedException.none();
+final class TaskAttackTest {
 
     @Test
-    public void testTaskAttack() {
-        rule.expect(AssertionError.class);
-        new TaskAttack(null, EntityId.valueOf(1L));
+    void testTaskAttack() {
+        assertThrows(AssertionError.class, () -> new TaskAttack(null, EntityId.valueOf(1L)));
     }
 
     @Test
-    public void testTaskAttack2() {
-        rule.expect(AssertionError.class);
-        new TaskAttack(EntityId.valueOf(1L), null);
+    void testTaskAttack2() {
+        assertThrows(AssertionError.class, () -> new TaskAttack(EntityId.valueOf(1L), null));
     }
 
     @Test
-    public void testGet() {
+    void testGet() {
         TaskAttack ta = new TaskAttack(EntityId.valueOf(1L), EntityId.valueOf(2L));
-        Assert.assertEquals(EntityId.valueOf(1L), ta.getAttacker());
-        Assert.assertEquals(EntityId.valueOf(2L), ta.getTarget());
+        assertEquals(EntityId.valueOf(1L), ta.getAttacker());
+        assertEquals(EntityId.valueOf(2L), ta.getTarget());
     }
 }
