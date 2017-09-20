@@ -85,15 +85,15 @@ public final class PersistentEntity implements PersistentData<EntityToCreate, Ba
         try (DSLContext create = this.getDSL(c)) {
             Optional.ofNullable(create.selectFrom(Cities.CITIES).fetch())
                     .ifPresent(citiesRecords ->
-                            citiesRecords.forEach(r -> names.put(EntityId.valueOf(r.getId().longValue()), r.getName())));
+                            citiesRecords.forEach(r -> names.put(EntityId.valueOf(r.getEntId().longValue()), r.getName())));
             //        faire le set a la reception du message entity info response dans le client
 
             Optional.ofNullable(create.selectFrom(table).fetch())
                     .ifPresent(data ->
                             data.forEach(r -> {
-                                EntityId id = EntityId.valueOf(r.getId().longValue());
+                                EntityId id = EntityId.valueOf(r.getEntId().longValue());
                                 if (r.getActive()) {
-                                    PlayerId player = PlayerId.valueOf(r.getOwnerId().intValue());
+                                    PlayerId player = PlayerId.valueOf(r.getPlyId().intValue());
                                     EntityType type = EntityType.valueOf(r.getType().intValue());
                                     ModuleGroup m = new ModuleGroup.ModuleGroupBuilder()
                                             .withHull(ActionId.valueOf(r.getModuleHull().intValue()))
@@ -132,7 +132,7 @@ public final class PersistentEntity implements PersistentData<EntityToCreate, Ba
         try(DSLContext context = this.getDSL(c)) {
             context.update(table)
                     .set(table.TYPE, UByte.valueOf(data.getType().type))
-                    .set(table.OWNER_ID, UShort.valueOf(data.getOwner().value))
+                    .set(table.PLY_ID, UShort.valueOf(data.getOwner().value))
                     .set(table.MODULE_MOVE, UByte.valueOf(data.getModules().getMove().value))
                     .set(table.MODULE_INTERACTION, UByte.valueOf(data.getModules().getInteraction().value))
                     .set(table.MODULE_HULL, UByte.valueOf(data.getModules().getHull().value))
@@ -151,7 +151,7 @@ public final class PersistentEntity implements PersistentData<EntityToCreate, Ba
                     .set(table.DIRECTION_X, Double.valueOf(data.getDirection().x))
                     .set(table.DIRECTION_Y, Double.valueOf(data.getDirection().y))
                     .set(table.DIRECTION_Z, Double.valueOf(data.getDirection().z))
-                    .where(table.ID.equal(UInteger.valueOf(id.value)))
+                    .where(table.ENT_ID.equal(UInteger.valueOf(id.value)))
                     .execute();
             DefaultEntityInConstruction eic = constructionFactory.build(id, data);
             return entityFactory.createEntity(eic);
@@ -179,7 +179,7 @@ public final class PersistentEntity implements PersistentData<EntityToCreate, Ba
         try (DSLContext create = this.getDSL(c)) {
             create.insertInto(table).defaultValues().execute();
             EntitiesRecord entity = create.fetchOne(table, table.ACTIVE.equal(false));
-            return EntityId.valueOf(entity.getId().longValue());
+            return EntityId.valueOf(entity.getEntId().longValue());
         }
     }
 
@@ -192,7 +192,7 @@ public final class PersistentEntity implements PersistentData<EntityToCreate, Ba
     public void delete(final EntityId id, Connection c) {
         this.freeId.add(id);
         try (DSLContext create = this.getDSL(c)) {
-            EntitiesRecord entity = create.fetchOne(table, table.ID.equal(UInteger.valueOf(id.value)));
+            EntitiesRecord entity = create.fetchOne(table, table.ENT_ID.equal(UInteger.valueOf(id.value)));
             entity.setActive(false);
             create.executeUpdate(entity);
         }
@@ -201,11 +201,11 @@ public final class PersistentEntity implements PersistentData<EntityToCreate, Ba
     @Override
     public void update(final BaseEntity data, Connection c) {
         try (DSLContext create = this.getDSL(c)) {
-            EntitiesRecord entity = create.fetchOne(table, table.ID.equal(UInteger.valueOf(data.getId().value)));
-            entity.setId(UInteger.valueOf(data.getId().value));
+            EntitiesRecord entity = create.fetchOne(table, table.ENT_ID.equal(UInteger.valueOf(data.getId().value)));
+            entity.setEntId(UInteger.valueOf(data.getId().value));
             entity.setMapId(UByte.valueOf(1));
             entity.setType(UByte.valueOf(data.getType().type));
-            entity.setOwnerId(UShort.valueOf(data.getOwner().value));
+            entity.setPlyId(UShort.valueOf(data.getOwner().value));
             entity.setPositionX((double)data.getPosition().x);
             entity.setPositionY((double) data.getPosition().y);
             entity.setPositionZ((double) data.getPosition().z);

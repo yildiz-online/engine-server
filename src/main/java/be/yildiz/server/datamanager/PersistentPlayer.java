@@ -25,9 +25,8 @@ package be.yildiz.server.datamanager;
 
 import be.yildiz.common.collections.Sets;
 import be.yildiz.common.id.PlayerId;
-import be.yildiz.server.generated.database.tables.Accounts;
-import be.yildiz.server.generated.database.tables.TempAccounts;
-import be.yildiz.server.generated.database.tables.records.AccountsRecord;
+import be.yildiz.server.generated.database.tables.Players;
+import be.yildiz.server.generated.database.tables.records.PlayersRecord;
 import be.yildiz.shared.player.Player;
 import be.yildiz.shared.player.PlayerManager;
 import be.yildiz.shared.player.PlayerRight;
@@ -39,7 +38,6 @@ import org.jooq.types.UByte;
 import org.jooq.types.UShort;
 
 import java.sql.Connection;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -53,7 +51,7 @@ public final class PersistentPlayer implements PersistentData<PlayerToCreate, Pl
     /**
      * Persistent unit name where data must be retrieved.
      */
-    private static final Accounts table = Accounts.ACCOUNTS;
+    private static final Players table = Players.PLAYERS;
 
     /**
      * List of unused player's id.
@@ -78,10 +76,10 @@ public final class PersistentPlayer implements PersistentData<PlayerToCreate, Pl
         try (DSLContext create = this.getDSL(c)) {
             Optional.ofNullable(create.selectFrom(table).fetch())
                     .ifPresent(data -> data.forEach(r -> {
-                        PlayerId id = PlayerId.valueOf(r.getId().intValue());
+                        PlayerId id = PlayerId.valueOf(r.getPlyId().intValue());
                         if (r.getActive()) {
-                            int right = r.getType().intValue();
-                            String name = r.getLogin();
+                            int right = r.getRole().intValue();
+                            String name = r.getName();
                             playerManager.createPlayer(id, name, PlayerRight.values()[right]);
                         } else {
                             this.freeId.add(id);
@@ -100,14 +98,10 @@ public final class PersistentPlayer implements PersistentData<PlayerToCreate, Pl
         PlayerId playerId = this.getFreeId(c);
         try(DSLContext context = this.getDSL(c)) {
             context.update(table)
-                    .set(table.LOGIN, data.getLogin())
-                    .set(table.PASSWORD, data.getPassword())
-                    .set(table.EMAIL, data.getEmail())
-                    .set(table.ACTIVE, true)
-                    .set(table.TYPE, UByte.valueOf(0))
-                    .set(table.ONLINE, false)
-                    .set(table.MAP_ID, UByte.valueOf(1))
-                    .where(table.ID.equal(UShort.valueOf(playerId.value)))
+                    .set(table.NAME, data.getLogin())
+                    .set(table.ROLE, UByte.valueOf(0))
+                    .set(table.ACTIVE, Boolean.TRUE)
+                    .where(table.PLY_ID.equal(UShort.valueOf(playerId.value)))
                     .execute();
             return this.playerManager.createPlayer(playerId, data.getLogin());
         }
@@ -128,33 +122,15 @@ public final class PersistentPlayer implements PersistentData<PlayerToCreate, Pl
     private PlayerId createNewLine(Connection c) {
         try (DSLContext create = this.getDSL(c)) {
             create.insertInto(table).defaultValues().execute();
-            AccountsRecord entity = create.fetchOne(table, table.ACTIVE.equal(false));
-            return PlayerId.valueOf(entity.getId().intValue());
+            PlayersRecord player = create.fetchOne(table, table.ACTIVE.equal(false));
+            return PlayerId.valueOf(player.getPlyId().intValue());
         }
     }
-
-
 
     @Override
     public void update(Player data, Connection c) {
         // TODO Auto-generated method stub
 
-    }
-
-    public void deleteTempAccount(String login, Connection c) {
-        try (DSLContext dsl = this.getDSL(c)) {
-            dsl.delete(TempAccounts.TEMP_ACCOUNTS)
-                    .where(TempAccounts.TEMP_ACCOUNTS.LOGIN.equal(login))
-                    .execute();
-        }
-    }
-
-    public List<WaitingPlayer> getTempAccount(Connection c) {
-        try (DSLContext dsl = this.getDSL(c)) {
-            return dsl
-                    .selectFrom(TempAccounts.TEMP_ACCOUNTS)
-                    .fetch(a -> new WaitingPlayer(a.getLogin(), a.getPassword(), a.getEmail()));
-        }
     }
 
     private DSLContext getDSL(Connection c) {

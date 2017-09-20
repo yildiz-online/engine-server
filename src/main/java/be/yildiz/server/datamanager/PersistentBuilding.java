@@ -88,7 +88,7 @@ public final class PersistentBuilding implements PersistentData<BaseBuilding, Ba
     @Override
     public BaseBuilding save(final BaseBuilding data, Connection c) {
         try (DSLContext create = this.getDSL(c)) {
-            create.insertInto(table, table.CITY_ID, table.POSITION, table.TYPE, table.LEVEL, table.STAFF)
+            create.insertInto(table, table.CIT_ID, table.POSITION, table.TYPE, table.LEVEL, table.STAFF)
                     .values(
                             UInteger.valueOf(data.getCity().value),
                             UByte.valueOf(data.getBuildingPosition().value),
@@ -103,8 +103,8 @@ public final class PersistentBuilding implements PersistentData<BaseBuilding, Ba
     @Override
     public void update(final BaseBuilding data, Connection c) {
         try (DSLContext create = this.getDSL(c)) {
-            BuildingsRecord building = create.fetchOne(table, table.CITY_ID.equal(UInteger.valueOf(data.getCity().value)).and(table.POSITION.equal(UByte.valueOf(data.getBuildingPosition().value))));
-            building.setCityId(UInteger.valueOf(data.getCity().value));
+            BuildingsRecord building = create.fetchOne(table, table.CIT_ID.equal(UInteger.valueOf(data.getCity().value)).and(table.POSITION.equal(UByte.valueOf(data.getBuildingPosition().value))));
+            building.setCitId(UInteger.valueOf(data.getCity().value));
             building.setType(UByte.valueOf(data.getType().type));
             building.setLevel(UByte.valueOf(data.getLevel().value));
             building.setStaff(UShort.valueOf(data.getStaff().value));
@@ -114,7 +114,7 @@ public final class PersistentBuilding implements PersistentData<BaseBuilding, Ba
 
     @Override
     public BaseBuilding map(BuildingsRecord r) {
-        EntityId id = EntityId.valueOf(r.getCityId().longValue());
+        EntityId id = EntityId.valueOf(r.getCitId().longValue());
         BuildingPosition pos = BuildingPosition.valueOf(r.getPosition().intValue());
         EntityType type = EntityType.valueOf(r.getType().intValue());
         Level level = Level.valueOf(r.getLevel().intValue());

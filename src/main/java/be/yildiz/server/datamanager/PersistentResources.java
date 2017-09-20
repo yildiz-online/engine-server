@@ -67,7 +67,7 @@ public final class PersistentResources implements PersistentData<ResourcesProduc
         try (DSLContext create = this.getDSL(c)) {
             Optional.ofNullable(create.selectFrom(table).fetch())
                     .ifPresent(data -> data.forEach(r -> {
-                        EntityId cityId = EntityId.valueOf(r.getValue(table.CITY_ID).longValue());
+                        EntityId cityId = EntityId.valueOf(r.getValue(table.CIT_ID).longValue());
                         ServerCity city = entityManager.getCityById(cityId);
                         long time = r.getValue(table.LAST_TIME_COMPUTED).getTime();
                         float[] values = new float[5];
@@ -84,7 +84,7 @@ public final class PersistentResources implements PersistentData<ResourcesProduc
     @Override
     public ResourcesProducer save(final ResourcesProducer data, Connection c) {
         try (DSLContext create = this.getDSL(c)) {
-            create.insertInto(Resources.RESOURCES, Resources.RESOURCES.CITY_ID, Resources.RESOURCES.LAST_TIME_COMPUTED, Resources.RESOURCES.METAL, Resources.RESOURCES.ENERGY,
+            create.insertInto(Resources.RESOURCES, Resources.RESOURCES.CIT_ID, Resources.RESOURCES.LAST_TIME_COMPUTED, Resources.RESOURCES.METAL, Resources.RESOURCES.ENERGY,
                     Resources.RESOURCES.MONEY, Resources.RESOURCES.RESEARCH, Resources.RESOURCES.INHABITANT)
                     .values(
                             UInteger.valueOf(data.getCity().value),
@@ -101,7 +101,7 @@ public final class PersistentResources implements PersistentData<ResourcesProduc
     @Override
     public void update(ResourcesProducer data, Connection c) {
         try (DSLContext create = this.getDSL(c)) {
-            ResourcesRecord resources = create.fetchOne(table, table.CITY_ID.equal(UInteger.valueOf(data.getCity().value)));
+            ResourcesRecord resources = create.fetchOne(table, table.CIT_ID.equal(UInteger.valueOf(data.getCity().value)));
             resources.setMetal((double)data.getResource(0));
             resources.setEnergy((double)data.getResource(1));
             resources.setMoney((double)data.getResource(2));

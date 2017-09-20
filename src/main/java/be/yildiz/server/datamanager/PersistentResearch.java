@@ -63,7 +63,7 @@ public final class PersistentResearch implements PersistentData<Pair<PlayerId, S
             Optional
                     .ofNullable(create.selectFrom(table).fetch())
                     .ifPresent(data -> data.forEach(r -> {
-                            PlayerId player = PlayerId.valueOf(r.getPlayerId().intValue());
+                            PlayerId player = PlayerId.valueOf(r.getPlyId().intValue());
                             if (!r.getName().isEmpty()) {
                                 String[] researches = r.getName().split(",");
                                 for (String s : researches) {
@@ -77,10 +77,10 @@ public final class PersistentResearch implements PersistentData<Pair<PlayerId, S
     @Override
     public Pair<PlayerId, Set<ResearchId>> save(final Pair<PlayerId, Set<ResearchId>> data, Connection c) {
         try (DSLContext create = this.getDSL(c)) {
-            ResearchesRecord research = create.fetchOne(table, table.PLAYER_ID.equal(UShort.valueOf(data.getObject1().value)));
+            ResearchesRecord research = create.fetchOne(table, table.PLY_ID.equal(UShort.valueOf(data.getObject1().value)));
             if(research == null) {
                 research = create.newRecord(table);
-                research.setPlayerId(UShort.valueOf(data.getObject1().value));
+                research.setPlyId(UShort.valueOf(data.getObject1().value));
             }
             research.setName(StringUtil.toString(data.getObject2()));
             research.store();

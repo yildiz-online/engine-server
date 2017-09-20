@@ -29,9 +29,7 @@ import be.yildiz.module.database.DataBaseConnectionProvider;
 import be.yildiz.module.network.protocol.MessageWrapper;
 import be.yildiz.module.network.server.Session;
 import be.yildiz.module.network.server.SessionListener;
-import be.yildiz.server.generated.database.tables.Accounts;
 import be.yildiz.server.generated.database.tables.Messages;
-import be.yildiz.server.generated.database.tables.records.AccountsRecord;
 import be.yildiz.server.generated.database.tables.records.MessagesRecord;
 import be.yildiz.shared.entity.action.Action;
 import be.yildiz.shared.player.Message;
@@ -75,27 +73,11 @@ public final class DatabasePersistentManager implements PersistentManager, Sessi
 
     @Override
     public void clientAuthenticated(final Session session) {
-        this.setConnected(session.getPlayer(), true);
     }
 
     @Override
     public void sessionClosed(final Session session) {
-        // FIXME session is null when client crash and exception occurs(this
-        // method is called twice, second time with null session)
-        if (session != null && session.hasPlayer()) {
-            this.setConnected(session.getPlayer(), false);
-        }
-    }
 
-    private void setConnected(final PlayerId id, final boolean connected) {
-        try (Connection c = this.provider.getConnection(); DSLContext create = DSL.using(c, this.provider.getDialect())) {
-            Accounts table = Accounts.ACCOUNTS;
-            AccountsRecord account = create.fetchOne(table, table.ID.equal(UShort.valueOf(id.value)));
-            account.setOnline(true);
-            account.store();
-        } catch (SQLException e) {
-            LOGGER.error("Set connected query", e);
-        }
     }
 
     @Override
