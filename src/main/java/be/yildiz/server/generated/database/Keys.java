@@ -39,7 +39,6 @@ public class Keys {
     public static final Identity<MessagesRecord, UInteger> IDENTITY_MESSAGES = Identities0.IDENTITY_MESSAGES;
     public static final Identity<MissionsStatusRecord, UInteger> IDENTITY_MISSIONS_STATUS = Identities0.IDENTITY_MISSIONS_STATUS;
     public static final Identity<PlayersRecord, UShort> IDENTITY_PLAYERS = Identities0.IDENTITY_PLAYERS;
-    public static final Identity<ResearchesRecord, UShort> IDENTITY_RESEARCHES = Identities0.IDENTITY_RESEARCHES;
     public static final Identity<ResourcesRecord, UInteger> IDENTITY_RESOURCES = Identities0.IDENTITY_RESOURCES;
     public static final Identity<TasksStatusRecord, UInteger> IDENTITY_TASKS_STATUS = Identities0.IDENTITY_TASKS_STATUS;
 
@@ -54,7 +53,6 @@ public class Keys {
     public static final UniqueKey<MessagesRecord> KEY_MESSAGES_PRIMARY = UniqueKeys0.KEY_MESSAGES_PRIMARY;
     public static final UniqueKey<MissionsStatusRecord> KEY_MISSIONS_STATUS_PRIMARY = UniqueKeys0.KEY_MISSIONS_STATUS_PRIMARY;
     public static final UniqueKey<PlayersRecord> KEY_PLAYERS_PRIMARY = UniqueKeys0.KEY_PLAYERS_PRIMARY;
-    public static final UniqueKey<ResearchesRecord> KEY_RESEARCHES_PRIMARY = UniqueKeys0.KEY_RESEARCHES_PRIMARY;
     public static final UniqueKey<ResourcesRecord> KEY_RESOURCES_PRIMARY = UniqueKeys0.KEY_RESOURCES_PRIMARY;
     public static final UniqueKey<TasksStatusRecord> KEY_TASKS_STATUS_PRIMARY = UniqueKeys0.KEY_TASKS_STATUS_PRIMARY;
 
@@ -74,7 +72,6 @@ public class Keys {
         public static Identity<MessagesRecord, UInteger> IDENTITY_MESSAGES = createIdentity(Messages.MESSAGES, Messages.MESSAGES.MSG_ID);
         public static Identity<MissionsStatusRecord, UInteger> IDENTITY_MISSIONS_STATUS = createIdentity(MissionsStatus.MISSIONS_STATUS, MissionsStatus.MISSIONS_STATUS.MST_ID);
         public static Identity<PlayersRecord, UShort> IDENTITY_PLAYERS = createIdentity(Players.PLAYERS, Players.PLAYERS.PLY_ID);
-        public static Identity<ResearchesRecord, UShort> IDENTITY_RESEARCHES = createIdentity(Researches.RESEARCHES, Researches.RESEARCHES.RES_ID);
         public static Identity<ResourcesRecord, UInteger> IDENTITY_RESOURCES = createIdentity(Resources.RESOURCES, Resources.RESOURCES.RES_ID);
         public static Identity<TasksStatusRecord, UInteger> IDENTITY_TASKS_STATUS = createIdentity(TasksStatus.TASKS_STATUS, TasksStatus.TASKS_STATUS.TST_ID);
     }
@@ -87,7 +84,6 @@ public class Keys {
         public static final UniqueKey<MessagesRecord> KEY_MESSAGES_PRIMARY = createUniqueKey(Messages.MESSAGES, "KEY_MESSAGES_PRIMARY", Messages.MESSAGES.MSG_ID);
         public static final UniqueKey<MissionsStatusRecord> KEY_MISSIONS_STATUS_PRIMARY = createUniqueKey(MissionsStatus.MISSIONS_STATUS, "KEY_MISSIONS_STATUS_PRIMARY", MissionsStatus.MISSIONS_STATUS.MST_ID);
         public static final UniqueKey<PlayersRecord> KEY_PLAYERS_PRIMARY = createUniqueKey(Players.PLAYERS, "KEY_PLAYERS_PRIMARY", Players.PLAYERS.PLY_ID);
-        public static final UniqueKey<ResearchesRecord> KEY_RESEARCHES_PRIMARY = createUniqueKey(Researches.RESEARCHES, "KEY_RESEARCHES_PRIMARY", Researches.RESEARCHES.RES_ID);
         public static final UniqueKey<ResourcesRecord> KEY_RESOURCES_PRIMARY = createUniqueKey(Resources.RESOURCES, "KEY_RESOURCES_PRIMARY", Resources.RESOURCES.RES_ID);
         public static final UniqueKey<TasksStatusRecord> KEY_TASKS_STATUS_PRIMARY = createUniqueKey(TasksStatus.TASKS_STATUS, "KEY_TASKS_STATUS_PRIMARY", TasksStatus.TASKS_STATUS.TST_ID);
     }

@@ -30,6 +30,7 @@ import be.yildiz.common.id.EntityId;
 import be.yildiz.common.id.PlayerId;
 import be.yildiz.common.id.WorldId;
 import be.yildiz.common.vector.Point3D;
+import be.yildiz.module.database.data.PersistentData;
 import be.yildiz.server.generated.database.tables.Cities;
 import be.yildiz.server.generated.database.tables.Entities;
 import be.yildiz.server.generated.database.tables.records.EntitiesRecord;

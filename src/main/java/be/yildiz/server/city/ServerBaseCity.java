@@ -29,7 +29,7 @@ import be.yildiz.shared.building.GameBuildingData;
 import be.yildiz.shared.city.BaseCity;
 import be.yildiz.shared.data.EntityType;
 import be.yildiz.shared.entity.Entity;
-import be.yildiz.shared.resources.ResourceValue;
+import be.yildizgames.engine.feature.resource.ResourceValue;
 
 import java.util.Map;
 

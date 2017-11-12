@@ -26,11 +26,10 @@ package be.yildiz.server.datamanager;
 
 import be.yildiz.common.collections.Lists;
 import be.yildiz.common.id.PlayerId;
-import be.yildiz.server.generated.database.tables.MissionsStatus;
+import be.yildiz.module.database.data.PersistentData;
 import be.yildiz.server.generated.database.tables.TasksStatus;
 import be.yildiz.shared.mission.MissionId;
 import be.yildiz.shared.mission.MissionManager;
-import be.yildiz.shared.mission.MissionStatus;
 import be.yildiz.shared.mission.task.TaskId;
 import org.jooq.DSLContext;
 import org.jooq.conf.Settings;
@@ -45,7 +44,7 @@ import java.util.Optional;
 /**
  * @author Grégory Van den Borre
  */
-public class PersistentMissionTask implements PersistentData<PersistentMissionTask.PlayerTaskStatus, PersistentMissionTask.PlayerTaskStatus>{
+public class PersistentMissionTask implements PersistentData<PersistentMissionTask.PlayerTaskStatus, PersistentMissionTask.PlayerTaskStatus> {
 
     private static final TasksStatus TABLE = TasksStatus.TASKS_STATUS;
 

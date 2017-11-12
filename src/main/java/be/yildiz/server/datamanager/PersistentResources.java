@@ -24,6 +24,7 @@
 package be.yildiz.server.datamanager;
 
 import be.yildiz.common.id.EntityId;
+import be.yildiz.module.database.data.PersistentData;
 import be.yildiz.server.city.ServerCity;
 import be.yildiz.server.city.ServerCityManager;
 import be.yildiz.server.generated.database.tables.Resources;

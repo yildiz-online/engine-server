@@ -25,6 +25,7 @@ package be.yildiz.server.datamanager;
 
 import be.yildiz.common.collections.Sets;
 import be.yildiz.common.id.PlayerId;
+import be.yildiz.module.database.data.PersistentData;
 import be.yildiz.server.generated.database.tables.Players;
 import be.yildiz.server.generated.database.tables.records.PlayersRecord;
 import be.yildiz.shared.player.Player;

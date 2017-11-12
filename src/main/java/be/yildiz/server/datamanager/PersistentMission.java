@@ -2,6 +2,7 @@ package be.yildiz.server.datamanager;
 
 import be.yildiz.common.collections.Lists;
 import be.yildiz.common.id.PlayerId;
+import be.yildiz.module.database.data.PersistentData;
 import be.yildiz.server.generated.database.tables.MissionsStatus;
 import be.yildiz.shared.mission.MissionId;
 import be.yildiz.shared.mission.MissionManager;
@@ -21,7 +22,7 @@ import java.util.Optional;
 /**
  * @author Grégory Van den Borre
  */
-public class PersistentMission implements PersistentData<PlayerMissionStatus, PlayerMissionStatus>{
+public class PersistentMission implements PersistentData<PlayerMissionStatus, PlayerMissionStatus> {
 
     private static final MissionsStatus TABLE = MissionsStatus.MISSIONS_STATUS;
 
