@@ -76,11 +76,6 @@ public class Yildizdatabase extends SchemaImpl {
     public final Players PLAYERS = be.yildiz.server.generated.database.tables.Players.PLAYERS;
 
     /**
-     * The table <code>YILDIZDATABASE.RESOURCES</code>.
-     */
-    public final Resources RESOURCES = be.yildiz.server.generated.database.tables.Resources.RESOURCES;
-
-    /**
      * The table <code>YILDIZDATABASE.TASKS_STATUS</code>.
      */
     public final TasksStatus TASKS_STATUS = be.yildiz.server.generated.database.tables.TasksStatus.TASKS_STATUS;
@@ -118,7 +113,6 @@ public class Yildizdatabase extends SchemaImpl {
             Messages.MESSAGES,
             MissionsStatus.MISSIONS_STATUS,
             Players.PLAYERS,
-            Resources.RESOURCES,
             TasksStatus.TASKS_STATUS);
     }
 }

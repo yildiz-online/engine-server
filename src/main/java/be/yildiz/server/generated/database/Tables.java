@@ -63,16 +63,6 @@ public class Tables {
     public static final Players PLAYERS = be.yildiz.server.generated.database.tables.Players.PLAYERS;
 
     /**
-     * The table <code>YILDIZDATABASE.RESEARCHES</code>.
-     */
-    public static final Researches RESEARCHES = be.yildiz.server.generated.database.tables.Researches.RESEARCHES;
-
-    /**
-     * The table <code>YILDIZDATABASE.RESOURCES</code>.
-     */
-    public static final Resources RESOURCES = be.yildiz.server.generated.database.tables.Resources.RESOURCES;
-
-    /**
      * The table <code>YILDIZDATABASE.TASKS_STATUS</code>.
      */
     public static final TasksStatus TASKS_STATUS = be.yildiz.server.generated.database.tables.TasksStatus.TASKS_STATUS;
