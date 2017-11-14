@@ -46,16 +46,6 @@ public class Yildizdatabase extends SchemaImpl {
     public final Cities CITIES = be.yildiz.server.generated.database.tables.Cities.CITIES;
 
     /**
-     * The table <code>YILDIZDATABASE.DATABASECHANGELOG</code>.
-     */
-    public final Databasechangelog DATABASECHANGELOG = be.yildiz.server.generated.database.tables.Databasechangelog.DATABASECHANGELOG;
-
-    /**
-     * The table <code>YILDIZDATABASE.DATABASECHANGELOGLOCK</code>.
-     */
-    public final Databasechangeloglock DATABASECHANGELOGLOCK = be.yildiz.server.generated.database.tables.Databasechangeloglock.DATABASECHANGELOGLOCK;
-
-    /**
      * The table <code>YILDIZDATABASE.ENTITIES</code>.
      */
     public final Entities ENTITIES = be.yildiz.server.generated.database.tables.Entities.ENTITIES;
@@ -66,19 +56,9 @@ public class Yildizdatabase extends SchemaImpl {
     public final Messages MESSAGES = be.yildiz.server.generated.database.tables.Messages.MESSAGES;
 
     /**
-     * The table <code>YILDIZDATABASE.MISSIONS_STATUS</code>.
-     */
-    public final MissionsStatus MISSIONS_STATUS = be.yildiz.server.generated.database.tables.MissionsStatus.MISSIONS_STATUS;
-
-    /**
      * The table <code>YILDIZDATABASE.PLAYERS</code>.
      */
     public final Players PLAYERS = be.yildiz.server.generated.database.tables.Players.PLAYERS;
-
-    /**
-     * The table <code>YILDIZDATABASE.TASKS_STATUS</code>.
-     */
-    public final TasksStatus TASKS_STATUS = be.yildiz.server.generated.database.tables.TasksStatus.TASKS_STATUS;
 
     /**
      * No further instances allowed
@@ -107,12 +87,8 @@ public class Yildizdatabase extends SchemaImpl {
         return Arrays.<Table<?>>asList(
             Buildings.BUILDINGS,
             Cities.CITIES,
-            Databasechangelog.DATABASECHANGELOG,
-            Databasechangeloglock.DATABASECHANGELOGLOCK,
             Entities.ENTITIES,
             Messages.MESSAGES,
-            MissionsStatus.MISSIONS_STATUS,
-            Players.PLAYERS,
-            TasksStatus.TASKS_STATUS);
+            Players.PLAYERS);
     }
 }

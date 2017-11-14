@@ -33,16 +33,6 @@ public class Tables {
     public static final Cities CITIES = be.yildiz.server.generated.database.tables.Cities.CITIES;
 
     /**
-     * The table <code>YILDIZDATABASE.DATABASECHANGELOG</code>.
-     */
-    public static final Databasechangelog DATABASECHANGELOG = be.yildiz.server.generated.database.tables.Databasechangelog.DATABASECHANGELOG;
-
-    /**
-     * The table <code>YILDIZDATABASE.DATABASECHANGELOGLOCK</code>.
-     */
-    public static final Databasechangeloglock DATABASECHANGELOGLOCK = be.yildiz.server.generated.database.tables.Databasechangeloglock.DATABASECHANGELOGLOCK;
-
-    /**
      * The table <code>YILDIZDATABASE.ENTITIES</code>.
      */
     public static final Entities ENTITIES = be.yildiz.server.generated.database.tables.Entities.ENTITIES;
@@ -53,17 +43,7 @@ public class Tables {
     public static final Messages MESSAGES = be.yildiz.server.generated.database.tables.Messages.MESSAGES;
 
     /**
-     * The table <code>YILDIZDATABASE.MISSIONS_STATUS</code>.
-     */
-    public static final MissionsStatus MISSIONS_STATUS = be.yildiz.server.generated.database.tables.MissionsStatus.MISSIONS_STATUS;
-
-    /**
      * The table <code>YILDIZDATABASE.PLAYERS</code>.
      */
     public static final Players PLAYERS = be.yildiz.server.generated.database.tables.Players.PLAYERS;
-
-    /**
-     * The table <code>YILDIZDATABASE.TASKS_STATUS</code>.
-     */
-    public static final TasksStatus TASKS_STATUS = be.yildiz.server.generated.database.tables.TasksStatus.TASKS_STATUS;
 }
