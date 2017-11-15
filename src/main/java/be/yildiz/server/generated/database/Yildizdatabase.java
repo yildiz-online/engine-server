@@ -4,7 +4,9 @@
 package be.yildiz.server.generated.database;
 
 
-import be.yildiz.server.generated.database.tables.*;
+import be.yildiz.server.generated.database.tables.Entities;
+import be.yildiz.server.generated.database.tables.Messages;
+import be.yildiz.server.generated.database.tables.Players;
 import org.jooq.Catalog;
 import org.jooq.Table;
 import org.jooq.impl.SchemaImpl;
@@ -34,16 +36,6 @@ public class Yildizdatabase extends SchemaImpl {
      * The reference instance of <code>YILDIZDATABASE</code>
      */
     public static final Yildizdatabase YILDIZDATABASE = new Yildizdatabase();
-
-    /**
-     * The table <code>YILDIZDATABASE.BUILDINGS</code>.
-     */
-    public final Buildings BUILDINGS = be.yildiz.server.generated.database.tables.Buildings.BUILDINGS;
-
-    /**
-     * The table <code>YILDIZDATABASE.CITIES</code>.
-     */
-    public final Cities CITIES = be.yildiz.server.generated.database.tables.Cities.CITIES;
 
     /**
      * The table <code>YILDIZDATABASE.ENTITIES</code>.
@@ -85,8 +77,6 @@ public class Yildizdatabase extends SchemaImpl {
 
     private final List<Table<?>> getTables0() {
         return Arrays.<Table<?>>asList(
-            Buildings.BUILDINGS,
-            Cities.CITIES,
             Entities.ENTITIES,
             Messages.MESSAGES,
             Players.PLAYERS);

@@ -4,7 +4,9 @@
 package be.yildiz.server.generated.database;
 
 
-import be.yildiz.server.generated.database.tables.*;
+import be.yildiz.server.generated.database.tables.Entities;
+import be.yildiz.server.generated.database.tables.Messages;
+import be.yildiz.server.generated.database.tables.Players;
 
 import javax.annotation.Generated;
 
@@ -21,16 +23,6 @@ import javax.annotation.Generated;
 )
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tables {
-
-    /**
-     * The table <code>YILDIZDATABASE.BUILDINGS</code>.
-     */
-    public static final Buildings BUILDINGS = be.yildiz.server.generated.database.tables.Buildings.BUILDINGS;
-
-    /**
-     * The table <code>YILDIZDATABASE.CITIES</code>.
-     */
-    public static final Cities CITIES = be.yildiz.server.generated.database.tables.Cities.CITIES;
 
     /**
      * The table <code>YILDIZDATABASE.ENTITIES</code>.
