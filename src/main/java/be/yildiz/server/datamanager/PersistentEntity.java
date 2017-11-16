@@ -31,7 +31,6 @@ import be.yildiz.common.id.PlayerId;
 import be.yildiz.common.id.WorldId;
 import be.yildiz.common.vector.Point3D;
 import be.yildiz.module.database.data.PersistentData;
-import be.yildiz.server.generated.database.tables.Cities;
 import be.yildiz.server.generated.database.tables.Entities;
 import be.yildiz.server.generated.database.tables.records.EntitiesRecord;
 import be.yildiz.shared.construction.entity.EntityFactory;
@@ -84,10 +83,6 @@ public final class PersistentEntity implements PersistentData<EntityToCreate, Ba
         this.entityFactory = factory;
         Map<EntityId, String> names = Maps.newMap();
         try (DSLContext create = this.getDSL(c)) {
-            Optional.ofNullable(create.selectFrom(Cities.CITIES).fetch())
-                    .ifPresent(citiesRecords ->
-                            citiesRecords.forEach(r -> names.put(EntityId.valueOf(r.getEntId().longValue()), r.getName())));
-            //        faire le set a la reception du message entity info response dans le client
 
             Optional.ofNullable(create.selectFrom(table).fetch())
                     .ifPresent(data ->
