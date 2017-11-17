@@ -5,7 +5,6 @@ package be.yildiz.server.generated.database;
 
 
 import be.yildiz.server.generated.database.tables.Entities;
-import be.yildiz.server.generated.database.tables.Messages;
 import be.yildiz.server.generated.database.tables.Players;
 import org.jooq.Catalog;
 import org.jooq.Table;
@@ -43,11 +42,6 @@ public class Yildizdatabase extends SchemaImpl {
     public final Entities ENTITIES = be.yildiz.server.generated.database.tables.Entities.ENTITIES;
 
     /**
-     * The table <code>YILDIZDATABASE.MESSAGES</code>.
-     */
-    public final Messages MESSAGES = be.yildiz.server.generated.database.tables.Messages.MESSAGES;
-
-    /**
      * The table <code>YILDIZDATABASE.PLAYERS</code>.
      */
     public final Players PLAYERS = be.yildiz.server.generated.database.tables.Players.PLAYERS;
@@ -78,7 +72,6 @@ public class Yildizdatabase extends SchemaImpl {
     private final List<Table<?>> getTables0() {
         return Arrays.<Table<?>>asList(
             Entities.ENTITIES,
-            Messages.MESSAGES,
             Players.PLAYERS);
     }
 }

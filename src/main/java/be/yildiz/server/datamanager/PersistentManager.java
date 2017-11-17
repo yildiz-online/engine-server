@@ -23,9 +23,7 @@
 
 package be.yildiz.server.datamanager;
 
-import be.yildiz.common.id.PlayerId;
 import be.yildiz.shared.entity.action.Action;
-import be.yildiz.shared.player.Message;
 import org.jooq.Table;
 
 import java.util.List;
@@ -36,15 +34,6 @@ import java.util.List;
  * @author Grégory Van den Borre
  */
 public interface PersistentManager {
-
-    List<Message> retrieveMessage(PlayerId player);
-
-    /**
-     * Persist a message.
-     *
-     * @param message Message to save.
-     */
-    void persistMessage(Message message);
 
     void saveActionTask(List<Action> actionList);
 

@@ -23,28 +23,19 @@
 
 package be.yildiz.server.datamanager;
 
-import be.yildiz.common.collections.Lists;
-import be.yildiz.common.id.PlayerId;
 import be.yildiz.module.database.DataBaseConnectionProvider;
 import be.yildiz.module.network.protocol.MessageWrapper;
 import be.yildiz.module.network.server.Session;
 import be.yildiz.module.network.server.SessionListener;
-import be.yildiz.server.generated.database.tables.Messages;
-import be.yildiz.server.generated.database.tables.records.MessagesRecord;
 import be.yildiz.shared.entity.action.Action;
-import be.yildiz.shared.player.Message;
 import org.jooq.DSLContext;
-import org.jooq.RecordMapper;
 import org.jooq.Table;
 import org.jooq.impl.DSL;
-import org.jooq.types.UShort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -80,28 +71,6 @@ public final class DatabasePersistentManager implements PersistentManager, Sessi
 
     }
 
-    @Override
-    public List<Message> retrieveMessage(final PlayerId player) {
-        try (Connection c = this.provider.getConnection(); DSLContext create = DSL.using(c, this.provider.getDialect())) {
-            Messages table = Messages.MESSAGES;
-            return Lists.newList(create.selectFrom(table).where(table.RECEIVER_ID.equal(UShort.valueOf(player.value))).fetch(new MessageMapper()));
-        } catch (SQLException e) {
-            LOGGER.error("Get message list", e);
-        }
-        return Collections.emptyList();
-    }
-
-    @Override
-    public void persistMessage(final Message message) {
-        try (Connection c = this.provider.getConnection(); DSLContext create = DSL.using(c, this.provider.getDialect())) {
-            Messages table = Messages.MESSAGES;
-            create.insertInto(table, table.SENDER_ID, table.RECEIVER_ID, table.MESSAGE, table.READ, table.DATE)
-                    .values(UShort.valueOf(message.getSender().value), UShort.valueOf(message.getReceiver().value), message.getMessage(), message.isRead(), new Timestamp(message.getDate()))
-                    .execute();
-        } catch (SQLException e) {
-            LOGGER.error("Persist message error", e);
-        }
-    }
 
     @Override
     public void saveActionTask(List<Action> actionList) {
@@ -123,12 +92,5 @@ public final class DatabasePersistentManager implements PersistentManager, Sessi
         return provider;
     }
 
-    private class MessageMapper implements RecordMapper<MessagesRecord, Message> {
 
-        @Override
-        public Message map(MessagesRecord r) {
-            return new Message(PlayerId.valueOf(r.getSenderId().intValue()), PlayerId.valueOf(r.getReceiverId().intValue()), r.getMessage(), r.getDate().getTime(), r.getRead());
-        }
-
-    }
 }

@@ -5,10 +5,8 @@ package be.yildiz.server.generated.database;
 
 
 import be.yildiz.server.generated.database.tables.Entities;
-import be.yildiz.server.generated.database.tables.Messages;
 import be.yildiz.server.generated.database.tables.Players;
 import be.yildiz.server.generated.database.tables.records.EntitiesRecord;
-import be.yildiz.server.generated.database.tables.records.MessagesRecord;
 import be.yildiz.server.generated.database.tables.records.PlayersRecord;
 import org.jooq.Identity;
 import org.jooq.UniqueKey;
@@ -37,7 +35,6 @@ public class Keys {
     // IDENTITY definitions
     // -------------------------------------------------------------------------
     public static final Identity<EntitiesRecord, UInteger> IDENTITY_ENTITIES = Identities0.IDENTITY_ENTITIES;
-    public static final Identity<MessagesRecord, UInteger> IDENTITY_MESSAGES = Identities0.IDENTITY_MESSAGES;
     public static final Identity<PlayersRecord, UShort> IDENTITY_PLAYERS = Identities0.IDENTITY_PLAYERS;
 
     // -------------------------------------------------------------------------
@@ -45,7 +42,6 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     public static final UniqueKey<EntitiesRecord> KEY_ENTITIES_PRIMARY = UniqueKeys0.KEY_ENTITIES_PRIMARY;
-    public static final UniqueKey<MessagesRecord> KEY_MESSAGES_PRIMARY = UniqueKeys0.KEY_MESSAGES_PRIMARY;
     public static final UniqueKey<PlayersRecord> KEY_PLAYERS_PRIMARY = UniqueKeys0.KEY_PLAYERS_PRIMARY;
 
     // -------------------------------------------------------------------------
@@ -59,14 +55,12 @@ public class Keys {
 
     private static class Identities0 extends AbstractKeys {
         public static Identity<EntitiesRecord, UInteger> IDENTITY_ENTITIES = createIdentity(Entities.ENTITIES, Entities.ENTITIES.ENT_ID);
-        public static Identity<MessagesRecord, UInteger> IDENTITY_MESSAGES = createIdentity(Messages.MESSAGES, Messages.MESSAGES.MSG_ID);
         public static Identity<PlayersRecord, UShort> IDENTITY_PLAYERS = createIdentity(Players.PLAYERS, Players.PLAYERS.PLY_ID);
     }
 
     private static class UniqueKeys0 extends AbstractKeys {
 
         public static final UniqueKey<EntitiesRecord> KEY_ENTITIES_PRIMARY = createUniqueKey(Entities.ENTITIES, "KEY_ENTITIES_PRIMARY", Entities.ENTITIES.ENT_ID);
-        public static final UniqueKey<MessagesRecord> KEY_MESSAGES_PRIMARY = createUniqueKey(Messages.MESSAGES, "KEY_MESSAGES_PRIMARY", Messages.MESSAGES.MSG_ID);
         public static final UniqueKey<PlayersRecord> KEY_PLAYERS_PRIMARY = createUniqueKey(Players.PLAYERS, "KEY_PLAYERS_PRIMARY", Players.PLAYERS.PLY_ID);
     }
 }

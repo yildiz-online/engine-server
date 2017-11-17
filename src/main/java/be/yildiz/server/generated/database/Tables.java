@@ -5,7 +5,6 @@ package be.yildiz.server.generated.database;
 
 
 import be.yildiz.server.generated.database.tables.Entities;
-import be.yildiz.server.generated.database.tables.Messages;
 import be.yildiz.server.generated.database.tables.Players;
 
 import javax.annotation.Generated;
@@ -28,11 +27,6 @@ public class Tables {
      * The table <code>YILDIZDATABASE.ENTITIES</code>.
      */
     public static final Entities ENTITIES = be.yildiz.server.generated.database.tables.Entities.ENTITIES;
-
-    /**
-     * The table <code>YILDIZDATABASE.MESSAGES</code>.
-     */
-    public static final Messages MESSAGES = be.yildiz.server.generated.database.tables.Messages.MESSAGES;
 
     /**
      * The table <code>YILDIZDATABASE.PLAYERS</code>.
