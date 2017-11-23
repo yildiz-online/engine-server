@@ -27,7 +27,7 @@ import be.yildiz.module.database.DataBaseConnectionProvider;
 import be.yildiz.module.network.protocol.MessageWrapper;
 import be.yildiz.module.network.server.Session;
 import be.yildiz.module.network.server.SessionListener;
-import be.yildiz.shared.entity.action.Action;
+import be.yildizgames.engine.feature.entity.action.Action;
 import org.jooq.DSLContext;
 import org.jooq.Table;
 import org.jooq.impl.DSL;
