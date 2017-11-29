@@ -27,7 +27,6 @@ import be.yildiz.module.database.DataBaseConnectionProvider;
 import be.yildiz.module.network.protocol.MessageWrapper;
 import be.yildiz.module.network.server.Session;
 import be.yildiz.module.network.server.SessionListener;
-import be.yildizgames.engine.feature.entity.action.Action;
 import org.jooq.DSLContext;
 import org.jooq.Table;
 import org.jooq.impl.DSL;
@@ -36,7 +35,6 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.List;
 
 
 /**
@@ -72,11 +70,6 @@ public final class DatabasePersistentManager implements PersistentManager, Sessi
     }
 
 
-    @Override
-    public void saveActionTask(List<Action> actionList) {
-        // TODO Auto-generated method stub
-
-    }
 
     @Override
     public long createNewLine(Table<?> t) {

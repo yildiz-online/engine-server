@@ -23,10 +23,7 @@
 
 package be.yildiz.server.datamanager;
 
-import be.yildiz.shared.entity.action.Action;
 import org.jooq.Table;
-
-import java.util.List;
 
 /**
  * Manage the persistent data in database.
@@ -34,8 +31,6 @@ import java.util.List;
  * @author Grégory Van den Borre
  */
 public interface PersistentManager {
-
-    void saveActionTask(List<Action> actionList);
 
     long createNewLine(Table<?> t);
 
