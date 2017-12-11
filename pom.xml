@@ -44,93 +44,16 @@
     <version>2.0.3</version>
   </parent>
 
-  <properties>
-    <db.url>default</db.url>
-    <db.user>default</db.user>
-    <db.password>default</db.password>
-    <db.name>default</db.name>
-    <db.driver>default</db.driver>
-  </properties>
-
-  <profiles>
-    <profile>
-      <id>dev</id>
-      <properties>
-        <db.url>jdbc:mysql://localhost:3306?zeroDateTimeBehavior=convertToNull&amp;nullNamePatternMatchesAll=true&amp;useSSL=false&amp;serverTimezone=Europe/Brussels</db.url>
-        <db.user>yildiz</db.user>
-        <db.password>yildiz</db.password>
-        <db.name>YILDIZDATABASE</db.name>
-        <db.driver>com.mysql.jdbc.Driver</db.driver>
-      </properties>
-    </profile>
-    <profile>
-      <id>generate-model</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.jooq</groupId>
-            <artifactId>jooq-codegen-maven</artifactId>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>generate</goal>
-                </goals>
-              </execution>
-            </executions>
-            <dependencies>
-              <dependency>
-                <groupId>mysql</groupId>
-                <artifactId>mysql-connector-java</artifactId>
-                <version>6.0.6</version>
-              </dependency>
-            </dependencies>
-            <configuration>
-              <jdbc>
-                <driver>${db.driver}</driver>
-                <url>${db.url}</url>
-                <user>${db.user}</user>
-                <password>${db.password}</password>
-              </jdbc>
-              <generator>
-                <name>org.jooq.util.JavaGenerator</name>
-                <database>
-                  <name>org.jooq.util.mysql.MySQLDatabase</name>
-                  <includes>.*</includes>
-                  <inputSchema>${db.name}</inputSchema>
-                </database>
-                <target>
-                  <packageName>be.yildiz.server.generated.database</packageName>
-                  <directory>src/main/java</directory>
-                </target>
-              </generator>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
-
   <dependencies>
+    <dependency>
+      <groupId>be.yildiz-games</groupId>
+      <artifactId>common-shape</artifactId>
+      <version>1.0.0</version>
+    </dependency>
     <dependency>
       <groupId>be.yildiz-games</groupId>
       <artifactId>engine-shared</artifactId>
       <version>1.0.5-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>be.yildiz-games</groupId>
-      <artifactId>module-database</artifactId>
-      <version>1.2.2-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>be.yildiz-games</groupId>
-      <artifactId>module-database</artifactId>
-      <version>1.2.2-SNAPSHOT</version>
-      <type>test-jar</type>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.derby</groupId>
-      <artifactId>derby</artifactId>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
