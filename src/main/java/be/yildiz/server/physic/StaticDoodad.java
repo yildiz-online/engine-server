@@ -23,11 +23,11 @@
 
 package be.yildiz.server.physic;
 
-import be.yildiz.common.gameobject.Movable;
-import be.yildiz.common.id.EntityId;
-import be.yildiz.common.vector.Point3D;
 import be.yildiz.module.physics.AbstractStaticObject;
 import be.yildiz.server.gameobject.ServerGameEntity;
+import be.yildizgames.common.gameobject.Movable;
+import be.yildizgames.common.geometry.Point3D;
+import be.yildizgames.common.model.EntityId;
 
 /**
  * A static doodad is an an object not moving and not meant to have any interaction with the game entities.

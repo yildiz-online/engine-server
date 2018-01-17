@@ -23,7 +23,7 @@
 
 package be.yildiz.server.config;
 
-import be.yildiz.common.Version;
+import be.yildizgames.common.model.Version;
 
 /**
  * Representation of the properties exposed by a game server.

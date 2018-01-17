@@ -23,8 +23,6 @@
 
 package be.yildiz.server.game;
 
-import be.yildiz.common.Version;
-import be.yildiz.common.id.PlayerId;
 import be.yildiz.module.network.protocol.NetworkMessage;
 import be.yildiz.module.network.server.Server;
 import be.yildiz.module.network.server.SessionListener;
@@ -36,6 +34,8 @@ import be.yildiz.server.physic.ServerWorld;
 import be.yildiz.shared.game.engine.AbstractGameEngine;
 import be.yildiz.shared.game.engine.DataInitializer;
 import be.yildiz.shared.game.engine.Initializable;
+import be.yildizgames.common.model.PlayerId;
+import be.yildizgames.common.model.Version;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

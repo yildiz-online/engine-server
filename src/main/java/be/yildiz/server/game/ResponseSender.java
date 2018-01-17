@@ -23,8 +23,8 @@
 
 package be.yildiz.server.game;
 
-import be.yildiz.common.id.PlayerId;
 import be.yildiz.module.network.protocol.NetworkMessage;
+import be.yildizgames.common.model.PlayerId;
 
 /**
  * @author Grégory Van den Borre

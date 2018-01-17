@@ -23,7 +23,7 @@
 
 package be.yildiz.server.datamanager;
 
-import be.yildiz.common.id.EntityId;
+import be.yildizgames.common.model.EntityId;
 
 /**
  * Simple container for a building construction task data.

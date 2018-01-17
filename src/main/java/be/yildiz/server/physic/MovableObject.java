@@ -23,13 +23,13 @@
 
 package be.yildiz.server.physic;
 
-import be.yildiz.common.gameobject.Movable;
-import be.yildiz.common.id.EntityId;
-import be.yildiz.common.vector.Point3D;
-import be.yildiz.common.vector.Quaternion;
 import be.yildiz.module.physics.AbstractMovableObject;
 import be.yildiz.module.physics.KinematicBody;
 import be.yildiz.server.gameobject.ServerGameEntity;
+import be.yildizgames.common.gameobject.Movable;
+import be.yildizgames.common.geometry.Point3D;
+import be.yildizgames.common.geometry.Quaternion;
+import be.yildizgames.common.model.EntityId;
 
 /**
  * Bullet implementation for a movable object server side. It is associated to a kinematic object in native bullet code.

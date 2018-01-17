@@ -23,7 +23,7 @@
 
 package be.yildiz.server.datamanager;
 
-import be.yildiz.common.id.EntityId;
+import be.yildizgames.common.model.EntityId;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

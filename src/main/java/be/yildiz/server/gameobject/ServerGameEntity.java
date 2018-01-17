@@ -23,7 +23,7 @@
 
 package be.yildiz.server.gameobject;
 
-import be.yildiz.common.gameobject.GameMaterialization;
+import be.yildizgames.common.gameobject.GameMaterialization;
 
 /**
  * Behavior for all game entities in server. Different implementations exists to provide movable or static objects...
