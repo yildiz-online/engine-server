@@ -25,6 +25,7 @@ package be.yildiz.server.physic;
 
 import be.yildiz.module.physics.*;
 import be.yildiz.server.gameobject.ServerGameEntity;
+import be.yildizgames.common.gameobject.CollisionListener;
 import be.yildizgames.common.geometry.Point3D;
 import be.yildizgames.common.model.EntityId;
 import be.yildizgames.common.shape.Box;
