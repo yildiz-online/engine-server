@@ -29,6 +29,7 @@ import be.yildizgames.common.gameobject.CollisionListener;
 import be.yildizgames.common.logging.LogFactory;
 import be.yildizgames.common.model.PlayerId;
 import be.yildizgames.common.model.Version;
+import be.yildizgames.module.network.DecoderEncoder;
 import be.yildizgames.module.network.protocol.NetworkMessage;
 import be.yildizgames.module.network.server.Server;
 import be.yildizgames.module.network.server.SessionListener;
@@ -69,6 +70,7 @@ public final class GameEngine extends AbstractGameEngine implements ResponseSend
      * Currently active world.
      */
     private ServerWorld activeWorld;
+
     /**
      * <code>true</code> if the engine is currently running, <code>false</code> otherwise.
      */
@@ -80,11 +82,10 @@ public final class GameEngine extends AbstractGameEngine implements ResponseSend
      * Full constructor, initialize the physic and the network engines, create the data manager.
      * Also add a shutdown hook to handle gracefully the termination signal.
      * @param sessionManager Session manager.
-     * @param server Network server.
      * @param version Game version.
      */
     //@effect Create a new engine.
-    public GameEngine(SessionManager sessionManager, Server server, Version version) {
+    public GameEngine(SessionManager sessionManager, Version version) {
         super(version);
         LOGGER.info("Starting server game engine...");
         this.physicEngine = new ServerPhysicEngine();
@@ -92,7 +93,9 @@ public final class GameEngine extends AbstractGameEngine implements ResponseSend
         this.initializer = new DataInitializer();
         this.sessionManager = sessionManager;
         Runtime.getRuntime().addShutdownHook(new Thread(this::close));
-        server.startServer();
+        Server
+                .getEngine()
+                .startServer("", 0, sessionManager, DecoderEncoder.WEBSOCKET);
     }
 
     /**
@@ -178,7 +181,7 @@ public final class GameEngine extends AbstractGameEngine implements ResponseSend
         this.activeWorld.addGhostCollisionListener(listener);
     }
 
-    public SessionManager getSessionManager() {
-        return sessionManager;
-    }
+    //public SessionManager getSessionManager() {
+    //    return sessionManager;
+    //}
 }
