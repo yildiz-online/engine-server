@@ -28,10 +28,13 @@ module be.yildizgames.engine.server {
     requires be.yildizgames.common.geometry;
     requires be.yildizgames.module.physics;
     requires be.yildizgames.module.network;
+    requires be.yildizgames.module.messaging;
     requires be.yildizgames.common.logging;
     requires be.yildizgames.common.gameobject;
     requires be.yildizgames.common.shape;
     requires be.yildizgames.engine.shared;
 
     requires slf4j.api;
+    requires be.yildizgames.common.authentication;
+    requires be.yildizgames.common.mapping;
 }

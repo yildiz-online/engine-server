@@ -26,13 +26,14 @@
 package be.yildizgames.server.config;
 
 import be.yildizgames.common.model.Version;
+import be.yildizgames.module.messaging.BrokerProperties;
 
 /**
  * Representation of the properties exposed by a game server.
  *
  * @author Grégory Van den Borre
  */
-public interface ServerConfiguration {
+public interface ServerConfiguration extends BrokerProperties {
 
     /**
      * @return The server connection port.

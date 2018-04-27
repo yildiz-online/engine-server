@@ -28,12 +28,13 @@ package be.yildizgames.server.game;
 import be.yildizgames.common.gameobject.CollisionListener;
 import be.yildizgames.common.logging.LogFactory;
 import be.yildizgames.common.model.PlayerId;
-import be.yildizgames.common.model.Version;
+import be.yildizgames.module.messaging.Broker;
 import be.yildizgames.module.network.DecoderEncoder;
 import be.yildizgames.module.network.protocol.NetworkMessage;
 import be.yildizgames.module.network.server.Server;
 import be.yildizgames.module.network.server.SessionListener;
 import be.yildizgames.module.network.server.SessionManager;
+import be.yildizgames.server.config.ServerConfiguration;
 import be.yildizgames.server.physic.ServerPhysicEngine;
 import be.yildizgames.server.physic.ServerWorld;
 import be.yildizgames.shared.game.engine.AbstractGameEngine;
@@ -81,21 +82,20 @@ public final class GameEngine extends AbstractGameEngine implements ResponseSend
     /**
      * Full constructor, initialize the physic and the network engines, create the data manager.
      * Also add a shutdown hook to handle gracefully the termination signal.
-     * @param sessionManager Session manager.
-     * @param version Game version.
+     * @param config Server configuration.
      */
     //@effect Create a new engine.
-    public GameEngine(SessionManager sessionManager, Version version) {
-        super(version);
+    public GameEngine(ServerConfiguration config) {
+        super(config.getVersion());
         LOGGER.info("Starting server game engine...");
         this.physicEngine = new ServerPhysicEngine();
         this.activeWorld = this.physicEngine.createWorld();
         this.initializer = new DataInitializer();
-        this.sessionManager = sessionManager;
+        this.sessionManager = new AuthenticatedSessionManager(Broker.getBroker(config));
         Runtime.getRuntime().addShutdownHook(new Thread(this::close));
         Server
                 .getEngine()
-                .startServer("", 0, sessionManager, DecoderEncoder.WEBSOCKET);
+                .startServer(config.getApplicationPort(), sessionManager, DecoderEncoder.WEBSOCKET);
     }
 
     /**
@@ -180,8 +180,4 @@ public final class GameEngine extends AbstractGameEngine implements ResponseSend
     public final void addGhostListener(CollisionListener listener) {
         this.activeWorld.addGhostCollisionListener(listener);
     }
-
-    //public SessionManager getSessionManager() {
-    //    return sessionManager;
-    //}
 }
