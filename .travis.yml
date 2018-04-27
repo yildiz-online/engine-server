@@ -1,20 +1,15 @@
-env:
-  global:
-    - secure: "uaZK5I4A1+IqUrhR+GkKJGtp0aZNT7gif7fAQIzU12sPJ7FEvcESF5S/LEjxQ6ykID5R6dhUMKa7Lb+QB9fy7uJ6Rhm2G48XCwwkGUYpsgNDNseyH4bqbY6WvG/zg4/cx6rnd8hsJOImyl9AoZT+UmKFu+bBB7UBZTwyGLAMmvZx22USHT8f0p84f1JZZvsCr+SusZ+yT5ziyNMmtomN2N00SRpS02JluGLcHAF+YhRjtVsgc0c5QvLDhY+AWZb4TOdoM0nrqczXtJgkaAhGv79oodRdogCiDbAveO9/cuuQGEFNIV+ERiQnRgeLpNsLrk3zmcSNykV3TmD6KfFb/W2JmTRLGH9ewAlA+iQMCI68cXOneoK4qM4omYiTKwkEW3hVb+emeF5K1d/95GC7J5KEH7uhdwWhxgXNFLnCpRy2Uf2kg1dYDVIyKUxdP2CYf+djLQGKo19taOuc90vJ/1tVGOEXJByQvIni3YcCkclo6Wmj4gURwyCE/qTdr7Hkhl7u+4LfhsgELRLCbSkAt7PyCc8aUTK0FDBBEfSLPjGjRFEiOrnFkNPeNDKqnAXidk+ZwizsjHRC/cIQGcFlHHCAWAxj7l8djPutuAOtJQclUhCZSfHnbj1a7UDpbOobalL8q4pQLBHsZeMRa7AybGQwxKPJ9w8e6L4yftZRWrM="
-
-
 language: java
-jdk:
-  - oraclejdk9
 
-addons:
-  coverity_scan:
-    project:
-      name: "yildiz-online/engine-server"
-      description: "Build submitted via Travis CI"
-    notification_email: vandenborre.gregory@hotmail.fr
-    build_command_prepend: "mvn clean"
-    build_command:   "mvn -DskipTests=true compile -s settings.xml"
-    branch_pattern: master
+before_install:
+  - wget https://bitbucket.org/yildiz-engine-team/build-application-binaries/downloads/openjdk_linux-x64.tar.gz
+  - tar -xzf openjdk_linux-x64.tar.gz
+  - wget https://bitbucket.org/yildiz-engine-team/build-application-binaries/downloads/apache-maven.zip
+  - unzip -qq apache-maven.zip
+  - export M2_HOME=$PWD/apache-maven
+  - export JAVA_HOME=$PWD/openjdk_linux-x64
+  - export PATH=$JAVA_HOME/bin:$M2_HOME/bin:$PATH
 
-script: mvn clean install -s settings.xml
+script:
+  - mvn -V -B -s settings.xml test
+install:
+  - mvn -V -B -s settings.xml clean install
