@@ -26,6 +26,7 @@ package be.yildizgames.server.game;
 
 import be.yildizgames.common.authentication.Token;
 import be.yildizgames.common.authentication.protocol.mapper.TokenMapper;
+import be.yildizgames.common.logging.LogFactory;
 import be.yildizgames.common.mapping.MappingException;
 import be.yildizgames.module.messaging.Broker;
 import be.yildizgames.module.messaging.BrokerMessageDestination;
@@ -34,11 +35,14 @@ import be.yildizgames.module.messaging.Message;
 import be.yildizgames.module.network.protocol.MessageWrapper;
 import be.yildizgames.module.network.server.Session;
 import be.yildizgames.module.network.server.SessionManager;
+import org.slf4j.Logger;
 
 /**
  * @author Grégory Van den Borre
  */
 public class AuthenticatedSessionManager extends SessionManager  {
+
+    private static final Logger LOGGER = LogFactory.getInstance().getLogger(AuthenticatedSessionManager.class);
 
     private final JmsMessageProducer producer;
 
@@ -71,7 +75,7 @@ public class AuthenticatedSessionManager extends SessionManager  {
                 s.sendMessage(TokenMapper.getInstance().to(Token.authenticationFailed()));
             }
         } catch (MappingException e) {
-            e.printStackTrace();
+            LOGGER.error("Cannot map message.", e);
         }
     }
 }
