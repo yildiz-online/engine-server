@@ -23,7 +23,7 @@
  * THE  SOFTWARE.
  */
 
-package be.yildizgames.server.datamanager;
+package be.yildizgames.engine.server.internal.datamanager;
 
 import be.yildizgames.common.geometry.Point3D;
 import be.yildizgames.common.model.EntityId;

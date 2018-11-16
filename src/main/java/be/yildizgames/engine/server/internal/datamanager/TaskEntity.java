@@ -23,41 +23,78 @@
  * THE  SOFTWARE.
  */
 
-package be.yildizgames.server.datamanager;
+package be.yildizgames.engine.server.internal.datamanager;
 
+import be.yildizgames.common.geometry.Point3D;
 import be.yildizgames.common.model.EntityId;
+import be.yildizgames.common.model.PlayerId;
+
+import java.security.InvalidParameterException;
 
 /**
- * Simple container for an attack task data.
+ * Simple container for an entity construction task data.
  *
  * @author Grégory Van den Borre
  */
-public final class TaskAttack {
+public final class TaskEntity {
 
     /**
-     * Attacker's id.
+     * Entity's id.
      */
-    private final EntityId attacker;
+    private final EntityId entity;
 
     /**
-     * Target's id.
+     * Owner's id.
      */
-    private final EntityId target;
+    private final PlayerId owner;
 
-    public TaskAttack(EntityId attacker, EntityId target) {
+    /**
+     * Entity position.
+     */
+    private final Point3D position;
+
+    /**
+     * Entity type.
+     */
+    private final int type;
+
+    /**
+     * Time left before building is completed.
+     */
+    private final long timeLeft;
+
+    public TaskEntity(final EntityId entity, final PlayerId owner, final Point3D position, final int type, final long timeLeft) {
         super();
-        assert attacker != null;
-        assert target != null;
-        this.attacker = attacker;
-        this.target = target;
+        if (type < 0 || timeLeft < 0) {
+            throw new InvalidParameterException("Value must be positive.");
+        }
+        assert entity != null;
+        assert owner != null;
+        assert position != null;
+        this.entity = entity;
+        this.owner = owner;
+        this.position = position;
+        this.type = type;
+        this.timeLeft = timeLeft;
     }
 
-
-    public EntityId getAttacker() {
-        return attacker;
+    public EntityId getEntity() {
+        return entity;
     }
 
-    public EntityId getTarget() {
-        return target;
+    public PlayerId getOwner() {
+        return owner;
+    }
+
+    public Point3D getPosition() {
+        return position;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public long getTimeLeft() {
+        return timeLeft;
     }
 }

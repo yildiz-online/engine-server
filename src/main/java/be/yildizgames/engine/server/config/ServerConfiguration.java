@@ -23,33 +23,28 @@
  * THE  SOFTWARE.
  */
 
-package be.yildizgames.server.datamanager;
+package be.yildizgames.engine.server.config;
 
-import be.yildizgames.common.model.EntityId;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import be.yildizgames.common.model.Version;
+import be.yildizgames.module.messaging.BrokerProperties;
 
 /**
+ * Representation of the properties exposed by a game server.
+ *
  * @author Grégory Van den Borre
  */
-final class TaskAttackTest {
+public interface ServerConfiguration extends BrokerProperties {
 
-    @Test
-    void testTaskAttack() {
-        assertThrows(AssertionError.class, () -> new TaskAttack(null, EntityId.valueOf(1L)));
-    }
+    /**
+     * @return The server connection port.
+     */
+    //@Ensures 0>= return value <= 65635
+    int getApplicationPort();
 
-    @Test
-    void testTaskAttack2() {
-        assertThrows(AssertionError.class, () -> new TaskAttack(EntityId.valueOf(1L), null));
-    }
+    /**
+     * @return The version accepted to connect to this server.
+     */
+    //@Ensures return value != null
+    Version getVersion();
 
-    @Test
-    void testGet() {
-        TaskAttack ta = new TaskAttack(EntityId.valueOf(1L), EntityId.valueOf(2L));
-        assertEquals(EntityId.valueOf(1L), ta.getAttacker());
-        assertEquals(EntityId.valueOf(2L), ta.getTarget());
-    }
 }

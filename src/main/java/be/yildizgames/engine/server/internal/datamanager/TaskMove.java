@@ -23,44 +23,52 @@
  * THE  SOFTWARE.
  */
 
-package be.yildizgames.server.physic;
+package be.yildizgames.engine.server.internal.datamanager;
 
-import be.yildizgames.module.physics.PhysicEngine;
+import be.yildizgames.common.geometry.Point3D;
+import be.yildizgames.common.model.EntityId;
 
 /**
- * Wrap a physic engine to provide game objects.
+ * Simple container for an entity move task data.
  *
  * @author Grégory Van den Borre
  */
-public final class ServerPhysicEngine {
+public final class TaskMove {
 
     /**
-     * Physic engine used by this server engine.
+     * Entity's id.
      */
-    private final PhysicEngine engine = PhysicEngine.getEngine();
+    private final EntityId entity;
 
     /**
-     * Create a server physic engine instance.
+     * Entity destination.
      */
-    public ServerPhysicEngine() {
+    private final Point3D destination;
+
+    /**
+     * Entity speed.
+     */
+    private final float speed;
+
+    public TaskMove(EntityId entity, Point3D destination, float speed) {
         super();
+        assert entity != null;
+        assert  destination != null;
+        assert speed >= 0;
+        this.entity = entity;
+        this.destination = destination;
+        this.speed = speed;
     }
 
-    /**
-     * Create a new instance and register it in the engine.
-     *
-     * @return A new server world.
-     */
-    //@Ensures result != null
-    public ServerWorld createWorld() {
-        return new ServerWorld(this.engine.createWorld());
+    public EntityId getEntity() {
+        return entity;
     }
 
-    /**
-     * Update the engine.
-     */
-    public void update() {
-        this.engine.update();
+    public Point3D getDestination() {
+        return destination;
     }
 
+    public float getSpeed() {
+        return speed;
+    }
 }

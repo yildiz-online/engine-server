@@ -23,52 +23,41 @@
  * THE  SOFTWARE.
  */
 
-package be.yildizgames.server.datamanager;
+package be.yildizgames.engine.server.internal.datamanager;
 
-import be.yildizgames.common.geometry.Point3D;
 import be.yildizgames.common.model.EntityId;
 
 /**
- * Simple container for an entity move task data.
+ * Simple container for an attack task data.
  *
  * @author Grégory Van den Borre
  */
-public final class TaskMove {
+public final class TaskAttack {
 
     /**
-     * Entity's id.
+     * Attacker's id.
      */
-    private final EntityId entity;
+    private final EntityId attacker;
 
     /**
-     * Entity destination.
+     * Target's id.
      */
-    private final Point3D destination;
+    private final EntityId target;
 
-    /**
-     * Entity speed.
-     */
-    private final float speed;
-
-    public TaskMove(EntityId entity, Point3D destination, float speed) {
+    public TaskAttack(EntityId attacker, EntityId target) {
         super();
-        assert entity != null;
-        assert  destination != null;
-        assert speed >= 0;
-        this.entity = entity;
-        this.destination = destination;
-        this.speed = speed;
+        assert attacker != null;
+        assert target != null;
+        this.attacker = attacker;
+        this.target = target;
     }
 
-    public EntityId getEntity() {
-        return entity;
+
+    public EntityId getAttacker() {
+        return attacker;
     }
 
-    public Point3D getDestination() {
-        return destination;
-    }
-
-    public float getSpeed() {
-        return speed;
+    public EntityId getTarget() {
+        return target;
     }
 }

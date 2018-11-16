@@ -23,9 +23,9 @@
  * THE  SOFTWARE.
  */
 
-package be.yildizgames.server.physic;
+package be.yildizgames.engine.server.world.internal;
 
-import be.yildizgames.server.gameobject.ServerGameEntity;
+import be.yildizgames.engine.server.world.ServerGameObject;
 import be.yildizgames.common.gameobject.Movable;
 import be.yildizgames.common.geometry.Point3D;
 import be.yildizgames.common.model.EntityId;
@@ -36,7 +36,7 @@ import be.yildizgames.module.physics.AbstractStaticObject;
  *
  * @author Grégory Van den Borre
  */
-final class StaticDoodad extends AbstractStaticObject implements ServerGameEntity {
+final class StaticDoodad extends AbstractStaticObject implements ServerGameObject {
 
     /**
      * Current scaling.

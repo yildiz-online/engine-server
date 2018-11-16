@@ -23,78 +23,41 @@
  * THE  SOFTWARE.
  */
 
-package be.yildizgames.server.datamanager;
+package be.yildizgames.engine.server.internal.datamanager;
 
 import be.yildizgames.common.geometry.Point3D;
 import be.yildizgames.common.model.EntityId;
-import be.yildizgames.common.model.PlayerId;
+import org.junit.jupiter.api.Test;
 
-import java.security.InvalidParameterException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
- * Simple container for an entity construction task data.
- *
  * @author Grégory Van den Borre
  */
-public final class TaskEntity {
+class TaskMoveTest {
 
-    /**
-     * Entity's id.
-     */
-    private final EntityId entity;
 
-    /**
-     * Owner's id.
-     */
-    private final PlayerId owner;
-
-    /**
-     * Entity position.
-     */
-    private final Point3D position;
-
-    /**
-     * Entity type.
-     */
-    private final int type;
-
-    /**
-     * Time left before building is completed.
-     */
-    private final long timeLeft;
-
-    public TaskEntity(final EntityId entity, final PlayerId owner, final Point3D position, final int type, final long timeLeft) {
-        super();
-        if (type < 0 || timeLeft < 0) {
-            throw new InvalidParameterException("Value must be positive.");
-        }
-        assert entity != null;
-        assert owner != null;
-        assert position != null;
-        this.entity = entity;
-        this.owner = owner;
-        this.position = position;
-        this.type = type;
-        this.timeLeft = timeLeft;
+    @Test
+    void testTaskMove1() {
+        assertThrows(AssertionError.class, () -> new TaskMove(null, Point3D.ZERO, 0));
     }
 
-    public EntityId getEntity() {
-        return entity;
+    @Test
+    void testTaskMove2() {
+        assertThrows(AssertionError.class, () -> new TaskMove(EntityId.valueOf(5L), null, 0));
     }
 
-    public PlayerId getOwner() {
-        return owner;
+    @Test
+    void testTaskMove() {
+        new TaskMove(EntityId.valueOf(5L), Point3D.ZERO, 0);
     }
 
-    public Point3D getPosition() {
-        return position;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public long getTimeLeft() {
-        return timeLeft;
+    @Test
+    void testGet() {
+        TaskMove tm = new TaskMove(EntityId.valueOf(2L), Point3D.valueOf(1), 12);
+        assertEquals(EntityId.valueOf(2L), tm.getEntity());
+        assertEquals(Point3D.valueOf(1), tm.getDestination());
+        assertEquals(12, tm.getSpeed(), 0.001);
     }
 }

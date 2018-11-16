@@ -22,7 +22,7 @@
  *
  */
 
-package be.yildizgames.server.game;
+package be.yildizgames.engine.server.internal;
 
 import be.yildizgames.common.authentication.Token;
 import be.yildizgames.common.authentication.protocol.mapper.TokenMapper;
@@ -50,7 +50,6 @@ public class AuthenticatedSessionManager extends SessionManager {
         BrokerMessageDestination destination = broker.registerQueue("authenticate");
         destination.createConsumer(this::authenticationResponse);
         this.producer = destination.createProducer();
-
     }
 
     @Override

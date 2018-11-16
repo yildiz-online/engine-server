@@ -23,28 +23,14 @@
  * THE  SOFTWARE.
  */
 
-package be.yildizgames.server.config;
+package be.yildizgames.engine.server.world;
 
-import be.yildizgames.common.model.Version;
-import be.yildizgames.module.messaging.BrokerProperties;
+import be.yildizgames.common.gameobject.GameMaterialization;
 
 /**
- * Representation of the properties exposed by a game server.
+ * Behavior for all game entities in server. Different implementations exists to provide movable or static objects...
  *
  * @author Grégory Van den Borre
  */
-public interface ServerConfiguration extends BrokerProperties {
-
-    /**
-     * @return The server connection port.
-     */
-    //@Ensures 0>= return value <= 65635
-    int getApplicationPort();
-
-    /**
-     * @return The version accepted to connect to this server.
-     */
-    //@Ensures return value != null
-    Version getVersion();
-
+public interface ServerGameObject extends GameMaterialization {
 }

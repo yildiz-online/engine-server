@@ -22,15 +22,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE  SOFTWARE.
  */
+package be.yildizgames.engine.server;
 
-package be.yildizgames.server.gameobject;
+import be.yildizgames.engine.server.world.ServerWorld;
+import be.yildizgames.module.physics.PhysicEngine;
+import be.yildizgames.shared.game.engine.Initializable;
 
-import be.yildizgames.common.gameobject.GameMaterialization;
+public interface GameEngine {
 
-/**
- * Behavior for all game entities in server. Different implementations exists to provide movable or static objects...
- *
- * @author Grégory Van den Borre
- */
-public interface ServerGameEntity extends GameMaterialization {
+    /**
+     * Add logic to be initialized before the engine starts.
+     *
+     * @param init Object to initialize before the engine starts.
+     */
+    void addInitializable(Initializable init);
+
+    PhysicEngine getPhysicEngine();
+
+    ServerWorld createWorld();
 }

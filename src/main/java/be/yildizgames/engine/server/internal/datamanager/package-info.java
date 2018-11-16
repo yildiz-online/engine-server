@@ -23,16 +23,9 @@
  * THE  SOFTWARE.
  */
 
-package be.yildizgames.server.game;
-
-import be.yildizgames.common.model.PlayerId;
-import be.yildizgames.module.network.protocol.NetworkMessage;
-
 /**
+ * Contains game data implementation.
+ *
  * @author Grégory Van den Borre
  */
-@FunctionalInterface
-public interface ResponseSender {
-
-    void sendMessage(PlayerId player, NetworkMessage response);
-}
+package be.yildizgames.engine.server.internal.datamanager;

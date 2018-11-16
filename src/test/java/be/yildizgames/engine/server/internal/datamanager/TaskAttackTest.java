@@ -23,9 +23,33 @@
  * THE  SOFTWARE.
  */
 
+package be.yildizgames.engine.server.internal.datamanager;
+
+import be.yildizgames.common.model.EntityId;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 /**
- * Contains game data implementation.
- *
  * @author Grégory Van den Borre
  */
-package be.yildizgames.server.datamanager;
+final class TaskAttackTest {
+
+    @Test
+    void testTaskAttack() {
+        assertThrows(AssertionError.class, () -> new TaskAttack(null, EntityId.valueOf(1L)));
+    }
+
+    @Test
+    void testTaskAttack2() {
+        assertThrows(AssertionError.class, () -> new TaskAttack(EntityId.valueOf(1L), null));
+    }
+
+    @Test
+    void testGet() {
+        TaskAttack ta = new TaskAttack(EntityId.valueOf(1L), EntityId.valueOf(2L));
+        assertEquals(EntityId.valueOf(1L), ta.getAttacker());
+        assertEquals(EntityId.valueOf(2L), ta.getTarget());
+    }
+}

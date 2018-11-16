@@ -23,27 +23,26 @@
  * THE  SOFTWARE.
  */
 
-package be.yildizgames.server.physic;
+package be.yildizgames.engine.server.world.internal;
 
-import be.yildizgames.server.gameobject.ServerGameEntity;
+import be.yildizgames.engine.server.world.ServerGameObject;
 import be.yildizgames.common.gameobject.Movable;
 import be.yildizgames.common.geometry.Point3D;
-import be.yildizgames.common.geometry.Quaternion;
 import be.yildizgames.common.model.EntityId;
-import be.yildizgames.module.physics.AbstractMovableObject;
-import be.yildizgames.module.physics.KinematicBody;
+import be.yildizgames.module.physics.AbstractStaticObject;
+import be.yildizgames.module.physics.StaticBody;
 
 /**
- * Bullet implementation for a movable object server side. It is associated to a kinematic object in native bullet code.
+ * Bullet implementation for a static object server side. It is associated to a static object in native bullet code.
  *
  * @author Grégory Van den Borre
  */
-final class MovableObject extends AbstractMovableObject implements ServerGameEntity {
+public final class StaticObject extends AbstractStaticObject implements ServerGameObject {
 
     /**
-     * Physic body.
+     * Physic static body.
      */
-    private final KinematicBody body;
+    private final StaticBody body;
 
     /**
      * Current scaling factor.
@@ -53,21 +52,12 @@ final class MovableObject extends AbstractMovableObject implements ServerGameEnt
     /**
      * Full constructor.
      *
-     * @param kinematicBody Bullet kinematic body.
+     * @param initialPosition  Immutable object position.
+     * @param initialDirection Immutable object direction.
      */
-    MovableObject(final KinematicBody kinematicBody) {
-        super();
-        this.body = kinematicBody;
-    }
-
-    @Override
-    public EntityId getId() {
-        return this.body.getId();
-    }
-
-    @Override
-    public void sleep(boolean b) {
-        this.body.sleep(b);
+    StaticObject(final StaticBody body, final Point3D initialPosition, final Point3D initialDirection) {
+        super(initialPosition, initialDirection);
+        this.body = body;
     }
 
     @Override
@@ -76,8 +66,13 @@ final class MovableObject extends AbstractMovableObject implements ServerGameEnt
     }
 
     @Override
+    public EntityId getId() {
+        return this.body.getId();
+    }
+
+    @Override
     public void rotate(float x, float y, float z, float w) {
-        this.body.setOrientation(Quaternion.valueOf(w, x, y, z));
+        //Does nothing
     }
 
     @Override
@@ -92,23 +87,23 @@ final class MovableObject extends AbstractMovableObject implements ServerGameEnt
     }
 
     @Override
-    public Point3D getPosition() {
-        return this.body.getPosition();
+    public void sleep(boolean b) {
+        this.body.sleep(b);
     }
 
     @Override
-    public Point3D getDirection() {
-        return this.body.getDirection();
+    public void detachFromParent() {
+        //TODO implements
     }
 
     @Override
-    public void setPosition(float posX, float posY, float posZ) {
-        this.body.setPosition(posX, posY, posZ);
+    public void addOptionalChild(Movable child) {
+        //TODO implements
     }
 
     @Override
-    public void setDirection(float dirX, float dirY, float dirZ) {
-        this.body.setDirection(dirX, dirY, dirZ);
+    public void removeChild(Movable child) {
+        //TODO implements
     }
 
     @Override

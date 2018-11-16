@@ -23,41 +23,79 @@
  * THE  SOFTWARE.
  */
 
-package be.yildizgames.server.datamanager;
+package be.yildizgames.engine.server.internal.datamanager;
 
-import be.yildizgames.common.geometry.Point3D;
 import be.yildizgames.common.model.EntityId;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
+ * Simple container for a building construction task data.
+ *
  * @author Grégory Van den Borre
  */
-class TaskMoveTest {
+public final class TaskBuilding {
 
+    /**
+     * BaseCity's id.
+     */
+    private final EntityId city;
 
-    @Test
-    void testTaskMove1() {
-        assertThrows(AssertionError.class, () -> new TaskMove(null, Point3D.ZERO, 0));
+    /**
+     * Building position.
+     */
+    private final int position;
+
+    /**
+     * Building type.
+     */
+    private final int type;
+
+    /**
+     * Building level.
+     */
+    private final int level;
+
+    /**
+     * Building allocated staff.
+     */
+    private final int staff;
+
+    /**
+     * Time left before building is completed.
+     */
+    private final long timeLeft;
+
+    public TaskBuilding(EntityId city, int position, int type, int level, int staff, long timeLeft) {
+        super();
+        this.city = city;
+        this.position = position;
+        this.type = type;
+        this.level = level;
+        this.staff = staff;
+        this.timeLeft = timeLeft;
     }
 
-    @Test
-    void testTaskMove2() {
-        assertThrows(AssertionError.class, () -> new TaskMove(EntityId.valueOf(5L), null, 0));
+
+    public EntityId getCity() {
+        return city;
     }
 
-    @Test
-    void testTaskMove() {
-        new TaskMove(EntityId.valueOf(5L), Point3D.ZERO, 0);
+    public int getPosition() {
+        return position;
     }
 
-    @Test
-    void testGet() {
-        TaskMove tm = new TaskMove(EntityId.valueOf(2L), Point3D.valueOf(1), 12);
-        assertEquals(EntityId.valueOf(2L), tm.getEntity());
-        assertEquals(Point3D.valueOf(1), tm.getDestination());
-        assertEquals(12, tm.getSpeed(), 0.001);
+    public int getType() {
+        return type;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public int getStaff() {
+        return staff;
+    }
+
+    public long getTimeLeft() {
+        return timeLeft;
     }
 }

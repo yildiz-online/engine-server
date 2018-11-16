@@ -23,9 +23,8 @@
  * THE  SOFTWARE.
  */
 
-package be.yildizgames.server.physic;
+package be.yildizgames.engine.server.world;
 
-import be.yildizgames.server.gameobject.ServerGameEntity;
 import be.yildizgames.common.gameobject.CollisionListener;
 import be.yildizgames.common.geometry.Point3D;
 import be.yildizgames.common.model.EntityId;
@@ -33,30 +32,15 @@ import be.yildizgames.common.shape.Box;
 import be.yildizgames.common.shape.Sphere;
 import be.yildizgames.module.physics.GhostObject;
 import be.yildizgames.module.physics.Gravity;
-import be.yildizgames.module.physics.KinematicBody;
 import be.yildizgames.module.physics.PhysicMesh;
-import be.yildizgames.module.physics.PhysicWorld;
 import be.yildizgames.module.physics.RaycastResult;
-import be.yildizgames.module.physics.StaticBody;
-import be.yildizgames.module.physics.World;
 
 /**
  * Bullet implementation for the ServerWorld_todelete.
  *
  * @author Grégory Van den Borre
  */
-public final class ServerWorld implements World {
-
-    /**
-     * Physic world used to build and manage server world objects.
-     */
-    private final PhysicWorld physicWorld;
-
-    public ServerWorld(PhysicWorld physicWorld) {
-        super();
-        assert  physicWorld != null;
-        this.physicWorld = physicWorld;
-    }
+public interface ServerWorld {
 
     /**
      * Create a static physic box, it a given Id, cannot move, and will not be affected in any way by physics dynamic, but is collidable. It is usually used to represent collidable object like
@@ -68,16 +52,7 @@ public final class ServerWorld implements World {
      * @param direction Object immutable direction, InvalidParamException is thrown in case of null parameter.
      * @return The built object.
      */
-    public ServerGameEntity createStaticObject(final EntityId id, final Box box, final Point3D position, final Point3D direction) {
-        StaticBody body = this.physicWorld
-                .createObject()
-                .withId(id)
-                .withShape(box)
-                .atPosition(position)
-                .withDirection(direction)
-                .buildStatic();
-        return new StaticObject(body, position, direction);
-    }
+    ServerGameObject createStaticObject(final EntityId id, final Box box, final Point3D position, final Point3D direction);
 
     /**
      * Create a static physic box, it a given Id, cannot move, and will not be affected in any way by physics dynamic, but is collidable. The direction is the default one. It is usually used to
@@ -88,9 +63,7 @@ public final class ServerWorld implements World {
      * @param position Object immutable position, InvalidParamException is thrown in case of null parameter.
      * @return The built object.
      */
-    public ServerGameEntity createStaticObject(final EntityId id, final Box box, final Point3D position) {
-        return this.createStaticObject(id, box, position, Point3D.BASE_DIRECTION);
-    }
+    ServerGameObject createStaticObject(final EntityId id, final Box box, final Point3D position) ;
 
     /**
      * Create a static physic sphere, it a given Id, cannot move, and will not be affected in any way by physics dynamic, but is collidable. It is usually used to represent collidable object like
@@ -102,16 +75,7 @@ public final class ServerWorld implements World {
      * @param direction Object immutable direction, InvalidParamException is thrown in case of null parameter.
      * @return The built object.
      */
-    public ServerGameEntity createStaticObject(final EntityId id, final Sphere sphere, final Point3D position, final Point3D direction) {
-        StaticBody body = this.physicWorld
-                .createObject()
-                .withId(id)
-                .withShape(sphere)
-                .atPosition(position)
-                .withDirection(direction)
-                .buildStatic();
-        return new StaticObject(body, position, direction);
-    }
+    ServerGameObject createStaticObject(final EntityId id, final Sphere sphere, final Point3D position, final Point3D direction);
 
     /**
      * Create a static physic sphere, it a given Id, cannot move, and will not be affected in any way by physics dynamic, but is collidable. The direction is the default one. It is usually used to
@@ -122,9 +86,7 @@ public final class ServerWorld implements World {
      * @param position Object immutable position, InvalidParamException is thrown in case of null parameter.
      * @return The built object.
      */
-    public ServerGameEntity createStaticObject(final EntityId id, final Sphere sphere, final Point3D position) {
-        return this.createStaticObject(id, sphere, position, Point3D.BASE_DIRECTION);
-    }
+    ServerGameObject createStaticObject(final EntityId id, final Sphere sphere, final Point3D position);
 
     /**
      * Create a static physic object, it a given Id, cannot move, and will not be affected in any way by physics dynamic, but is collidable. It is usually used to represent collidable object like
@@ -136,16 +98,7 @@ public final class ServerWorld implements World {
      * @param direction Object immutable direction, InvalidParamException is thrown in case of null parameter.
      * @return The built object.
      */
-    public ServerGameEntity createStaticObject(final EntityId id, final PhysicMesh mesh, final Point3D position, final Point3D direction) {
-        StaticBody body = this.physicWorld
-                .createObject()
-                .withId(id)
-                .withShape(mesh)
-                .atPosition(position)
-                .withDirection(direction)
-                .buildStatic();
-        return new StaticObject(body, position, direction);
-    }
+    ServerGameObject createStaticObject(final EntityId id, final PhysicMesh mesh, final Point3D position, final Point3D direction);
 
     /**
      * Create a static physic object, it a given Id, cannot move, and will not be affected in any way by physics dynamic, but is collidable. The direction is the default one. It is usually used to
@@ -156,9 +109,7 @@ public final class ServerWorld implements World {
      * @param position Object immutable position, InvalidParamException is thrown in case of null parameter.
      * @return The built object.
      */
-    public ServerGameEntity createStaticObject(final EntityId id, final PhysicMesh mesh, final Point3D position) {
-        return this.createStaticObject(id, mesh, position, Point3D.BASE_DIRECTION);
-    }
+    ServerGameObject createStaticObject(final EntityId id, final PhysicMesh mesh, final Point3D position);
 
     /**
      * Create a movable physic box, it has a given Id and will not be affected in any way by physics dynamic, but is collidable. It is usually used to represent playable or movable object like
@@ -169,15 +120,7 @@ public final class ServerWorld implements World {
      * @param position Object initial position.
      * @return The built object.
      */
-    public ServerGameEntity createMovableObject(final EntityId id, final Box box, final Point3D position) {
-        KinematicBody body = this.physicWorld
-                .createObject()
-                .withId(id)
-                .withShape(box)
-                .atPosition(position)
-                .buildKinematic();
-        return new MovableObject(body);
-    }
+    ServerGameObject createMovableObject(final EntityId id, final Box box, final Point3D position);
 
     /**
      * Create a movable physic sphere, it has a given Id and will not be affected in any way by physics dynamic, but is collidable. It is usually used to represent playable or movable object like
@@ -188,15 +131,7 @@ public final class ServerWorld implements World {
      * @param position Object initial position.
      * @return The built object.
      */
-    public ServerGameEntity createMovableObject(final EntityId id, final Sphere sphere, final Point3D position) {
-        KinematicBody body = this.physicWorld
-                .createObject()
-                .withId(id)
-                .withShape(sphere)
-                .atPosition(position)
-                .buildKinematic();
-        return new MovableObject(body);
-    }
+    ServerGameObject createMovableObject(final EntityId id, final Sphere sphere, final Point3D position);
 
     /**
      * Create a movable physic object, it has a given Id and will not be affected in any way by physics dynamic, but is collidable. It is usually used to represent playable or movable object like
@@ -207,74 +142,27 @@ public final class ServerWorld implements World {
      * @param position Object initial position.
      * @return The built object.
      */
-    public ServerGameEntity createMovableObject(final EntityId id, final PhysicMesh mesh, final Point3D position) {
-        KinematicBody body = this.physicWorld
-                .createObject()
-                .withId(id)
-                .withShape(mesh)
-                .atPosition(position)
-                .buildKinematic();
-        return new MovableObject(body);
-    }
+    ServerGameObject createMovableObject(final EntityId id, final PhysicMesh mesh, final Point3D position);
 
-    @Override
-    public RaycastResult throwRay(final Point3D origin, final Point3D destination) {
-        return this.physicWorld.throwRay(origin, destination);
-    }
+    RaycastResult throwRay(final Point3D origin, final Point3D destination);
 
-    @Override
-    public EntityId throwSimpleRay(final Point3D origin, final Point3D destination) {
-        return this.physicWorld.throwSimpleRay(origin, destination);
-    }
+    EntityId throwSimpleRay(final Point3D origin, final Point3D destination);
 
-    @Override
-    public Point3D getGravity() {
-        return this.physicWorld.getGravity();
-    }
+    Point3D getGravity();
 
-    @Override
-    public World setGravity(final Gravity newGravity) {
-        this.physicWorld.setGravity(newGravity);
-        return this;
-    }
+    ServerWorld setGravity(final Gravity newGravity);
 
-    @Override
-    public void setGravity(final float gravityX, final float gravityY, final float gravityZ) {
-        this.physicWorld.setGravity(gravityX, gravityY, gravityZ);
-    }
+    void setGravity(final float gravityX, final float gravityY, final float gravityZ);
 
-    public GhostObject createGhostObject(final EntityId id, final Box box, final Point3D position) {
-        return this.physicWorld
-                .createObject()
-                .withId(id)
-                .withShape(box)
-                .atPosition(position)
-                .buildGhost();
-    }
+    GhostObject createGhostObject(final EntityId id, final Box box, final Point3D position);
 
-    public GhostObject createGhostObject(final EntityId id, final Sphere sphere, final Point3D position) {
-        return this.physicWorld
-                .createObject()
-                .withId(id)
-                .withShape(sphere)
-                .atPosition(position)
-                .buildGhost();
-    }
+    GhostObject createGhostObject(final EntityId id, final Sphere sphere, final Point3D position);
 
-    public ServerGameEntity createStaticDoodad(final Point3D position, final Point3D direction) {
-        return new StaticDoodad(position, direction);
-    }
+    ServerGameObject createStaticDoodad(final Point3D position, final Point3D direction);
 
-    public ServerGameEntity createStaticDoodad(final EntityId id, final Point3D position, final Point3D direction) {
-        // FIXME id ignored?
-        return this.createStaticDoodad(position, direction);
-    }
+    ServerGameObject createStaticDoodad(final EntityId id, final Point3D position, final Point3D direction);
 
-    public void addCollisionListener(final CollisionListener c) {
-        this.physicWorld.addCollisionListener(c);
-    }
+    void addCollisionListener(final CollisionListener c);
 
-    public void addGhostCollisionListener(final CollisionListener c) {
-        this.physicWorld.addGhostCollisionListener(c);
-    }
+    void addGhostCollisionListener(final CollisionListener c);
 }

@@ -23,20 +23,23 @@
  * THE  SOFTWARE.
  */
 
-package be.yildizgames.server.game;
+package be.yildizgames.engine.server.internal;
 
-import be.yildizgames.common.gameobject.CollisionListener;
 import be.yildizgames.common.logging.LogFactory;
 import be.yildizgames.common.model.PlayerId;
+import be.yildizgames.common.model.Version;
+import be.yildizgames.engine.server.GameEngine;
+import be.yildizgames.engine.server.config.ServerConfiguration;
+import be.yildizgames.engine.server.world.ServerWorld;
+import be.yildizgames.engine.server.world.internal.EnginePhysicWorld;
 import be.yildizgames.module.messaging.Broker;
 import be.yildizgames.module.network.DecoderEncoder;
 import be.yildizgames.module.network.protocol.NetworkMessage;
 import be.yildizgames.module.network.server.Server;
 import be.yildizgames.module.network.server.SessionListener;
 import be.yildizgames.module.network.server.SessionManager;
-import be.yildizgames.server.config.ServerConfiguration;
-import be.yildizgames.server.physic.ServerPhysicEngine;
-import be.yildizgames.server.physic.ServerWorld;
+import be.yildizgames.module.physics.BasePhysicEngine;
+import be.yildizgames.module.physics.PhysicEngine;
 import be.yildizgames.shared.game.engine.AbstractGameEngine;
 import be.yildizgames.shared.game.engine.DataInitializer;
 import be.yildizgames.shared.game.engine.Initializable;
@@ -47,9 +50,9 @@ import org.slf4j.Logger;
  *
  * @author Grégory Van den Borre
  */
-public final class GameEngine extends AbstractGameEngine implements ResponseSender, AutoCloseable {
+public final class SimpleGameEngine extends AbstractGameEngine implements ResponseSender, AutoCloseable, GameEngine {
 
-    private static final Logger LOGGER = LogFactory.getInstance().getLogger(GameEngine.class);
+    private static final Logger LOGGER = LogFactory.getInstance().getLogger(SimpleGameEngine.class);
 
     /**
      * Frame limiter.
@@ -59,7 +62,7 @@ public final class GameEngine extends AbstractGameEngine implements ResponseSend
     /**
      * Physic engine.
      */
-    private final ServerPhysicEngine physicEngine;
+    private final BasePhysicEngine physicEngine;
 
     /**
      * Class used to initialize the data.
@@ -67,10 +70,6 @@ public final class GameEngine extends AbstractGameEngine implements ResponseSend
     private final DataInitializer initializer;
 
     private final SessionManager sessionManager;
-    /**
-     * Currently active world.
-     */
-    private ServerWorld activeWorld;
 
     /**
      * <code>true</code> if the engine is currently running, <code>false</code> otherwise.
@@ -85,11 +84,10 @@ public final class GameEngine extends AbstractGameEngine implements ResponseSend
      * @param config Server configuration.
      */
     //@effect Create a new engine.
-    public GameEngine(ServerConfiguration config) {
-        super(config.getVersion());
+    public SimpleGameEngine(ServerConfiguration config, Version version) {
+        super(version);
         LOGGER.info("Starting server game engine...");
-        this.physicEngine = new ServerPhysicEngine();
-        this.activeWorld = this.physicEngine.createWorld();
+        this.physicEngine = BasePhysicEngine.getEngine();
         this.initializer = new DataInitializer();
         this.sessionManager = new AuthenticatedSessionManager(Broker.getBroker(config));
         Runtime.getRuntime().addShutdownHook(new Thread(this::close));
@@ -98,22 +96,15 @@ public final class GameEngine extends AbstractGameEngine implements ResponseSend
                 .startServer(config.getApplicationPort(), sessionManager, DecoderEncoder.WEBSOCKET);
     }
 
-    /**
-     * Add logic to be initialized before the engine starts.
-     *
-     * @param init Object to initialize before the engine starts.
-     */
+    @Override
     public void addInitializable(final Initializable init) {
         this.initializer.addInitializable(init);
-    }
-
-    public void initialize() {
-        this.initializer.initialize();
     }
 
     @Override
     public void start() {
         LOGGER.info("Starting server data initialization...");
+        this.initializer.initialize();
         LOGGER.info("Server data initialized.");
         LOGGER.info("Server game engine started.");
         this.setFrameLimiter(FPS);
@@ -125,28 +116,12 @@ public final class GameEngine extends AbstractGameEngine implements ResponseSend
     }
 
     /**
-     * Add a listener to be notified when collisions occurs between physic objects.
-     *
-     * @param listener Listener to notify when collision occurs.
-     */
-    public void addCollisionListener(final CollisionListener listener) {
-        this.activeWorld.addCollisionListener(listener);
-    }
-
-    /**
      * Add a new session listener to the network engine. Listener will be notified when a client is successfully setAuthenticated and when he receives message.
      *
      * @param listener SessionListener to add.
      */
     public void addSessionListener(final SessionListener listener) {
         this.sessionManager.addSessionListener(listener);
-    }
-
-    /**
-     * @return The currently active world.
-     */
-    public ServerWorld getActiveWorld() {
-        return this.activeWorld;
     }
 
     @Override
@@ -170,14 +145,12 @@ public final class GameEngine extends AbstractGameEngine implements ResponseSend
         this.sessionManager.getSessionByPlayer(player).sendMessage(response);
     }
 
-    /**
-     * Add a ghost listener to this active world.
-     *
-     * @param listener Listener to add.
-     */
-    //@Requires listener != null
-    //@Ensures this.activeWorld.listeners.contains(listener)
-    public final void addGhostListener(CollisionListener listener) {
-        this.activeWorld.addGhostCollisionListener(listener);
+    @Override
+    public PhysicEngine getPhysicEngine() {
+        return this.physicEngine;
+    }
+
+    public ServerWorld createWorld() {
+        return new EnginePhysicWorld(this.physicEngine.createWorld());
     }
 }

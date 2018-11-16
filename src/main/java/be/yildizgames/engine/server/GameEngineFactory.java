@@ -22,10 +22,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE  SOFTWARE.
  */
+package be.yildizgames.engine.server;
 
-/**
- * Contains game objects implementation.
- *
- * @author Grégory Van den Borre
- */
-package be.yildizgames.server.gameobject;
+import be.yildizgames.common.model.Version;
+import be.yildizgames.engine.server.config.ServerConfiguration;
+import be.yildizgames.engine.server.internal.SimpleGameEngine;
+
+public class GameEngineFactory {
+
+    /**
+     * Create a new instance of the game engine.
+     * @param config Client configuration.
+     * @param version Game version.
+     * @return The created instance.
+     */
+    public static GameEngine build(ServerConfiguration config, Version version) {
+        return new SimpleGameEngine(config, version);
+    }
+
+}

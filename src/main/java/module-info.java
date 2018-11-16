@@ -37,4 +37,8 @@ module be.yildizgames.engine.server {
     requires slf4j.api;
     requires be.yildizgames.common.authentication;
     requires be.yildizgames.common.mapping;
+
+    exports be.yildizgames.engine.server;
+    exports be.yildizgames.engine.server.world;
+    exports be.yildizgames.engine.server.config;
 }
