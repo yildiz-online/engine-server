@@ -77,7 +77,7 @@ final class MovableObject extends AbstractMovableObject implements ServerGameEnt
 
     @Override
     public void rotate(float x, float y, float z, float w) {
-        this.body.setOrientation(new Quaternion(w, x, y, z));
+        this.body.setOrientation(Quaternion.valueOf(w, x, y, z));
     }
 
     @Override

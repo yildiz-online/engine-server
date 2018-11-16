@@ -27,7 +27,6 @@ package be.yildizgames.server.game;
 import be.yildizgames.common.authentication.Token;
 import be.yildizgames.common.authentication.protocol.mapper.TokenMapper;
 import be.yildizgames.common.logging.LogFactory;
-import be.yildizgames.common.mapping.MappingException;
 import be.yildizgames.module.messaging.Broker;
 import be.yildizgames.module.messaging.BrokerMessageDestination;
 import be.yildizgames.module.messaging.JmsMessageProducer;
@@ -40,7 +39,7 @@ import org.slf4j.Logger;
 /**
  * @author Grégory Van den Borre
  */
-public class AuthenticatedSessionManager extends SessionManager  {
+public class AuthenticatedSessionManager extends SessionManager {
 
     private static final Logger LOGGER = LogFactory.getInstance().getLogger(AuthenticatedSessionManager.class);
 
@@ -65,17 +64,13 @@ public class AuthenticatedSessionManager extends SessionManager  {
     }
 
     private void authenticationResponse(Message m) {
-        try {
-            Token token = TokenMapper.getInstance().from(m.getText());
-            Session s = this.getSessionByPlayer(token.getId());
-            if(token.isAuthenticated()) {
-                s.setAuthenticated();
-                s.sendMessage(m.getText());
-            } else {
-                s.sendMessage(TokenMapper.getInstance().to(Token.authenticationFailed()));
-            }
-        } catch (MappingException e) {
-            LOGGER.error("Cannot map message.", e);
+        Token token = TokenMapper.getInstance().from(m.getText());
+        Session s = this.getSessionByPlayer(token.getId());
+        if (token.isAuthenticated()) {
+            s.setAuthenticated();
+            s.sendMessage(m.getText());
+        } else {
+            s.sendMessage(TokenMapper.getInstance().to(Token.authenticationFailed()));
         }
     }
 }
