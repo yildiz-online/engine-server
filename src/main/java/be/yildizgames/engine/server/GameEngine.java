@@ -40,4 +40,8 @@ public interface GameEngine {
     PhysicEngine getPhysicEngine();
 
     ServerWorld createWorld();
+
+    void close();
+
+    void start();
 }
