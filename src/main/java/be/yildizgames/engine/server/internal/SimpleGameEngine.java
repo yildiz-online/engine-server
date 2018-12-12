@@ -27,7 +27,6 @@ package be.yildizgames.engine.server.internal;
 
 import be.yildizgames.common.logging.LogFactory;
 import be.yildizgames.common.model.PlayerId;
-import be.yildizgames.common.model.Version;
 import be.yildizgames.engine.server.GameEngine;
 import be.yildizgames.engine.server.config.ServerConfiguration;
 import be.yildizgames.engine.server.world.ServerWorld;
@@ -84,8 +83,8 @@ public final class SimpleGameEngine extends AbstractGameEngine implements Respon
      * @param config Server configuration.
      */
     //@effect Create a new engine.
-    public SimpleGameEngine(ServerConfiguration config, Version version) {
-        super(version);
+    public SimpleGameEngine(ServerConfiguration config) {
+        super(config.getVersion());
         LOGGER.info("Starting server game engine...");
         this.physicEngine = BasePhysicEngine.getEngine();
         this.initializer = new DataInitializer();
