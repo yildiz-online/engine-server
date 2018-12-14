@@ -25,7 +25,6 @@
 
 package be.yildizgames.engine.server.internal;
 
-import be.yildizgames.common.logging.LogFactory;
 import be.yildizgames.common.model.PlayerId;
 import be.yildizgames.engine.server.GameEngine;
 import be.yildizgames.engine.server.config.ServerConfiguration;
@@ -43,6 +42,7 @@ import be.yildizgames.shared.game.engine.AbstractGameEngine;
 import be.yildizgames.shared.game.engine.DataInitializer;
 import be.yildizgames.shared.game.engine.Initializable;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Server side implementation for the game engine.
@@ -51,7 +51,7 @@ import org.slf4j.Logger;
  */
 public final class SimpleGameEngine extends AbstractGameEngine implements ResponseSender, AutoCloseable, GameEngine {
 
-    private static final Logger LOGGER = LogFactory.getInstance().getLogger(SimpleGameEngine.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SimpleGameEngine.class);
 
     /**
      * Frame limiter.
