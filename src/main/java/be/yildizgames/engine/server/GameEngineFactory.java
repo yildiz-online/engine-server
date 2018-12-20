@@ -24,8 +24,9 @@
  */
 package be.yildizgames.engine.server;
 
-import be.yildizgames.engine.server.config.ServerConfiguration;
-import be.yildizgames.engine.server.internal.SimpleGameEngine;
+import be.yildizgames.common.exception.implementation.ImplementationException;
+import be.yildizgames.engine.server.configuration.ServerConfiguration;
+import be.yildizgames.engine.server.internal.StandardGameEngine;
 
 public class GameEngineFactory {
 
@@ -35,7 +36,8 @@ public class GameEngineFactory {
      * @return The created instance.
      */
     public static GameEngine fromConfig(ServerConfiguration config) {
-        return new SimpleGameEngine(config);
+        ImplementationException.throwForNull(config);
+        return new StandardGameEngine(config);
     }
 
 }

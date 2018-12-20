@@ -25,17 +25,14 @@
 
 package be.yildizgames.engine.server.internal;
 
-import be.yildizgames.common.model.PlayerId;
 import be.yildizgames.engine.server.GameEngine;
-import be.yildizgames.engine.server.config.ServerConfiguration;
+import be.yildizgames.engine.server.NetworkEngine;
+import be.yildizgames.engine.server.configuration.ServerConfiguration;
 import be.yildizgames.engine.server.world.ServerWorld;
 import be.yildizgames.engine.server.world.internal.EnginePhysicWorld;
 import be.yildizgames.module.messaging.Broker;
 import be.yildizgames.module.network.DecoderEncoder;
-import be.yildizgames.module.network.protocol.NetworkMessage;
 import be.yildizgames.module.network.server.Server;
-import be.yildizgames.module.network.server.SessionListener;
-import be.yildizgames.module.network.server.SessionManager;
 import be.yildizgames.module.physics.BasePhysicEngine;
 import be.yildizgames.module.physics.PhysicEngine;
 import be.yildizgames.shared.game.engine.AbstractGameEngine;
@@ -49,9 +46,9 @@ import org.slf4j.LoggerFactory;
  *
  * @author Grégory Van den Borre
  */
-public final class SimpleGameEngine extends AbstractGameEngine implements ResponseSender, AutoCloseable, GameEngine {
+public final class StandardGameEngine extends AbstractGameEngine implements AutoCloseable, GameEngine {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SimpleGameEngine.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(StandardGameEngine.class);
 
     /**
      * Frame limiter.
@@ -68,7 +65,7 @@ public final class SimpleGameEngine extends AbstractGameEngine implements Respon
      */
     private final DataInitializer initializer;
 
-    private final SessionManager sessionManager;
+    private final AuthenticatedSessionManager sessionManager;
 
     /**
      * <code>true</code> if the engine is currently running, <code>false</code> otherwise.
@@ -83,7 +80,7 @@ public final class SimpleGameEngine extends AbstractGameEngine implements Respon
      * @param config Server configuration.
      */
     //@effect Create a new engine.
-    public SimpleGameEngine(ServerConfiguration config) {
+    public StandardGameEngine(ServerConfiguration config) {
         super(config.getVersion());
         LOGGER.info("Starting server game engine...");
         this.physicEngine = BasePhysicEngine.getEngine();
@@ -114,15 +111,6 @@ public final class SimpleGameEngine extends AbstractGameEngine implements Respon
         LOGGER.info("Closing engine.");
     }
 
-    /**
-     * Add a new session listener to the network engine. Listener will be notified when a client is successfully setAuthenticated and when he receives message.
-     *
-     * @param listener SessionListener to add.
-     */
-    public void addSessionListener(final SessionListener listener) {
-        this.sessionManager.addSessionListener(listener);
-    }
-
     @Override
     protected void runOneFrameImpl() {
         if (check) {
@@ -140,13 +128,13 @@ public final class SimpleGameEngine extends AbstractGameEngine implements Respon
     }
 
     @Override
-    public final void sendMessage(final PlayerId player, final NetworkMessage response) {
-        this.sessionManager.getSessionByPlayer(player).sendMessage(response);
+    public PhysicEngine getPhysicEngine() {
+        return this.physicEngine;
     }
 
     @Override
-    public PhysicEngine getPhysicEngine() {
-        return this.physicEngine;
+    public NetworkEngine getNetworkEngine() {
+        return this.sessionManager;
     }
 
     public ServerWorld createWorld() {

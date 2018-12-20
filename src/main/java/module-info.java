@@ -33,12 +33,13 @@ module be.yildizgames.engine.server {
     requires be.yildizgames.common.gameobject;
     requires be.yildizgames.common.shape;
     requires be.yildizgames.engine.shared;
-
-    requires slf4j.api;
     requires be.yildizgames.common.authentication;
     requires be.yildizgames.common.mapping;
+    requires be.yildizgames.common.exception;
+
+    requires slf4j.api;
 
     exports be.yildizgames.engine.server;
     exports be.yildizgames.engine.server.world;
-    exports be.yildizgames.engine.server.config;
+    exports be.yildizgames.engine.server.configuration;
 }
