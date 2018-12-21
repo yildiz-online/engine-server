@@ -38,6 +38,7 @@ module be.yildizgames.engine.server {
     requires be.yildizgames.common.exception;
 
     requires slf4j.api;
+    requires be.yildizgames.common.util;
 
     exports be.yildizgames.engine.server;
     exports be.yildizgames.engine.server.world;

@@ -25,6 +25,7 @@
 
 package be.yildizgames.engine.server.internal;
 
+import be.yildizgames.common.util.Util;
 import be.yildizgames.engine.server.GameEngine;
 import be.yildizgames.engine.server.NetworkEngine;
 import be.yildizgames.engine.server.configuration.ServerConfiguration;
@@ -82,7 +83,7 @@ public final class StandardGameEngine extends AbstractGameEngine implements Auto
     //@effect Create a new engine.
     public StandardGameEngine(ServerConfiguration config) {
         super(config.getVersion());
-        LOGGER.info("Starting server game engine...");
+        LOGGER.info("Starting server game engine(PID:{})...", Util.getPid());
         this.physicEngine = BasePhysicEngine.getEngine();
         this.initializer = new DataInitializer();
         this.sessionManager = new AuthenticatedSessionManager(Broker.getBroker(config));
