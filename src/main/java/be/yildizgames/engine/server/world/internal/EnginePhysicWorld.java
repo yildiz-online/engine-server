@@ -62,7 +62,7 @@ public class EnginePhysicWorld implements ServerWorld, World {
                 .atPosition(position)
                 .withDirection(direction)
                 .buildStatic();
-        return new StaticObject(body, position, direction);
+        return new StaticObject(body);
     }
 
     @Override
@@ -79,7 +79,7 @@ public class EnginePhysicWorld implements ServerWorld, World {
                 .atPosition(position)
                 .withDirection(direction)
                 .buildStatic();
-        return new StaticObject(body, position, direction);
+        return new StaticObject(body);
     }
 
     @Override
@@ -96,7 +96,7 @@ public class EnginePhysicWorld implements ServerWorld, World {
                 .atPosition(position)
                 .withDirection(direction)
                 .buildStatic();
-        return new StaticObject(body, position, direction);
+        return new StaticObject(body);
     }
 
     @Override

@@ -38,7 +38,7 @@ import be.yildizgames.module.physics.KinematicBody;
  *
  * @author Grégory Van den Borre
  */
-final class MovableObject extends AbstractMovableObject implements ServerGameObject {
+class MovableObject extends AbstractMovableObject implements ServerGameObject {
 
     /**
      * Physic body.
@@ -48,7 +48,7 @@ final class MovableObject extends AbstractMovableObject implements ServerGameObj
     /**
      * Current scaling factor.
      */
-    protected Point3D scaleSize = Point3D.valueOf(1);
+    private Point3D scaleSize = Point3D.valueOf(1);
 
     /**
      * Full constructor.
@@ -61,58 +61,58 @@ final class MovableObject extends AbstractMovableObject implements ServerGameObj
     }
 
     @Override
-    public EntityId getId() {
+    public final EntityId getId() {
         return this.body.getId();
     }
 
     @Override
-    public void sleep(boolean b) {
+    public final void sleep(boolean b) {
         this.body.sleep(b);
     }
 
     @Override
-    public void delete() {
+    public final void delete() {
         this.body.delete();
     }
 
     @Override
-    public void rotate(float x, float y, float z, float w) {
+    public final void rotate(float x, float y, float z, float w) {
         this.body.setOrientation(Quaternion.valueOf(w, x, y, z));
     }
 
     @Override
-    public Point3D getScaleSize() {
+    public final Point3D getScaleSize() {
         return this.scaleSize;
     }
 
     @Override
-    public void scale(final float x, final float y, final float z) {
+    public final void scale(final float x, final float y, final float z) {
         this.scaleSize = Point3D.valueOf(x, y, z);
         this.body.scale(x, y, z);
     }
 
     @Override
-    public Point3D getPosition() {
+    public final Point3D getPosition() {
         return this.body.getPosition();
     }
 
     @Override
-    public Point3D getDirection() {
+    public final Point3D getDirection() {
         return this.body.getDirection();
     }
 
     @Override
-    public void setPosition(float posX, float posY, float posZ) {
+    public final void setPosition(float posX, float posY, float posZ) {
         this.body.setPosition(posX, posY, posZ);
     }
 
     @Override
-    public void setDirection(float dirX, float dirY, float dirZ) {
+    public final void setDirection(float dirX, float dirY, float dirZ) {
         this.body.setDirection(dirX, dirY, dirZ);
     }
 
     @Override
-    public Movable getInternal() {
+    public final Movable getInternal() {
         return this.body;
     }
 }

@@ -23,79 +23,28 @@
  * THE  SOFTWARE.
  */
 
-package be.yildizgames.engine.server.internal.datamanager;
+package be.yildizgames.engine.server.configuration;
 
-import be.yildizgames.common.model.EntityId;
+import be.yildizgames.common.model.Version;
+import be.yildizgames.module.messaging.BrokerProperties;
 
 /**
- * Simple container for a building construction task data.
+ * Representation of the properties exposed by a game server.
  *
  * @author Grégory Van den Borre
  */
-public final class TaskBuilding {
+public interface ServerConfiguration extends BrokerProperties {
 
     /**
-     * BaseCity's id.
+     * @return The server connection port.
      */
-    private final EntityId city;
+    //@Ensures 0>= return value <= 65635
+    int getApplicationPort();
 
     /**
-     * Building position.
+     * @return The version accepted to connect to this server.
      */
-    private final int position;
+    //@Ensures return value != null
+    Version getVersion();
 
-    /**
-     * Building type.
-     */
-    private final int type;
-
-    /**
-     * Building level.
-     */
-    private final int level;
-
-    /**
-     * Building allocated staff.
-     */
-    private final int staff;
-
-    /**
-     * Time left before building is completed.
-     */
-    private final long timeLeft;
-
-    public TaskBuilding(EntityId city, int position, int type, int level, int staff, long timeLeft) {
-        super();
-        this.city = city;
-        this.position = position;
-        this.type = type;
-        this.level = level;
-        this.staff = staff;
-        this.timeLeft = timeLeft;
-    }
-
-
-    public EntityId getCity() {
-        return city;
-    }
-
-    public int getPosition() {
-        return position;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public int getLevel() {
-        return level;
-    }
-
-    public int getStaff() {
-        return staff;
-    }
-
-    public long getTimeLeft() {
-        return timeLeft;
-    }
 }

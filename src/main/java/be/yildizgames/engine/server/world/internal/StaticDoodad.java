@@ -36,7 +36,7 @@ import be.yildizgames.module.physics.AbstractStaticObject;
  *
  * @author Grégory Van den Borre
  */
-final class StaticDoodad extends AbstractStaticObject implements ServerGameObject {
+class StaticDoodad extends AbstractStaticObject implements ServerGameObject {
 
     /**
      * Current scaling.
@@ -55,53 +55,52 @@ final class StaticDoodad extends AbstractStaticObject implements ServerGameObjec
     }
 
     @Override
-    public void detachFromParent() {
-        //TODO need to be done?
+    public final void detachFromParent() {
+        //Does nothing, static object cannot have parents.
     }
 
     @Override
-    public void setPosition(final float posX, final float posY, final float posZ) {
+    public final void setPosition(final float posX, final float posY, final float posZ) {
         //no set position as static
     }
 
     @Override
-    public void setDirection(final float dirX, final float dirY, final float dirZ) {
+    public final void setDirection(final float dirX, final float dirY, final float dirZ) {
         //no set direction as static
     }
 
     @Override
-    public void addOptionalChild(Movable child) {
+    public final void addOptionalChild(Movable child) {
         //TODO need to be done?
     }
 
     @Override
-    public void removeChild(Movable child) {
+    public final void removeChild(Movable child) {
         //TODO need to be done?
     }
 
     @Override
-    public Movable getInternal() {
-        //TODO correct?
+    public final Movable getInternal() {
         return this;
     }
 
     @Override
-    public void sleep(final boolean b) {
+    public final void sleep(final boolean b) {
         //no sleep as static
     }
 
     @Override
-    public void scale(final float x, final float y, final float z) {
+    public final void scale(final float x, final float y, final float z) {
         //no scale as static
     }
 
     @Override
-    public void rotate(final float x, final float y, final float z, final float w) {
+    public final void rotate(final float x, final float y, final float z, final float w) {
         //no rotate as static
     }
 
     @Override
-    public void delete() {
+    public final void delete() {
         //FIXME implements
     }
 
@@ -109,12 +108,12 @@ final class StaticDoodad extends AbstractStaticObject implements ServerGameObjec
      * Game entity id, world value as it has no interaction with the game..
      */
     @Override
-    public EntityId getId() {
+    public final EntityId getId() {
         return EntityId.WORLD;
     }
 
     @Override
-    public Point3D getScaleSize() {
+    public final Point3D getScaleSize() {
         return scaleSize;
     }
 }

@@ -24,20 +24,20 @@
  */
 package be.yildizgames.engine.server;
 
-import be.yildizgames.common.model.Version;
-import be.yildizgames.engine.server.config.ServerConfiguration;
-import be.yildizgames.engine.server.internal.SimpleGameEngine;
+import be.yildizgames.common.exception.implementation.ImplementationException;
+import be.yildizgames.engine.server.configuration.ServerConfiguration;
+import be.yildizgames.engine.server.internal.StandardGameEngine;
 
 public class GameEngineFactory {
 
     /**
      * Create a new instance of the game engine.
      * @param config Client configuration.
-     * @param version Game version.
      * @return The created instance.
      */
-    public static GameEngine build(ServerConfiguration config, Version version) {
-        return new SimpleGameEngine(config, version);
+    public static GameEngine fromConfig(ServerConfiguration config) {
+        ImplementationException.throwForNull(config);
+        return new StandardGameEngine(config);
     }
 
 }

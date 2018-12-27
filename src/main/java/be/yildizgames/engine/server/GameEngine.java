@@ -37,7 +37,27 @@ public interface GameEngine {
      */
     void addInitializable(Initializable init);
 
+    /**
+     * Provide the physic engine.
+     * @return The physic engine.
+     */
     PhysicEngine getPhysicEngine();
 
+    NetworkEngine getNetworkEngine();
+
+    /**
+     * Create a new world.
+     * @return The created world.
+     */
     ServerWorld createWorld();
+
+    /**
+     * Start the engine.
+     */
+    void start();
+
+    /**
+     * Close the engine.
+     */
+    void close();
 }

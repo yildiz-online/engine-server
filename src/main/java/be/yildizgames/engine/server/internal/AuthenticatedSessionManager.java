@@ -26,7 +26,8 @@ package be.yildizgames.engine.server.internal;
 
 import be.yildizgames.common.authentication.Token;
 import be.yildizgames.common.authentication.protocol.mapper.TokenMapper;
-import be.yildizgames.common.logging.LogFactory;
+import be.yildizgames.common.exception.implementation.ImplementationException;
+import be.yildizgames.engine.server.NetworkEngine;
 import be.yildizgames.module.messaging.Broker;
 import be.yildizgames.module.messaging.BrokerMessageDestination;
 import be.yildizgames.module.messaging.JmsMessageProducer;
@@ -34,19 +35,17 @@ import be.yildizgames.module.messaging.Message;
 import be.yildizgames.module.network.protocol.MessageWrapper;
 import be.yildizgames.module.network.server.Session;
 import be.yildizgames.module.network.server.SessionManager;
-import org.slf4j.Logger;
 
 /**
  * @author Grégory Van den Borre
  */
-public class AuthenticatedSessionManager extends SessionManager {
-
-    private static final Logger LOGGER = LogFactory.getInstance().getLogger(AuthenticatedSessionManager.class);
+class AuthenticatedSessionManager extends SessionManager implements NetworkEngine {
 
     private final JmsMessageProducer producer;
 
     AuthenticatedSessionManager(Broker broker) {
         super();
+        ImplementationException.throwForNull(broker);
         BrokerMessageDestination destination = broker.registerQueue("authenticate");
         destination.createConsumer(this::authenticationResponse);
         this.producer = destination.createProducer();

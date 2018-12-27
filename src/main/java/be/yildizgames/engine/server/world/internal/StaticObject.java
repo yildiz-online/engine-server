@@ -37,7 +37,7 @@ import be.yildizgames.module.physics.StaticBody;
  *
  * @author Grégory Van den Borre
  */
-public final class StaticObject extends AbstractStaticObject implements ServerGameObject {
+class StaticObject extends AbstractStaticObject implements ServerGameObject {
 
     /**
      * Physic static body.
@@ -47,67 +47,66 @@ public final class StaticObject extends AbstractStaticObject implements ServerGa
     /**
      * Current scaling factor.
      */
-    protected Point3D scaleSize = Point3D.valueOf(1);
+    private Point3D scaleSize = Point3D.valueOf(1);
 
     /**
      * Full constructor.
      *
-     * @param initialPosition  Immutable object position.
-     * @param initialDirection Immutable object direction.
+     * @param body  Wrapped body.
      */
-    StaticObject(final StaticBody body, final Point3D initialPosition, final Point3D initialDirection) {
-        super(initialPosition, initialDirection);
+    StaticObject(final StaticBody body) {
+        super(body.getPosition(), body.getDirection());
         this.body = body;
     }
 
     @Override
-    public void delete() {
+    public final void delete() {
         this.body.delete();
     }
 
     @Override
-    public EntityId getId() {
+    public final EntityId getId() {
         return this.body.getId();
     }
 
     @Override
-    public void rotate(float x, float y, float z, float w) {
+    public final void rotate(float x, float y, float z, float w) {
         //Does nothing
     }
 
     @Override
-    public Point3D getScaleSize() {
+    public final Point3D getScaleSize() {
         return this.scaleSize;
     }
 
     @Override
-    public void scale(final float x, final float y, final float z) {
+    public final void scale(final float x, final float y, final float z) {
         this.scaleSize = Point3D.valueOf(x, y, z);
         this.body.scale(x, y, z);
     }
 
     @Override
-    public void sleep(boolean b) {
+    public final void sleep(boolean b) {
         this.body.sleep(b);
     }
 
     @Override
-    public void detachFromParent() {
+    public final void detachFromParent() {
+        //Does nothing, static have no parent as it cannot move/rotate.
+    }
+
+    @Override
+    public final void addOptionalChild(Movable child) {
         //TODO implements
     }
 
     @Override
-    public void addOptionalChild(Movable child) {
+    public final void removeChild(Movable child) {
         //TODO implements
     }
 
     @Override
-    public void removeChild(Movable child) {
-        //TODO implements
-    }
-
-    @Override
-    public Movable getInternal() {
+    public final Movable getInternal() {
         return this.body;
     }
 }
