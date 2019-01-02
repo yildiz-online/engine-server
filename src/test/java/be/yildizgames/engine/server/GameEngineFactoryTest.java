@@ -70,6 +70,11 @@ class GameEngineFactoryTest {
         }
 
         @Override
+        public String getAuthenticationMethod() {
+            return "none";
+        }
+
+        @Override
         public String getBrokerHost() {
             return "localhost";
         }
