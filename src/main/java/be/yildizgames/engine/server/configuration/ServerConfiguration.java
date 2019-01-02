@@ -47,4 +47,5 @@ public interface ServerConfiguration extends BrokerProperties {
     //@Ensures return value != null
     Version getVersion();
 
+    String getAuthenticationMethod();
 }

@@ -66,7 +66,7 @@ public final class StandardGameEngine extends AbstractGameEngine implements Auto
      */
     private final DataInitializer initializer;
 
-    private final AuthenticatedSessionManager sessionManager;
+    private final BaseSessionManager sessionManager;
 
     /**
      * <code>true</code> if the engine is currently running, <code>false</code> otherwise.
@@ -86,11 +86,21 @@ public final class StandardGameEngine extends AbstractGameEngine implements Auto
         LOGGER.info("Starting server game engine(PID:{})...", Util.getPid());
         this.physicEngine = BasePhysicEngine.getEngine();
         this.initializer = new DataInitializer();
-        this.sessionManager = new AuthenticatedSessionManager(Broker.getBroker(config));
+        switch(config.getAuthenticationMethod()) {
+            case "authentication-server-async":
+                this.sessionManager = new AuthenticatedSessionManager(Broker.getBroker(config));
+                break;
+            case "none":
+                this.sessionManager = new NoAuthenticationSessionManager();
+                break;
+            default:
+                this.sessionManager = new AuthenticatedSessionManager(Broker.getBroker(config));
+                break;
+        }
         Runtime.getRuntime().addShutdownHook(new Thread(this::close));
         Server
                 .getEngine()
-                .startServer(config.getApplicationPort(), sessionManager, DecoderEncoder.WEBSOCKET);
+                .startServer(config.getApplicationPort(), this.sessionManager, DecoderEncoder.WEBSOCKET);
     }
 
     @Override
@@ -100,16 +110,16 @@ public final class StandardGameEngine extends AbstractGameEngine implements Auto
 
     @Override
     public void start() {
-        LOGGER.info("Starting server data initialization...");
+        LOGGER.info("initializing server game engine...");
         this.initializer.initialize();
-        LOGGER.info("Server data initialized.");
+        LOGGER.info("Server game engine initialized.");
         LOGGER.info("Server game engine started.");
         this.setFrameLimiter(FPS);
         this.running = true;
         while (this.running) {
             this.runOneFrame();
         }
-        LOGGER.info("Closing engine.");
+        LOGGER.info("Closing server game engine.");
     }
 
     @Override
