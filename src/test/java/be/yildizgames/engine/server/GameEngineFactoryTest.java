@@ -83,6 +83,11 @@ class GameEngineFactoryTest {
         public String getBrokerDataFolder() {
             return "temp";
         }
+
+        @Override
+        public boolean getBrokerInternal() {
+            return true;
+        }
     }
 
 }

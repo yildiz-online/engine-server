@@ -29,7 +29,7 @@
   <url>https://bitbucket.org/yildiz-engine-team/engine-server</url>
 
   <artifactId>engine-server</artifactId>
-  <version>1.0.2</version>
+  <version>1.0.3</version>
 
   <packaging>jar</packaging>
   <inceptionYear>2011</inceptionYear>
@@ -58,7 +58,7 @@
     <dependency>
       <groupId>be.yildiz-games</groupId>
       <artifactId>module-messaging</artifactId>
-      <version>1.0.2</version>
+      <version>1.0.3</version>
     </dependency>
     <dependency>
       <groupId>be.yildiz-games</groupId>
