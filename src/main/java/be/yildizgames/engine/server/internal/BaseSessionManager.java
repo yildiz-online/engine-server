@@ -23,8 +23,17 @@
  */
 package be.yildizgames.engine.server.internal;
 
+import be.yildizgames.common.authentication.Token;
+import be.yildizgames.common.authentication.protocol.mapper.TokenMapper;
 import be.yildizgames.engine.server.NetworkEngine;
+import be.yildizgames.module.network.protocol.NetworkMessage;
 import be.yildizgames.module.network.server.SessionManager;
 
 abstract class BaseSessionManager extends SessionManager implements NetworkEngine {
+
+    private static final int AUTHENTICATION_COMMAND = 110;
+
+    protected NetworkMessage<Token> generateAuthenticationMessage(Token token) {
+        return new NetworkMessage<>(token, TokenMapper.getInstance(), AUTHENTICATION_COMMAND);
+    }
 }

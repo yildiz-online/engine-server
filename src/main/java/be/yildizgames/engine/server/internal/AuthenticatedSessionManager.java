@@ -64,9 +64,9 @@ class AuthenticatedSessionManager extends BaseSessionManager {
         Session s = this.getSessionByPlayer(token.getId());
         if (token.isAuthenticated()) {
             s.setAuthenticated();
-            s.sendMessage(m.getText());
+            s.sendMessage(this.generateAuthenticationMessage(token));
         } else {
-            s.sendMessage(TokenMapper.getInstance().to(Token.authenticationFailed()));
+            s.sendMessage(this.generateAuthenticationMessage(Token.authenticationFailed()));
         }
     }
 }
