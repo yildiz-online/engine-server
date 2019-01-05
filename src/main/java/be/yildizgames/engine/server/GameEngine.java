@@ -45,6 +45,8 @@ public interface GameEngine {
 
     NetworkEngine getNetworkEngine();
 
+    PersistenceEngine getPersistenceEngine();
+
     /**
      * Create a new world.
      * @return The created world.
