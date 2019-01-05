@@ -28,6 +28,7 @@ package be.yildizgames.engine.server.internal;
 import be.yildizgames.common.util.Util;
 import be.yildizgames.engine.server.GameEngine;
 import be.yildizgames.engine.server.NetworkEngine;
+import be.yildizgames.engine.server.PersistenceEngine;
 import be.yildizgames.engine.server.configuration.ServerConfiguration;
 import be.yildizgames.engine.server.world.ServerWorld;
 import be.yildizgames.engine.server.world.internal.EnginePhysicWorld;
@@ -75,6 +76,8 @@ public final class StandardGameEngine extends AbstractGameEngine implements Auto
 
     private boolean check;
 
+    private final PersistenceEngine persistenceEngine;
+
     /**
      * Full constructor, initialize the physic and the network engines, create the data manager.
      * Also add a shutdown hook to handle gracefully the termination signal.
@@ -85,6 +88,7 @@ public final class StandardGameEngine extends AbstractGameEngine implements Auto
         super(config.getVersion());
         LOGGER.info("Starting server game engine(PID:{})...", Util.getPid());
         this.physicEngine = BasePhysicEngine.getEngine();
+        this.persistenceEngine = new DatabasePersistenceEngine();
         this.initializer = new DataInitializer();
         switch(config.getAuthenticationMethod()) {
             case "authentication-server-async":
@@ -146,6 +150,11 @@ public final class StandardGameEngine extends AbstractGameEngine implements Auto
     @Override
     public NetworkEngine getNetworkEngine() {
         return this.sessionManager;
+    }
+
+    @Override
+    public PersistenceEngine getPersistenceEngine() {
+        return this.persistenceEngine;
     }
 
     public ServerWorld createWorld() {
