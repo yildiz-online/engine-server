@@ -29,7 +29,7 @@
   <url>https://bitbucket.org/yildiz-engine-team/engine-server</url>
 
   <artifactId>engine-server</artifactId>
-  <version>1.0.5</version>
+  <version>1.0.6</version>
 
   <packaging>jar</packaging>
   <inceptionYear>2011</inceptionYear>
@@ -57,6 +57,11 @@
     </dependency>
     <dependency>
       <groupId>be.yildiz-games</groupId>
+      <artifactId>module-database</artifactId>
+      <version>2.0.3</version>
+    </dependency>
+    <dependency>
+      <groupId>be.yildiz-games</groupId>
       <artifactId>module-messaging</artifactId>
       <version>1.0.3</version>
     </dependency>
@@ -81,4 +86,12 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+
+  <distributionManagement>
+    <repository>
+      <id>yildiz-nexus-release</id>
+      <name>Releases</name>
+      <url>https://nexus.yildiz-games.be/repository/Yildiz-Engine-Release/</url>
+    </repository>
+  </distributionManagement>
 </project>
