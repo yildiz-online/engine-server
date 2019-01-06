@@ -29,7 +29,7 @@
   <url>https://bitbucket.org/yildiz-engine-team/engine-server</url>
 
   <artifactId>engine-server</artifactId>
-  <version>1.0.6</version>
+  <version>1.0.7-SNAPSHOT</version>
 
   <packaging>jar</packaging>
   <inceptionYear>2011</inceptionYear>
