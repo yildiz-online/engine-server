@@ -34,17 +34,39 @@ import java.util.List;
 import java.util.Set;
 
 /**
+ * Network engine to manage session and send messages.
  * @author Grégory Van den Borre
  */
 public interface NetworkEngine {
 
+    /**
+     * Retrieve the session for a given player, if the player is offline, it will be a disconnected session.
+     * @param player Id of the player to get the session.
+     * @return The session for the given player.
+     */
     Session getSessionByPlayer(PlayerId player);
 
+    /**
+     * Disconnect a session.
+     * @param session Session to disconnect.
+     */
     void disconnectSession(Session session);
 
+    /**
+     * Add a session listener to be notified of the message received and other session events.
+     * @param listener Listener to register.
+     */
     void addSessionListener(SessionListener listener);
 
+    /**
+     * Retrieve all connected players.
+     * @return A set of connected players.
+     */
     Set<PlayerId> getActivePlayers();
 
+    /**
+     * Retrieve all connected sessions.
+     * @return A list of connected sessions.
+     */
     List<Session> getActiveSessions();
 }

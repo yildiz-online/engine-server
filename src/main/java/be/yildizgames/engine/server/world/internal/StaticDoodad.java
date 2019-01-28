@@ -71,12 +71,12 @@ class StaticDoodad extends AbstractStaticObject implements ServerGameObject {
 
     @Override
     public final void addOptionalChild(Movable child) {
-        //TODO need to be done?
+        //does nothing
     }
 
     @Override
     public final void removeChild(Movable child) {
-        //TODO need to be done?
+        //does nothing
     }
 
     @Override
@@ -101,7 +101,7 @@ class StaticDoodad extends AbstractStaticObject implements ServerGameObject {
 
     @Override
     public final void delete() {
-        //FIXME implements
+        //Does nothing, nothing to delete.
     }
 
     /**

@@ -28,6 +28,10 @@ import be.yildizgames.engine.server.world.ServerWorld;
 import be.yildizgames.module.physics.PhysicEngine;
 import be.yildizgames.shared.game.engine.Initializable;
 
+/**
+ * Game engine for a server.
+ * @author Grégory Van den Borre
+ */
 public interface GameEngine {
 
     /**
@@ -43,8 +47,16 @@ public interface GameEngine {
      */
     PhysicEngine getPhysicEngine();
 
+    /**
+     * Provide the network engine.
+     * @return The network engine.
+     */
     NetworkEngine getNetworkEngine();
 
+    /**
+     * Provide the persistence engine.
+     * @return The persistence engine.
+     */
     PersistenceEngine getPersistenceEngine();
 
     /**

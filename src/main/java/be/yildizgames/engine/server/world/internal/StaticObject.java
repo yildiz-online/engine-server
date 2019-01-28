@@ -92,17 +92,17 @@ class StaticObject extends AbstractStaticObject implements ServerGameObject {
 
     @Override
     public final void detachFromParent() {
-        //Does nothing, static have no parent as it cannot move/rotate.
+        this.body.detachFromParent();
     }
 
     @Override
     public final void addOptionalChild(Movable child) {
-        //TODO implements
+        this.body.addOptionalChild(child);
     }
 
     @Override
     public final void removeChild(Movable child) {
-        //TODO implements
+        this.body.removeChild(child);
     }
 
     @Override

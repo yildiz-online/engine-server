@@ -28,6 +28,10 @@ import be.yildizgames.common.exception.implementation.ImplementationException;
 import be.yildizgames.engine.server.configuration.ServerConfiguration;
 import be.yildizgames.engine.server.internal.StandardGameEngine;
 
+/**
+ * Create the game engine.
+ * @author Grégory Van den Borre
+ */
 public class GameEngineFactory {
 
     /**
@@ -39,5 +43,4 @@ public class GameEngineFactory {
         ImplementationException.throwForNull(config);
         return new StandardGameEngine(config);
     }
-
 }
