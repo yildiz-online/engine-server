@@ -1,9 +1,9 @@
 /*
  * This file is part of the Yildiz-Engine project, licenced under the MIT License  (MIT)
  *
- * Copyright (c) 2018 Grégory Van den Borre
+ * Copyright (c) 2019 Grégory Van den Borre
  *
- * More infos available: https://www.yildiz-games.be
+ * More infos available: https://engine.yildiz-games.be
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this
  * software and associated documentation files (the "Software"), to deal in the Software
@@ -24,20 +24,15 @@
  */
 package be.yildizgames.engine.server.world.internal;
 
+import be.yildizgames.common.exception.implementation.ImplementationException;
 import be.yildizgames.common.gameobject.CollisionListener;
 import be.yildizgames.common.geometry.Point3D;
 import be.yildizgames.common.model.EntityId;
-import be.yildizgames.common.shape.Box;
-import be.yildizgames.common.shape.Sphere;
-import be.yildizgames.engine.server.world.ServerGameObject;
+import be.yildizgames.engine.server.world.ServerGameObjectBuilder;
 import be.yildizgames.engine.server.world.ServerWorld;
-import be.yildizgames.module.physics.GhostObject;
 import be.yildizgames.module.physics.Gravity;
-import be.yildizgames.module.physics.KinematicBody;
-import be.yildizgames.module.physics.PhysicMesh;
 import be.yildizgames.module.physics.PhysicWorld;
 import be.yildizgames.module.physics.RaycastResult;
-import be.yildizgames.module.physics.StaticBody;
 import be.yildizgames.module.physics.World;
 
 public class EnginePhysicWorld implements ServerWorld, World {
@@ -49,158 +44,48 @@ public class EnginePhysicWorld implements ServerWorld, World {
 
     public EnginePhysicWorld(PhysicWorld physicWorld) {
         super();
-        assert  physicWorld != null;
+        ImplementationException.throwForNull(physicWorld);
         this.physicWorld = physicWorld;
     }
 
     @Override
-    public ServerGameObject createStaticObject(final EntityId id, final Box box, final Point3D position, final Point3D direction) {
-        StaticBody body = this.physicWorld
-                .createObject()
-                .withId(id)
-                .withShape(box)
-                .atPosition(position)
-                .withDirection(direction)
-                .buildStatic();
-        return new StaticObject(body);
+    public ServerGameObjectBuilder createObjectBuilder() {
+        return new ServerObjectBuilder(this.physicWorld.createObject());
     }
 
     @Override
-    public ServerGameObject createStaticObject(final EntityId id, final Box box, final Point3D position) {
-        return this.createStaticObject(id, box, position, Point3D.BASE_DIRECTION);
-    }
-
-    @Override
-    public ServerGameObject createStaticObject(final EntityId id, final Sphere sphere, final Point3D position, final Point3D direction) {
-        StaticBody body = this.physicWorld
-                .createObject()
-                .withId(id)
-                .withShape(sphere)
-                .atPosition(position)
-                .withDirection(direction)
-                .buildStatic();
-        return new StaticObject(body);
-    }
-
-    @Override
-    public ServerGameObject createStaticObject(final EntityId id, final Sphere sphere, final Point3D position) {
-        return this.createStaticObject(id, sphere, position, Point3D.BASE_DIRECTION);
-    }
-
-    @Override
-    public ServerGameObject createStaticObject(final EntityId id, final PhysicMesh mesh, final Point3D position, final Point3D direction) {
-        StaticBody body = this.physicWorld
-                .createObject()
-                .withId(id)
-                .withShape(mesh)
-                .atPosition(position)
-                .withDirection(direction)
-                .buildStatic();
-        return new StaticObject(body);
-    }
-
-    @Override
-    public ServerGameObject createStaticObject(final EntityId id, final PhysicMesh mesh, final Point3D position) {
-        return this.createStaticObject(id, mesh, position, Point3D.BASE_DIRECTION);
-    }
-
-    @Override
-    public ServerGameObject createMovableObject(final EntityId id, final Box box, final Point3D position) {
-        KinematicBody body = this.physicWorld
-                .createObject()
-                .withId(id)
-                .withShape(box)
-                .atPosition(position)
-                .buildKinematic();
-        return new MovableObject(body);
-    }
-
-    @Override
-    public ServerGameObject createMovableObject(final EntityId id, final Sphere sphere, final Point3D position) {
-        KinematicBody body = this.physicWorld
-                .createObject()
-                .withId(id)
-                .withShape(sphere)
-                .atPosition(position)
-                .buildKinematic();
-        return new MovableObject(body);
-    }
-
-    @Override
-    public ServerGameObject createMovableObject(final EntityId id, final PhysicMesh mesh, final Point3D position) {
-        KinematicBody body = this.physicWorld
-                .createObject()
-                .withId(id)
-                .withShape(mesh)
-                .atPosition(position)
-                .buildKinematic();
-        return new MovableObject(body);
-    }
-
-    @Override
-    public RaycastResult throwRay(final Point3D origin, final Point3D destination) {
+    public final RaycastResult throwRay(final Point3D origin, final Point3D destination) {
         return this.physicWorld.throwRay(origin, destination);
     }
 
     @Override
-    public EntityId throwSimpleRay(final Point3D origin, final Point3D destination) {
+    public final EntityId throwSimpleRay(final Point3D origin, final Point3D destination) {
         return this.physicWorld.throwSimpleRay(origin, destination);
     }
 
     @Override
-    public Point3D getGravity() {
+    public final Point3D getGravity() {
         return this.physicWorld.getGravity();
     }
 
     @Override
-    public EnginePhysicWorld setGravity(final Gravity newGravity) {
+    public final EnginePhysicWorld setGravity(final Gravity newGravity) {
         this.physicWorld.setGravity(newGravity);
         return this;
     }
 
     @Override
-    public void setGravity(final float gravityX, final float gravityY, final float gravityZ) {
+    public final void setGravity(final float gravityX, final float gravityY, final float gravityZ) {
         this.physicWorld.setGravity(gravityX, gravityY, gravityZ);
     }
 
     @Override
-    public GhostObject createGhostObject(final EntityId id, final Box box, final Point3D position) {
-        return this.physicWorld
-                .createObject()
-                .withId(id)
-                .withShape(box)
-                .atPosition(position)
-                .buildGhost();
-    }
-
-    @Override
-    public GhostObject createGhostObject(final EntityId id, final Sphere sphere, final Point3D position) {
-        return this.physicWorld
-                .createObject()
-                .withId(id)
-                .withShape(sphere)
-                .atPosition(position)
-                .buildGhost();
-    }
-
-    @Override
-    public ServerGameObject createStaticDoodad(final Point3D position, final Point3D direction) {
-        return new StaticDoodad(position, direction);
-    }
-
-    @Override
-    public ServerGameObject createStaticDoodad(final EntityId id, final Point3D position, final Point3D direction) {
-        // FIXME id ignored?
-        return this.createStaticDoodad(position, direction);
-    }
-
-    @Override
-    public void addCollisionListener(final CollisionListener c) {
+    public final void addCollisionListener(final CollisionListener c) {
         this.physicWorld.addCollisionListener(c);
     }
 
     @Override
-    public void addGhostCollisionListener(final CollisionListener c) {
+    public final void addGhostCollisionListener(final CollisionListener c) {
         this.physicWorld.addGhostCollisionListener(c);
     }
 }

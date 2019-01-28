@@ -1,9 +1,9 @@
 /*
  * This file is part of the Yildiz-Engine project, licenced under the MIT License  (MIT)
  *
- * Copyright (c) 2018 Grégory Van den Borre
+ * Copyright (c) 2019 Grégory Van den Borre
  *
- * More infos available: https://www.yildiz-games.be
+ * More infos available: https://engine.yildiz-games.be
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this
  * software and associated documentation files (the "Software"), to deal in the Software
@@ -28,6 +28,10 @@ import be.yildizgames.engine.server.world.ServerWorld;
 import be.yildizgames.module.physics.PhysicEngine;
 import be.yildizgames.shared.game.engine.Initializable;
 
+/**
+ * Game engine for a server.
+ * @author Grégory Van den Borre
+ */
 public interface GameEngine {
 
     /**
@@ -43,8 +47,16 @@ public interface GameEngine {
      */
     PhysicEngine getPhysicEngine();
 
+    /**
+     * Provide the network engine.
+     * @return The network engine.
+     */
     NetworkEngine getNetworkEngine();
 
+    /**
+     * Provide the persistence engine.
+     * @return The persistence engine.
+     */
     PersistenceEngine getPersistenceEngine();
 
     /**

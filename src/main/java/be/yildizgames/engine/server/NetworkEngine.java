@@ -2,9 +2,9 @@
  *
  * This file is part of the Yildiz-Engine project, licenced under the MIT License  (MIT)
  *
- * Copyright (c) 2018 Grégory Van den Borre
+ * Copyright (c) 2019 Grégory Van den Borre
  *
- * More infos available: https://www.yildiz-games.be
+ * More infos available: https://engine.yildiz-games.be
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  * documentation files (the "Software"), to deal in the Software without restriction, including without
@@ -34,17 +34,39 @@ import java.util.List;
 import java.util.Set;
 
 /**
+ * Network engine to manage session and send messages.
  * @author Grégory Van den Borre
  */
 public interface NetworkEngine {
 
+    /**
+     * Retrieve the session for a given player, if the player is offline, it will be a disconnected session.
+     * @param player Id of the player to get the session.
+     * @return The session for the given player.
+     */
     Session getSessionByPlayer(PlayerId player);
 
+    /**
+     * Disconnect a session.
+     * @param session Session to disconnect.
+     */
     void disconnectSession(Session session);
 
+    /**
+     * Add a session listener to be notified of the message received and other session events.
+     * @param listener Listener to register.
+     */
     void addSessionListener(SessionListener listener);
 
+    /**
+     * Retrieve all connected players.
+     * @return A set of connected players.
+     */
     Set<PlayerId> getActivePlayers();
 
+    /**
+     * Retrieve all connected sessions.
+     * @return A list of connected sessions.
+     */
     List<Session> getActiveSessions();
 }

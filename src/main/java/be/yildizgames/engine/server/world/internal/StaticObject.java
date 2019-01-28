@@ -1,9 +1,9 @@
 /*
  * This file is part of the Yildiz-Engine project, licenced under the MIT License  (MIT)
  *
- * Copyright (c) 2018 Grégory Van den Borre
+ * Copyright (c) 2019 Grégory Van den Borre
  *
- * More infos available: https://www.yildiz-games.be
+ * More infos available: https://engine.yildiz-games.be
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this
  * software and associated documentation files (the "Software"), to deal in the Software
@@ -92,17 +92,17 @@ class StaticObject extends AbstractStaticObject implements ServerGameObject {
 
     @Override
     public final void detachFromParent() {
-        //Does nothing, static have no parent as it cannot move/rotate.
+        this.body.detachFromParent();
     }
 
     @Override
     public final void addOptionalChild(Movable child) {
-        //TODO implements
+        this.body.addOptionalChild(child);
     }
 
     @Override
     public final void removeChild(Movable child) {
-        //TODO implements
+        this.body.removeChild(child);
     }
 
     @Override
