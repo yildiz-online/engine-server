@@ -35,18 +35,18 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Grégory Van den Borre
  */
-class AuthenticatedSessionManagerTest {
+public class AuthenticatedSessionManagerTest {
 
     @Nested
-    class Constructor {
+    public class Constructor {
 
         @Test
-        void happyFlow() {
+        public void happyFlow() {
         }
 
         @Disabled
         @Test
-        void nullParam() {
+        public void nullParam() {
             Assertions.assertThrows(ImplementationException.class, () -> new AuthenticatedSessionManager(null));
         }
 
