@@ -72,7 +72,7 @@ class AuthenticatedSessionManager extends BaseSessionManager {
     private void authenticationResponse(Message m) {
         Token token = TokenMapper.getInstance().from(m.getText());
         Session s = this.sessionByCorrelationId.remove(m.getCorrelationId());
-        if (token.isAuthenticated() && s != null) {
+        if (token.isAuthenticated() && s != null && s.isConnected()) {
             s.setAuthenticated();
             s.setPlayer(token.getId());
             s.sendMessage(this.generateAuthenticationMessage(token));
