@@ -29,10 +29,15 @@ import be.yildizgames.common.authentication.protocol.mapper.TokenMapper;
 import be.yildizgames.common.exception.implementation.ImplementationException;
 import be.yildizgames.module.messaging.Broker;
 import be.yildizgames.module.messaging.BrokerMessageDestination;
+import be.yildizgames.module.messaging.Header;
 import be.yildizgames.module.messaging.JmsMessageProducer;
 import be.yildizgames.module.messaging.Message;
 import be.yildizgames.module.network.protocol.MessageWrapper;
 import be.yildizgames.module.network.server.Session;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * Session manager implementation requiring to be authenticated against an authentication server.
@@ -41,6 +46,8 @@ import be.yildizgames.module.network.server.Session;
 class AuthenticatedSessionManager extends BaseSessionManager {
 
     private final JmsMessageProducer producer;
+
+    private final Map<String, Session> sessionByCorrelationId = new HashMap<>();
 
     AuthenticatedSessionManager(Broker broker) {
         super();
@@ -52,7 +59,9 @@ class AuthenticatedSessionManager extends BaseSessionManager {
 
     @Override
     protected void authenticate(Session session, MessageWrapper message) {
-        this.producer.sendMessage(message.message);
+        String uid = UUID.randomUUID().toString();
+        this.sessionByCorrelationId.put(uid, session);
+        this.producer.sendMessage(message.message, Header.correlationId(uid));
     }
 
     @Override
@@ -62,8 +71,8 @@ class AuthenticatedSessionManager extends BaseSessionManager {
 
     private void authenticationResponse(Message m) {
         Token token = TokenMapper.getInstance().from(m.getText());
-        Session s = this.getSessionByPlayer(token.getId());
-        if (token.isAuthenticated()) {
+        Session s = this.sessionByCorrelationId.remove(m.getCorrelationId());
+        if (token.isAuthenticated() && s != null) {
             s.setAuthenticated();
             s.setPlayer(token.getId());
             s.sendMessage(this.generateAuthenticationMessage(token));
