@@ -35,6 +35,7 @@ import be.yildizgames.module.network.protocol.MessageWrapper;
 import be.yildizgames.module.network.server.Session;
 
 /**
+ * Session manager implementation requiring to be authenticated against an authentication server.
  * @author Grégory Van den Borre
  */
 class AuthenticatedSessionManager extends BaseSessionManager {
