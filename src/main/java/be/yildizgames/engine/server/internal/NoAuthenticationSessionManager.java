@@ -28,6 +28,6 @@ class NoAuthenticationSessionManager extends BaseSessionManager {
 
     @Override
     public final void update() {
-
+        //does nothing
     }
 }

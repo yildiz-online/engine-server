@@ -37,6 +37,7 @@ import be.yildizgames.module.network.server.Session;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -71,13 +72,15 @@ class AuthenticatedSessionManager extends BaseSessionManager {
 
     private void authenticationResponse(Message m) {
         Token token = TokenMapper.getInstance().from(m.getText());
-        Session s = this.sessionByCorrelationId.remove(m.getCorrelationId());
-        if (token.isAuthenticated() && s != null && s.isConnected()) {
-            s.setAuthenticated();
-            s.setPlayer(token.getId());
-            s.sendMessage(this.generateAuthenticationMessage(token));
-        } else {
-            s.sendMessage(this.generateAuthenticationMessage(Token.authenticationFailed()));
-        }
+        Optional.ofNullable(this.sessionByCorrelationId.remove(m.getCorrelationId()))
+                .ifPresent(s -> {
+                    if (token.isAuthenticated() && s.isConnected()) {
+                        s.setAuthenticated();
+                        s.setPlayer(token.getId());
+                        s.sendMessage(this.generateAuthenticationMessage(token));
+                    } else {
+                        s.sendMessage(this.generateAuthenticationMessage(Token.authenticationFailed()));
+                    }
+                });
     }
 }
