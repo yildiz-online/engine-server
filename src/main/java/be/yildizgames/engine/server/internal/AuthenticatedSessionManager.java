@@ -25,6 +25,7 @@
 package be.yildizgames.engine.server.internal;
 
 import be.yildizgames.common.authentication.Token;
+import be.yildizgames.common.authentication.protocol.Queues;
 import be.yildizgames.common.authentication.protocol.mapper.TokenMapper;
 import be.yildizgames.common.exception.implementation.ImplementationException;
 import be.yildizgames.module.messaging.Broker;
@@ -53,9 +54,10 @@ class AuthenticatedSessionManager extends BaseSessionManager {
     AuthenticatedSessionManager(Broker broker) {
         super();
         ImplementationException.throwForNull(broker);
-        BrokerMessageDestination destination = broker.registerQueue("authenticate");
-        destination.createConsumer(this::authenticationResponse);
-        this.producer = destination.createProducer();
+        BrokerMessageDestination destinationProducer = broker.registerQueue(Queues.AUTHENTICATION_REQUEST.getName());
+        BrokerMessageDestination destinationConsumer = broker.registerQueue(Queues.AUTHENTICATION_RESPONSE.getName());
+        destinationConsumer.createConsumer(this::authenticationResponse);
+        this.producer = destinationProducer.createProducer();
     }
 
     @Override
