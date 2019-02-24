@@ -25,7 +25,6 @@
 
 package be.yildizgames.engine.server.internal;
 
-import be.yildizgames.common.util.Util;
 import be.yildizgames.engine.server.GameEngine;
 import be.yildizgames.engine.server.NetworkEngine;
 import be.yildizgames.engine.server.PersistenceEngine;
@@ -83,10 +82,9 @@ public final class StandardGameEngine extends AbstractGameEngine implements Auto
      * Also add a shutdown hook to handle gracefully the termination signal.
      * @param config Server configuration.
      */
-    //@effect Create a new engine.
     public StandardGameEngine(ServerConfiguration config) {
         super(config.getVersion());
-        LOGGER.info("Starting server game engine(PID:{})...", Util.getPid());
+        LOGGER.info("Starting server game engine...");
         this.physicEngine = BasePhysicEngine.getEngine();
         this.persistenceEngine = new DatabasePersistenceEngine();
         this.initializer = new DataInitializer();
@@ -157,6 +155,7 @@ public final class StandardGameEngine extends AbstractGameEngine implements Auto
         return this.persistenceEngine;
     }
 
+    @Override
     public ServerWorld createWorld() {
         return new EnginePhysicWorld(this.physicEngine.createWorld());
     }

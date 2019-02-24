@@ -37,21 +37,21 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Grégory Van den Borre
  */
-class GameEngineFactoryTest {
+public class GameEngineFactoryTest {
 
     @Nested
-    class FromConfig {
+    public class FromConfig {
 
         @Disabled
         @Test
-        void happyFlow() {
+        public void happyFlow() {
             GameEngine engine = GameEngineFactory.fromConfig(new DummyServerConfig());
             Assertions.assertNotNull(engine);
         }
 
         @Disabled
         @Test
-        void nullParam() {
+        public void nullParam() {
             Assertions.assertThrows(ImplementationException.class, () -> GameEngineFactory.fromConfig(null));
         }
 

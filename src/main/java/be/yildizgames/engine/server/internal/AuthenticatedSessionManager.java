@@ -25,33 +25,46 @@
 package be.yildizgames.engine.server.internal;
 
 import be.yildizgames.common.authentication.Token;
+import be.yildizgames.common.authentication.protocol.Queues;
 import be.yildizgames.common.authentication.protocol.mapper.TokenMapper;
 import be.yildizgames.common.exception.implementation.ImplementationException;
 import be.yildizgames.module.messaging.Broker;
 import be.yildizgames.module.messaging.BrokerMessageDestination;
+import be.yildizgames.module.messaging.Header;
 import be.yildizgames.module.messaging.JmsMessageProducer;
 import be.yildizgames.module.messaging.Message;
 import be.yildizgames.module.network.protocol.MessageWrapper;
 import be.yildizgames.module.network.server.Session;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
+
 /**
+ * Session manager implementation requiring to be authenticated against an authentication server.
  * @author Grégory Van den Borre
  */
 class AuthenticatedSessionManager extends BaseSessionManager {
 
     private final JmsMessageProducer producer;
 
+    private final Map<String, Session> sessionByCorrelationId = new HashMap<>();
+
     AuthenticatedSessionManager(Broker broker) {
         super();
         ImplementationException.throwForNull(broker);
-        BrokerMessageDestination destination = broker.registerQueue("authenticate");
-        destination.createConsumer(this::authenticationResponse);
-        this.producer = destination.createProducer();
+        BrokerMessageDestination destinationProducer = broker.registerQueue(Queues.AUTHENTICATION_REQUEST.getName());
+        BrokerMessageDestination destinationConsumer = broker.registerQueue(Queues.AUTHENTICATION_RESPONSE.getName());
+        destinationConsumer.createConsumer(this::authenticationResponse);
+        this.producer = destinationProducer.createProducer();
     }
 
     @Override
     protected void authenticate(Session session, MessageWrapper message) {
-        this.producer.sendMessage(message.message);
+        String uid = UUID.randomUUID().toString();
+        this.sessionByCorrelationId.put(uid, session);
+        this.producer.sendMessage(message.message, Header.correlationId(uid));
     }
 
     @Override
@@ -61,13 +74,15 @@ class AuthenticatedSessionManager extends BaseSessionManager {
 
     private void authenticationResponse(Message m) {
         Token token = TokenMapper.getInstance().from(m.getText());
-        Session s = this.getSessionByPlayer(token.getId());
-        if (token.isAuthenticated()) {
-            s.setAuthenticated();
-            s.setPlayer(token.getId());
-            s.sendMessage(this.generateAuthenticationMessage(token));
-        } else {
-            s.sendMessage(this.generateAuthenticationMessage(Token.authenticationFailed()));
-        }
+        Optional.ofNullable(this.sessionByCorrelationId.remove(m.getCorrelationId()))
+                .ifPresent(s -> {
+                    if (token.isAuthenticated() && s.isConnected()) {
+                        s.setAuthenticated();
+                        s.setPlayer(token.getId());
+                        s.sendMessage(this.generateAuthenticationMessage(token));
+                    } else {
+                        s.sendMessage(this.generateAuthenticationMessage(Token.authenticationFailed()));
+                    }
+                });
     }
 }
