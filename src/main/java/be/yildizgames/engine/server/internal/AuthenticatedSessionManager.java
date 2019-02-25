@@ -29,10 +29,10 @@ import be.yildizgames.common.authentication.protocol.Queues;
 import be.yildizgames.common.authentication.protocol.mapper.TokenMapper;
 import be.yildizgames.common.exception.implementation.ImplementationException;
 import be.yildizgames.module.messaging.Broker;
+import be.yildizgames.module.messaging.BrokerMessage;
 import be.yildizgames.module.messaging.BrokerMessageDestination;
-import be.yildizgames.module.messaging.Header;
-import be.yildizgames.module.messaging.JmsMessageProducer;
-import be.yildizgames.module.messaging.Message;
+import be.yildizgames.module.messaging.BrokerMessageHeader;
+import be.yildizgames.module.messaging.BrokerMessageProducer;
 import be.yildizgames.module.network.protocol.MessageWrapper;
 import be.yildizgames.module.network.server.Session;
 
@@ -47,7 +47,7 @@ import java.util.UUID;
  */
 class AuthenticatedSessionManager extends BaseSessionManager {
 
-    private final JmsMessageProducer producer;
+    private final BrokerMessageProducer producer;
 
     private final Map<String, Session> sessionByCorrelationId = new HashMap<>();
 
@@ -64,7 +64,7 @@ class AuthenticatedSessionManager extends BaseSessionManager {
     protected void authenticate(Session session, MessageWrapper message) {
         String uid = UUID.randomUUID().toString();
         this.sessionByCorrelationId.put(uid, session);
-        this.producer.sendMessage(message.message, Header.correlationId(uid));
+        this.producer.sendMessage(message.message, BrokerMessageHeader.correlationId(uid));
     }
 
     @Override
@@ -72,7 +72,7 @@ class AuthenticatedSessionManager extends BaseSessionManager {
 
     }
 
-    private void authenticationResponse(Message m) {
+    private void authenticationResponse(BrokerMessage m) {
         Token token = TokenMapper.getInstance().from(m.getText());
         Optional.ofNullable(this.sessionByCorrelationId.remove(m.getCorrelationId()))
                 .ifPresent(s -> {
