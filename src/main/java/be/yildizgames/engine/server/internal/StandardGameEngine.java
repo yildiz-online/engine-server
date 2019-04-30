@@ -61,11 +61,6 @@ public final class StandardGameEngine extends AbstractGameEngine implements Auto
      */
     private final BasePhysicEngine physicEngine;
 
-    /**
-     * Class used to initialize the data.
-     */
-    private final DataInitializer initializer;
-
     private final BaseSessionManager sessionManager;
 
     /**
@@ -87,7 +82,6 @@ public final class StandardGameEngine extends AbstractGameEngine implements Auto
         LOGGER.info("Starting server game engine...");
         this.physicEngine = BasePhysicEngine.getEngine();
         this.persistenceEngine = new DatabasePersistenceEngine();
-        this.initializer = new DataInitializer();
         switch(config.getAuthenticationMethod()) {
             case "authentication-server-async":
                 this.sessionManager = new AuthenticatedSessionManager(Broker.getBroker(config));
@@ -106,14 +100,9 @@ public final class StandardGameEngine extends AbstractGameEngine implements Auto
     }
 
     @Override
-    public void addInitializable(final Initializable init) {
-        this.initializer.addInitializable(init);
-    }
-
-    @Override
     public void start() {
         LOGGER.info("initializing server game engine...");
-        this.initializer.initialize();
+        this.initialize();
         LOGGER.info("Server game engine initialized.");
         LOGGER.info("Server game engine started.");
         this.setFrameLimiter(FPS);
