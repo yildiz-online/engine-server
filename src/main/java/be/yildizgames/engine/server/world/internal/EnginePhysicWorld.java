@@ -35,6 +35,9 @@ import be.yildizgames.module.physics.PhysicWorld;
 import be.yildizgames.module.physics.RaycastResult;
 import be.yildizgames.module.physics.World;
 
+/**
+ * @author Grégory Van den Borre
+ */
 public class EnginePhysicWorld implements ServerWorld, World {
 
     /**

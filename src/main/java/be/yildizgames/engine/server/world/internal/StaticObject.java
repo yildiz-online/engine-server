@@ -39,6 +39,7 @@ import be.yildizgames.module.physics.StaticBody;
  */
 class StaticObject extends AbstractStaticObject implements ServerGameObject {
 
+
     /**
      * Physic static body.
      */
@@ -109,4 +110,5 @@ class StaticObject extends AbstractStaticObject implements ServerGameObject {
     public final Movable getInternal() {
         return this.body;
     }
+
 }

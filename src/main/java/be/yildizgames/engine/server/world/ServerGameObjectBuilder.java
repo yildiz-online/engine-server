@@ -35,6 +35,7 @@ import be.yildizgames.module.physics.PhysicMesh;
 
 /**
  * Create server game object.
+ *
  * @author Grégory Van den Borre
  */
 public interface ServerGameObjectBuilder {

@@ -43,6 +43,7 @@ import java.util.UUID;
 
 /**
  * Session manager implementation requiring to be authenticated against an authentication server.
+ *
  * @author Grégory Van den Borre
  */
 class AuthenticatedSessionManager extends BaseSessionManager {

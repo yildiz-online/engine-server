@@ -9,6 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * This session manager implementation automatically authenticate any incoming request.
+ *
  * @author Grégory Van den Borre
  */
 class NoAuthenticationSessionManager extends BaseSessionManager {

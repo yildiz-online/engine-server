@@ -26,4 +26,5 @@ public interface PersistenceEngine {
      * @return The connection provider.
      */
     DataBaseConnectionProvider getConnectionProvider();
+
 }

@@ -114,6 +114,7 @@ class StaticDoodad extends AbstractStaticObject implements ServerGameObject {
 
     @Override
     public final Point3D getScaleSize() {
-        return scaleSize;
+        return this.scaleSize;
     }
+
 }

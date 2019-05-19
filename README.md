@@ -11,7 +11,7 @@ The engine server library is the meant to build a solid server accepting thousan
 
 ## Requirements
 
-To build this module, you will need the latest java JDK and Maven.
+To build this module, you will need the latest Java JDK and Maven.
 
 ## Coding Style and other information
 

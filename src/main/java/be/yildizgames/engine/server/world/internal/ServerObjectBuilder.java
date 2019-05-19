@@ -36,6 +36,9 @@ import be.yildizgames.module.physics.GhostObject;
 import be.yildizgames.module.physics.PhysicMesh;
 import be.yildizgames.module.physics.PhysicObjectBuilder;
 
+/**
+ * @author Grégory Van den Borre
+ */
 class ServerObjectBuilder implements ServerGameObjectBuilder {
 
     private final PhysicObjectBuilder builder;

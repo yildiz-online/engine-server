@@ -30,6 +30,7 @@ import be.yildizgames.shared.game.engine.Initializable;
 
 /**
  * Game engine for a server.
+ *
  * @author Grégory Van den Borre
  */
 public interface GameEngine {

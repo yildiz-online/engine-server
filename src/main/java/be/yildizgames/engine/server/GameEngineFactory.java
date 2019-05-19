@@ -30,6 +30,7 @@ import be.yildizgames.engine.server.internal.StandardGameEngine;
 
 /**
  * Create the game engine.
+ *
  * @author Grégory Van den Borre
  */
 public class GameEngineFactory {

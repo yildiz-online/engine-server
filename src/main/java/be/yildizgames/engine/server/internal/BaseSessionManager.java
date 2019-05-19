@@ -29,6 +29,9 @@ import be.yildizgames.engine.server.NetworkEngine;
 import be.yildizgames.module.network.protocol.NetworkMessage;
 import be.yildizgames.module.network.server.SessionManager;
 
+/**
+ * @author Grégory Van den Borre
+ */
 abstract class BaseSessionManager extends SessionManager implements NetworkEngine {
 
     private static final int AUTHENTICATION_COMMAND = 110;

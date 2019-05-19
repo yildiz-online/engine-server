@@ -33,4 +33,5 @@ import be.yildizgames.common.gameobject.GameMaterialization;
  * @author Grégory Van den Borre
  */
 public interface ServerGameObject extends GameMaterialization {
+
 }

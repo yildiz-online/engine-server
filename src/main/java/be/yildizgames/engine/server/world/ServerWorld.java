@@ -32,7 +32,7 @@ import be.yildizgames.module.physics.Gravity;
 import be.yildizgames.module.physics.RaycastResult;
 
 /**
- * Bullet implementation for the ServerWorld_todelete.
+ * Server world.
  *
  * @author Grégory Van den Borre
  */

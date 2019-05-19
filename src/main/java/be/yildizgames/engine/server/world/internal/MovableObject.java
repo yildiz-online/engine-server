@@ -115,4 +115,5 @@ class MovableObject extends AbstractMovableObject implements ServerGameObject {
     public final Movable getInternal() {
         return this.body;
     }
+
 }

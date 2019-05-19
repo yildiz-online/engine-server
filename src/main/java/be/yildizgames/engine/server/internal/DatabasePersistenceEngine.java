@@ -9,6 +9,9 @@ import be.yildizgames.module.database.LiquibaseDatabaseUpdater;
 
 import java.sql.SQLException;
 
+/**
+ * @author Grégory Van den Borre
+ */
 class DatabasePersistenceEngine implements PersistenceEngine {
 
     private DataBaseConnectionProvider connectionProvider;
