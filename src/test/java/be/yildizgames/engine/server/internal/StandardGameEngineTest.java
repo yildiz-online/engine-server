@@ -23,25 +23,35 @@
  * THE  SOFTWARE.
  */
 
-module be.yildizgames.engine.server {
-    requires be.yildizgames.common.model;
-    requires be.yildizgames.common.geometry;
-    requires be.yildizgames.common.logging;
-    requires be.yildizgames.common.gameobject;
-    requires be.yildizgames.common.shape;
-    requires be.yildizgames.common.authentication;
-    requires be.yildizgames.common.mapping;
-    requires be.yildizgames.common.exception;
-    requires be.yildizgames.common.util;
-    requires be.yildizgames.module.physics;
-    requires be.yildizgames.module.network;
-    requires be.yildizgames.module.messaging;
-    requires be.yildizgames.module.database;
-    requires be.yildizgames.engine.shared;
+package be.yildizgames.engine.server.internal;
 
-    requires java.sql;
+import be.yildizgames.engine.server.DummyServerConfig;
+import be.yildizgames.engine.server.GameEngine;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 
-    exports be.yildizgames.engine.server;
-    exports be.yildizgames.engine.server.world;
-    exports be.yildizgames.engine.server.configuration;
+/**
+ * @author Grégory Van den Borre
+ */
+public class StandardGameEngineTest {
+
+    @Nested
+    public class Constructor {
+
+        @Test
+        public void happyFlow() {
+            GameEngine engine = new StandardGameEngine(new DummyServerConfig());
+            Assertions.assertNotNull(engine.getNetworkEngine());
+            Assertions.assertNotNull(engine.getPersistenceEngine());
+            Assertions.assertNotNull(engine.getPhysicEngine());
+        }
+
+        @Test
+        public void fromNull() {
+            Assertions.assertThrows(NullPointerException.class, () -> new StandardGameEngine(null));
+        }
+
+    }
+
 }

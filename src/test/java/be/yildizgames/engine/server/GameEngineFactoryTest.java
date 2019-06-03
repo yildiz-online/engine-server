@@ -27,10 +27,7 @@
 package be.yildizgames.engine.server;
 
 import be.yildizgames.common.exception.implementation.ImplementationException;
-import be.yildizgames.common.model.Version;
-import be.yildizgames.engine.server.configuration.ServerConfiguration;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -42,56 +39,16 @@ public class GameEngineFactoryTest {
     @Nested
     public class FromConfig {
 
-        @Disabled
         @Test
         public void happyFlow() {
             GameEngine engine = GameEngineFactory.fromConfig(new DummyServerConfig());
             Assertions.assertNotNull(engine);
         }
 
-        @Disabled
         @Test
         public void nullParam() {
             Assertions.assertThrows(ImplementationException.class, () -> GameEngineFactory.fromConfig(null));
         }
 
-    }
-
-    private class DummyServerConfig implements ServerConfiguration {
-
-        @Override
-        public int getApplicationPort() {
-            return 0;
-        }
-
-        @Override
-        public Version getVersion() {
-            return Version.alpha(1,1,1,1);
-        }
-
-        @Override
-        public String getAuthenticationMethod() {
-            return "none";
-        }
-
-        @Override
-        public String getBrokerHost() {
-            return "localhost";
-        }
-
-        @Override
-        public int getBrokerPort() {
-            return 0;
-        }
-
-        @Override
-        public String getBrokerDataFolder() {
-            return "temp";
-        }
-
-        @Override
-        public boolean getBrokerInternal() {
-            return true;
-        }
     }
 }

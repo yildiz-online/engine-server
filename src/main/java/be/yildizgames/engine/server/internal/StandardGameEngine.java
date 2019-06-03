@@ -37,19 +37,15 @@ import be.yildizgames.module.network.server.Server;
 import be.yildizgames.module.physics.BasePhysicEngine;
 import be.yildizgames.module.physics.PhysicEngine;
 import be.yildizgames.shared.game.engine.AbstractGameEngine;
-import be.yildizgames.shared.game.engine.DataInitializer;
-import be.yildizgames.shared.game.engine.Initializable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Server side implementation for the game engine.
  *
  * @author Grégory Van den Borre
  */
-public final class StandardGameEngine extends AbstractGameEngine implements AutoCloseable, GameEngine {
+public class StandardGameEngine extends AbstractGameEngine implements AutoCloseable, GameEngine {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(StandardGameEngine.class);
+    private static final System.Logger LOGGER = System.getLogger(StandardGameEngine.class.getName());
 
     /**
      * Frame limiter.
@@ -79,13 +75,10 @@ public final class StandardGameEngine extends AbstractGameEngine implements Auto
      */
     public StandardGameEngine(ServerConfiguration config) {
         super(config.getVersion());
-        LOGGER.info("Starting server game engine...");
+        LOGGER.log(System.Logger.Level.INFO, "Starting server game engine...");
         this.physicEngine = BasePhysicEngine.getEngine();
         this.persistenceEngine = new DatabasePersistenceEngine();
         switch(config.getAuthenticationMethod()) {
-            case "authentication-server-async":
-                this.sessionManager = new AuthenticatedSessionManager(Broker.getBroker(config));
-                break;
             case "none":
                 this.sessionManager = new NoAuthenticationSessionManager();
                 break;
@@ -100,21 +93,21 @@ public final class StandardGameEngine extends AbstractGameEngine implements Auto
     }
 
     @Override
-    public void start() {
-        LOGGER.info("initializing server game engine...");
+    public final void start() {
+        LOGGER.log(System.Logger.Level.INFO, "initializing server game engine...");
         this.initialize();
-        LOGGER.info("Server game engine initialized.");
-        LOGGER.info("Server game engine started.");
+        LOGGER.log(System.Logger.Level.INFO,"Server game engine initialized.");
+        LOGGER.log(System.Logger.Level.INFO, "Server game engine started.");
         this.setFrameLimiter(FPS);
         this.running = true;
         while (this.running) {
             this.runOneFrame();
         }
-        LOGGER.info("Closing server game engine.");
+        LOGGER.log(System.Logger.Level.INFO, "Closing server game engine.");
     }
 
     @Override
-    protected void runOneFrameImpl() {
+    protected final void runOneFrameImpl() {
         if (check) {
             this.physicEngine.update();
         }
@@ -125,27 +118,28 @@ public final class StandardGameEngine extends AbstractGameEngine implements Auto
     /**
      * Close the engine.
      */
-    public void close() {
+    @Override
+    public final void close() {
         this.running = false;
     }
 
     @Override
-    public PhysicEngine getPhysicEngine() {
+    public final PhysicEngine getPhysicEngine() {
         return this.physicEngine;
     }
 
     @Override
-    public NetworkEngine getNetworkEngine() {
+    public final NetworkEngine getNetworkEngine() {
         return this.sessionManager;
     }
 
     @Override
-    public PersistenceEngine getPersistenceEngine() {
+    public final PersistenceEngine getPersistenceEngine() {
         return this.persistenceEngine;
     }
 
     @Override
-    public ServerWorld createWorld() {
+    public final ServerWorld createWorld() {
         return new EnginePhysicWorld(this.physicEngine.createWorld());
     }
 
