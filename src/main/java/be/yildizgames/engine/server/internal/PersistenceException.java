@@ -1,11 +1,9 @@
 package be.yildizgames.engine.server.internal;
 
-import be.yildizgames.common.exception.technical.TechnicalException;
-
 /**
  * @author Grégory Van den Borre
  */
-public class PersistenceException extends TechnicalException {
+public class PersistenceException extends IllegalStateException {
 
     public PersistenceException(Exception cause) {
         super(cause);

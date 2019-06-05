@@ -26,7 +26,6 @@
 
 package be.yildizgames.engine.server.internal;
 
-import be.yildizgames.common.exception.implementation.ImplementationException;
 import be.yildizgames.module.messaging.Broker;
 import be.yildizgames.module.messaging.exception.MessagingException;
 import org.junit.jupiter.api.Assertions;
@@ -48,7 +47,7 @@ public class AuthenticatedSessionManagerTest {
 
         @Test
         public void nullParam() {
-            Assertions.assertThrows(ImplementationException.class, () -> new AuthenticatedSessionManager(null));
+            Assertions.assertThrows(NullPointerException.class, () -> new AuthenticatedSessionManager(null));
         }
 
     }

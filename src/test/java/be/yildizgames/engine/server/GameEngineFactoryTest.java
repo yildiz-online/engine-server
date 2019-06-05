@@ -26,7 +26,6 @@
 
 package be.yildizgames.engine.server;
 
-import be.yildizgames.common.exception.implementation.ImplementationException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
@@ -49,7 +48,7 @@ public class GameEngineFactoryTest {
 
         @Test
         public void nullParam() {
-            Assertions.assertThrows(ImplementationException.class, () -> GameEngineFactory.fromConfig(null));
+            Assertions.assertThrows(NullPointerException.class, () -> GameEngineFactory.fromConfig(null));
         }
 
     }

@@ -24,7 +24,6 @@
  */
 package be.yildizgames.engine.server.world.internal;
 
-import be.yildizgames.common.exception.implementation.ImplementationException;
 import be.yildizgames.common.gameobject.CollisionListener;
 import be.yildizgames.common.geometry.Point3D;
 import be.yildizgames.common.model.EntityId;
@@ -34,6 +33,8 @@ import be.yildizgames.module.physics.Gravity;
 import be.yildizgames.module.physics.PhysicWorld;
 import be.yildizgames.module.physics.RaycastResult;
 import be.yildizgames.module.physics.World;
+
+import java.util.Objects;
 
 /**
  * @author Grégory Van den Borre
@@ -47,7 +48,7 @@ public class EnginePhysicWorld implements ServerWorld, World {
 
     public EnginePhysicWorld(PhysicWorld physicWorld) {
         super();
-        ImplementationException.throwForNull(physicWorld);
+        Objects.requireNonNull(physicWorld);
         this.physicWorld = physicWorld;
     }
 
