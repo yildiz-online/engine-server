@@ -28,6 +28,7 @@ package be.yildizgames.engine.server.internal;
 import be.yildizgames.engine.server.DummyServerConfig;
 import be.yildizgames.engine.server.GameEngine;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -39,6 +40,7 @@ public class StandardGameEngineTest {
     @Nested
     public class Constructor {
 
+        @Disabled
         @Test
         public void happyFlow() {
             GameEngine engine = new StandardGameEngine(new DummyServerConfig());
