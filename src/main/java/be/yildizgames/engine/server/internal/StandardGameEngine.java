@@ -78,13 +78,10 @@ public class StandardGameEngine extends AbstractGameEngine implements AutoClosea
         LOGGER.log(System.Logger.Level.INFO, "Starting server game engine...");
         this.physicEngine = BasePhysicEngine.getEngine();
         this.persistenceEngine = new DatabasePersistenceEngine();
-        switch(config.getAuthenticationMethod()) {
-            case "none":
-                this.sessionManager = new NoAuthenticationSessionManager();
-                break;
-            default:
-                this.sessionManager = new AuthenticatedSessionManager(Broker.getBroker(config));
-                break;
+        if ("none".equals(config.getAuthenticationMethod())) {
+            this.sessionManager = new NoAuthenticationSessionManager();
+        } else {
+            this.sessionManager = new AuthenticatedSessionManager(Broker.getBroker(config));
         }
         Runtime.getRuntime().addShutdownHook(new Thread(this::close));
         Server

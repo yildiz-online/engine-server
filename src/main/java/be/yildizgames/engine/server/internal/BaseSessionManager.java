@@ -37,6 +37,6 @@ abstract class BaseSessionManager extends SessionManager implements NetworkEngin
     private static final int AUTHENTICATION_COMMAND = 110;
 
     protected NetworkMessage<Token> generateAuthenticationMessage(Token token) {
-        return new NetworkMessage<Token>(token, TokenMapper.getInstance(), AUTHENTICATION_COMMAND);
+        return new NetworkMessage<>(token, TokenMapper.getInstance(), AUTHENTICATION_COMMAND);
     }
 }
