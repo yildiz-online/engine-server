@@ -20,12 +20,8 @@ class DatabasePersistenceEngine implements PersistenceEngine {
 
     @Override
     public void initialize(DbProperties config) {
-        try {
-            this.connectionProvider = DatabaseConnectionProviderFactory.getInstance().create(config);
-            this.initialized = true;
-        } catch (SQLException e) {
-            throw new PersistenceException(e);
-        }
+        this.connectionProvider = DatabaseConnectionProviderFactory.getInstance().create(config);
+        this.initialized = true;
     }
 
     @Override
