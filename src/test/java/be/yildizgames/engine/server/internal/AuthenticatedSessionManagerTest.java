@@ -27,6 +27,7 @@
 package be.yildizgames.engine.server.internal;
 
 import be.yildizgames.module.messaging.Broker;
+import be.yildizgames.module.messaging.BrokerProperties;
 import be.yildizgames.module.messaging.exception.MessagingException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;
@@ -56,6 +57,11 @@ public class AuthenticatedSessionManagerTest {
 
         @Override
         public void close() throws MessagingException {
+
+        }
+
+        @Override
+        public void configure(BrokerProperties brokerProperties) {
 
         }
     }
