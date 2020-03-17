@@ -3,9 +3,9 @@ package be.yildizgames.engine.server.internal;
 import be.yildizgames.engine.server.PersistenceEngine;
 import be.yildizgames.module.database.DataBaseConnectionProvider;
 import be.yildizgames.module.database.DatabaseConnectionProviderFactory;
-import be.yildizgames.module.database.DatabaseUpdater;
 import be.yildizgames.module.database.DbProperties;
-import be.yildizgames.module.database.LiquibaseDatabaseUpdater;
+import be.yildizgames.module.database.updater.DatabaseUpdater;
+import be.yildizgames.module.database.updater.LiquibaseDatabaseUpdater;
 
 import java.sql.SQLException;
 

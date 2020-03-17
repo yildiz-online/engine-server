@@ -34,6 +34,7 @@ module be.yildizgames.engine.server {
     requires be.yildizgames.module.network;
     requires be.yildizgames.module.messaging;
     requires be.yildizgames.module.database;
+    requires be.yildizgames.module.database.updater;
     requires be.yildizgames.engine.shared;
     requires java.sql;
 
