@@ -74,7 +74,7 @@
     <dependency>
       <groupId>be.yildiz-games</groupId>
       <artifactId>module-database</artifactId>
-      <version>3.2.2</version>
+      <version>3.2.5</version>
     </dependency>
     <dependency>
       <groupId>be.yildiz-games</groupId>
