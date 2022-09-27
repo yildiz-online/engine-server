@@ -75,7 +75,7 @@
     <dependency>
       <groupId>be.yildiz-games</groupId>
       <artifactId>module-database-updater</artifactId>
-      <version>1.0.4</version>
+      <version>1.0.5-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>be.yildiz-games</groupId>
